@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_account_payment_inherit_cashback" model="ir.ui.view">
+		<field name="name">account.payment.cashback</field>
+		<field name="model">account.payment</field>
+		<field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
+		<field name="arch" type="xml">
+			<field name="communication" position="after">
+				<field class="oe_inline" name="invoice_age"/> Days
+				<field name="amount_total" invisible="1"/>
+				<field name="cashback_deduction_option" invisible='1'/>
+				<field invisible="1" name="get_cashback"/>
+				<field invisible="1" name="edit_cashback"/>
+				<field name="cashback" invisible="1"/>
+				<!-- <field attrs="{'readonly': [('edit_cashback','=', False)], 'invisible': [('cashback_deduction_option', '=', 'sale_order')]}" name="cashback"/> -->
+				<field attrs="{'invisible': [('cashback','=',False)]}" class="oe_inline" name="cashback_per"/>
+				%
+				<field attrs="{'invisible': [('cashback','=',False)]}" name="cashback_value"/>
+				<field attrs="{'invisible': [('cashback','=',False)]}" name="max_cashback"/></field>
+		</field>
+	</record>
+	<record id="invoice_form_inherit_cashback" model="ir.ui.view">
+		<field name="name">account.invoice.cashback</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='%(account.action_account_invoice_payment)d']" position="attributes">
+				<attribute name="context">{'invoice_date': date_invoice, 'default_amount_total': amount_total}</attribute>
+			</xpath>
+			<xpath expr="//notebook//page//field[@name='amount_tax']" position="after">
+				<field name="cashback_value" readonly='1'/>
+				<field name="cashback_deduction_option" invisible="1"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="invoice_supplier_form_inherit_cashback" model="ir.ui.view">
+		<field name="name">account.supplier.invoice.cashback</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='%(account.action_account_invoice_payment)d']" position="attributes">
+				<attribute name="context">{'invoice_date': date_invoice, 'default_amount_total': amount_total}</attribute>
+			</xpath>
+		</field>
+	</record>
+</odoo>

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+    <record model="ir.ui.view" id="document_customer_tree_view">
+        <field name="name">document.customer.tree.views</field>
+        <field name="model">document.customer</field>
+        <field name="arch" type="xml">
+            <tree string="Document Customers" create="0" delete="0">
+                <field name="document_id"/>
+                <field name="name"/>
+                <field name="file_name"/>
+                <field name="state"/>
+                <field name="expiry_date"/>
+            </tree>
+            <!-- <search>
+                    <field string="Description" name="name" domain="[]" context="{'group_by':'name'}"/>
+                    <field string="State" name="filter_parent_rep" domain="[]" context="{'group_by':'state'}"/>
+            </search> -->
+        </field>
+    </record>
+
+
+    <record id="document_customer_filter" model="ir.ui.view">
+        <field name="name">document.customer.filter</field>
+        <field name="model">document.customer</field>
+        <field name="arch" type="xml">
+            <search string="Search Document Customers">
+                <field name="name" string="Description"/>
+                <field name="state" string="State"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Description" name="name" domain="[]" context="{'group_by': 'name'}"/>
+                    <filter string="State" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="document_customer_form_view">
+        <field name="name">document.customer.form.view</field>
+        <field name="model">document.customer</field>
+        <field name="arch" type="xml">
+            <form string="Document Customers"  edit="0" create="0" delete="0">
+                <header>
+                <field name="state" widget="statusbar" statusbar_visible="new,running,expired" />
+                </header>
+                <sheet>
+                <widget name="web_ribbon" title="Expired" bg_color="bg-danger" attrs="{'invisible':[('boolean_doc_exp','!=',True)]}"/>
+                    <div class="oe_title">
+                        <h2>
+                            <field name="document_id"/>
+                        </h2>
+                    </div>
+                    <field name="boolean_doc_exp" invisible="1"/>
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                        <field name="expiry_date"/>
+                        <field name="file_name"/>
+                        <label for="preview_file" string="Preview"/>
+                        <button name="preview_file" type="object" string="Preview" class="oe-highlight" attrs="{'invisible':[('file','=',False)]}"/>
+                        <field name="file" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+		</record>
+	
+
+	<record id="action_document_partner" model="ir.actions.act_window">
+        <field name="name">Document Customers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">document.customer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a Document for your Customers
+          </p><p>
+            Odoo helps you track all activities related to your contacts.
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="document_partner_menu_contacts"
+        name="Document Customers"
+        action="action_document_partner"
+        parent="contacts.res_partner_menu_contacts"
+        sequence="2"/>
+    
+
+    
+	</data>
+</odoo>

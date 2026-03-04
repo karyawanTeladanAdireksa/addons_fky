@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_product_notify_inherit" model="ir.ui.view">
+        <field name="name">view.product.notify.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="notify_stock"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="stock_notify_report_tree" model="ir.ui.view">
+        <field name="name">stock.notify.report.tree</field>
+        <field name="model">stock.notify.report</field>
+        <field name="arch" type="xml">
+            <tree string="Notify Stock Report"  create="false"> 
+                <field name="name"/>
+                <field name="categ_id"/>
+                <field name="product_id" invisible="1"/>
+                <field name="notify_stock" invisible="1"/>
+                <field name="part_number"/>
+                <field name="brand_id"/>
+                <field name="jenis_motor"/>
+                <field name="internal_reference"/>
+                <field name="barcode" optional="hide"/>
+                <field name="incoming_qty"/>
+                <field name="qty_on_hand"/>
+                <field name="qty_sales"/>
+                <field name="qty_period"/>
+                <!-- <field name="qty_sale_reorder"/>
+                <field name="qty_sale_excess"/> -->
+                <field name="status" decoration-muted="status == 'reorder'" decoration-danger="status == 'excess'" decoration-success="status == 'normal'" widget="badge"/>
+<!--                <field name="status"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="stock_notify_report_view_search" model="ir.ui.view">
+        <field name="name">stock.notify.report.view.search</field>
+        <field name="model">stock.notify.report</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="product_id" string="Product"/>
+                <field name="status" string="Status"/>
+                <filter name="reoder_status" string="Reroder" domain="[('status', '=', 'reorder' )]"/>
+                <filter name="normal_status" string="Normal" domain="[('status', '=', 'normal' )]"/>
+                <filter name="excess_status" string="Excess" domain="[('status', '=', 'excess' )]"/>
+<!--                <filter name="status" string="Normal" domain="[('status', 'ilike', normal )]"/>-->
+<!--                <filter name="status" string="Excess" domain="[('status', 'ilike', excess )]"/>-->
+                <group expand="1" string="Group By">
+                    <filter name="status" string="Status" context="{'group_by':'status'}" />
+                </group>
+
+            </search>
+        </field>
+    </record>
+   
+    <!-- <record id="stock_notify_report_view_search" model="ir.ui.view">
+        <field name="name">stock.notify.report.view.search</field>
+        <field name="model">stock.notify.report</field>
+        <field name="arch" type="xml">
+            <search string="Stock Notify Report">
+                <field name="product_id" string="Product"/>
+                <field name="name" string="Reference" filter_domain="['|', ('default_code','ilike',self), ('name','ilike',self)]"/>
+                <group expand="1" string="Group By">
+                    <filter name="group_by_status" string="Status" context="{'group_by':'status'}" />
+                </group>
+            </search>
+        </field>
+    </record>  -->
+
+    <record id="stock_notify_report_action" model="ir.actions.act_window">
+        <field name="name">Notify Stock Report</field>
+        <field name="res_model">stock.notify.report</field>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- <menuitem id="stock_notify_report_menu" 
+        name="Notify Stock Report" 
+        parent="stock.menu_stock_inventory_control"
+        action="stock_notify_report_action" sequence="3"/> -->
+
+    <menuitem id="stock_notify_dashboard_menu"
+        name="Notify Stock Dashboard" 
+        web_icon="aos_notify_stock,static/src/img/odoo_icon.png"
+        groups="purchase.group_purchase_user,stock.group_stock_manager"  
+        action="stock_notify_report_action" 
+        sequence="10"/>
+
+</odoo>

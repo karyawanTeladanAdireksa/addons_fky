@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+      <!--  FORMAT PAPER -->
+        <record id="sales_return_report_report_paper_format" model="report.paperformat">
+            <field name="name">Sales Return Label Paper Format</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">30</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">37</field>
+            <field name="dpi">90</field>
+        </record>
+
+          <!-- FORMAT PAPER SURAT JALAN RESPON RETUR -->
+         <record id="surat_jalan_report_paper_format" model="report.paperformat">
+            <field name="name">Surat Jalan Respon Retur Label Paper Format</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">30</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">5</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!-- action report surat penerimaan barang retur -->
+        <record id="action_report_surat_penerimaan_barang" model="ir.actions.report">
+          <field name="name">Surat Penerimaan Barang Retur</field>
+          <field name="model">sales.return</field> 
+          <field name="report_type">qweb-pdf</field>
+          <field name="report_name">adireksa_customer_return.report_surat_penerimaan_barang</field>
+          <field name="report_file">adireksa_customer_return.report_surat_penerimaan_barang</field>
+          <field name="binding_model_id" ref="aos_sales_return.model_sales_return"/>
+          <field name="paperformat_id" ref="adireksa_customer_return.sales_return_report_report_paper_format"/>
+        </record>
+
+         <!-- action report surat pengembalian barang retur -->
+        <record id="action_report_surat_pengembalian_barang" model="ir.actions.report">
+          <field name="name">Surat Jalan Respon Retur</field>
+          <field name="model">sales.return</field>  
+          <field name="report_type">qweb-pdf</field>
+          <field name="report_name">adireksa_customer_return.report_surat_pengembalian_barang</field>
+          <field name="report_file">adireksa_customer_return.report_surat_pengembalian_barang</field>
+          <field name="binding_model_id" ref="aos_sales_return.model_sales_return"/>
+          <field name="paperformat_id" ref="adireksa_customer_return.surat_jalan_report_paper_format"/>
+        </record> 
+
+          <!-- action report blanko penerimaan barang retur -->
+        <record id="action_report_blanko_penerimaan_barang" model="ir.actions.report">
+          <field name="name">Blanko Surat Penerimaan Barang Retur</field>
+          <field name="model">sales.return</field>  
+          <field name="report_type">qweb-pdf</field>
+          <field name="report_name">adireksa_customer_return.report_blanko_penerimaan_barang</field>
+          <field name="report_file">adireksa_customer_return.report_blanko_penerimaan_barang</field>
+          <field name="binding_model_id" ref="aos_sales_return.model_sales_return"/>
+          <field name="paperformat_id" ref="adireksa_customer_return.sales_return_report_report_paper_format"/> 
+        </record> 
+<!-- 
+         <report
+        id="adireksa_customer_return.action_report_surat_penerimaan_barang"
+        model="customer.return"
+        string="Surat Penerimaan Barang Retur"
+        report_type="qweb-pdf"
+        name="adireksa_customer_return.report_surat_penerimaan_barang"
+        file="adireksa_customer_return.report_surat_penerimaan_barang" />
+
+    <report
+        id="adireksa_customer_return.action_rreport_surat_pengembalian_barang"
+        model="customer.return"
+        string="Surat Pengembalian Barang Retur"
+        report_type="qweb-pdf"
+        name="adireksa_customer_return.report_surat_pengembalian_barang"
+        file="adireksa_customer_return.report_surat_pengembalian_barang" /> -->
+
+    </data>
+</odoo>

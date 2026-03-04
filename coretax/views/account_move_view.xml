@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_invoice_coretax_filter" model="ir.ui.view">
+            <field name="name">account.move.select.coretax.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <!-- <field name="l10n_id_tax_number"/>
+                    <field name="l10n_id_attachment_id"/> -->
+                    <group>
+                        <filter string="To Download Coretax XML" name="tax_xml_upload" 
+                            domain="[('coretax_download_xml', '=', False), ('state', '=', 'posted')]" />
+                        <filter string="To Download Coretax XLSX" name="tax_xlsx_upload" 
+                            domain="[('coretax_download_xlsx', '=', False), ('state', '=', 'posted')]" />
+                    </group>
+                </field>
+            </field>
+        </record>
+
+        <record id="account_move_efaktur_coretax_form_view" model="ir.ui.view">
+            <field name="name">account.move.coretax.form.view</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="l10n_id_efaktur.account_move_efaktur_form_view"/>
+            <field name="arch" type="xml">
+                <field name="l10n_id_need_kode_transaksi" position="after">
+                    <field name="coretax_need_kode_transaksi" invisible="1"/>
+                    <field name="coretax_download_xml" invisible="1"/>
+                    <field name="coretax_download_xlsx" invisible="1"/>
+                </field>
+                <field name="l10n_id_kode_transaksi" position="attributes">
+                    <attribute name="attrs">{
+                        'invisible': ['|', ('country_code', '!=', 'ID'), ('coretax_need_kode_transaksi', '=', False)],
+                        'required': [('coretax_need_kode_transaksi', '=', True)]
+                    }</attribute> 
+                </field>
+                <field name="l10n_id_tax_number" position="attributes">
+                    <attribute name="attrs">{
+                        'invisible': [('move_type', '=', 'entry')], 
+                        'readonly': [('move_type', 'in', ('out_refund', 'out_receipt'))]}</attribute> 
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

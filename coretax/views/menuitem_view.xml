@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <menuitem
+        id="coretax_menu"
+        name="Coretax"
+        parent="account.menu_finance_configuration"
+        sequence="7"/>
+
+    <menuitem
+        id="coretax_product_menu"
+        name="Coretax Product"
+        action="action_coretax_product"
+        parent="coretax_menu"
+        sequence="0"/>
+
+    <menuitem
+        id="coretax_uom_menu"
+        name="Coretax UoM"
+        action="action_coretax_uom"
+        parent="coretax_menu"
+        sequence="1"/>
+
+</odoo>

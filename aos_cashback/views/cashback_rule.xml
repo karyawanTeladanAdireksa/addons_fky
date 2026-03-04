@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="cashback_rule_form" model="ir.ui.view">
+            <field name="name">cashback.rule.form</field>
+            <field name="model">cashback.rule</field>
+            <field name="arch" type="xml">
+                <form string="Cashback Rule">
+                    <header>
+                        <button string="Approve" invisible="1" name="action_approve"  type="object" class="btn-primary"/>
+                        <!-- <button string="Submit" name="action_waiting" states="draft" type="object" class="btn-primary"/> -->
+                        <button string="Cancel" name="action_cancel" states="approve" type="object" class="btn-primary"/>
+                        <button string="Set to Draft" name="action_draft" states="cancel" type="object" class="btn-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,waiting,approve"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+<!--                                <field name="period" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/>-->
+                                <field name="company_id" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"
+                                       options="{'no_create': True, 'no_create_edit':True}"/>
+                            </group>
+                            <group>
+                                <field name="notes"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Cashback Formula">
+                                <div style="margin-top: 10px;" attrs="{'invisible': [('state','=', 'draft')]}">
+                                    <strong>Generate
+                                        Cashback:
+                                    </strong>
+                                    <!--<button class="oe_highlight" name="compute_annual_cashback" string="Annually" type="object" style="margin-left: 5px;" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>-->
+                                    <button class="oe_highlight" name="compute_6month_cashback" string="6 Month"
+                                            type="object" style="margin-left: 5px;"/>
+                                    <button class="oe_highlight" name="compute_quarter_cashback" string="Quarterly"
+                                            type="object" style="margin-left: 5px;"/>
+                                    <button class="oe_highlight" name="compute_month_cashback" string="Monthly"
+                                            type="object" style="margin-left: 5px;"/>
+                                </div>
+                                <field name="line_ids" context="{'default_rule_id': id}"
+                                       attrs="{'readonly': [('state','!=', 'draft')]}">
+                                    <tree delete="1">
+                                        <field name="sequence"/>
+                                        <field name="name"/>
+                                        <field name="trigger"/>
+                                        <field name="frequency"/>
+<!--                                        <field name="sub_type"/>-->
+                                        <field name="formula"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="sequence"/>
+                                                <field name="name" required="1"/>
+                                                <field name="trigger" required="1"/>
+                                                <field name="frequency" required="1"/>
+<!--                                                <field name="sub_type" required="0"/>-->
+                                            </group>
+                                            <group>
+                                                <field name="formula" attrs="{'invisible':[('trigger','in',['sales_percent','sales_amount','invoice','wilayah'])],'required':[('trigger','not in',['sales_percent','sales_amount'])]}"/>
+                                                <field name="target_modifier"
+                                                       attrs="{'invisible': [('trigger','!=','revenue')]}"/>
+                                                <!-- <field name="sales_target"
+                                                       attrs="{'invisible': [('trigger','!=','wilayah')]}"/> -->
+<!--                                                <label for="day1" string="Day Range"/>-->
+<!--                                                <div class="o_row">-->
+<!--                                                    <field name="day1" class="oe_inline"/>-->
+<!--                                                    - -->
+<!--                                                    <field name="day2" class="oe_inline"/>-->
+<!--                                                </div>-->
+                                            </group>
+                                        </group>
+                                        <field name="line_level_id" attrs="{'invisible':[('trigger','not in',['sales_percent','sales_amount','invoice','wilayah'])]}">
+                                            <tree editable='bottom'>
+                                                <field name="name" attrs="{'column_invisible':[('parent.trigger','=','wilayah')]}"/>
+                                                <field name="customer_area_id" attrs="{'column_invisible':[('parent.trigger','!=','wilayah')]}"/>
+                                                <field name="trigger" invisible="1"/>
+                                                <field name="formula" force_save="1" attrs="{'readonly':[('parent.trigger','=','wilayah')]}"/>
+                                                <field name="percent_hit" attrs="{'column_invisible':[('parent.trigger','!=','sales_percent')]}"/>
+                                                <field name="amount_hit" attrs="{'column_invisible':[('parent.trigger','!=','sales_amount')]}"/>
+                                                <field name="days_before" attrs="{'column_invisible':[('parent.trigger','!=','invoice')]}"/>
+                                            </tree>
+                                        </field>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="cashback_rule_tree" model="ir.ui.view">
+            <field name="name">cashback.rule.tree</field>
+            <field name="model">cashback.rule</field>
+            <field name="arch" type="xml">
+                <tree string="Cashback Rule">
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <field name="notes"/>
+                    <field name="state" decoration-info="state == 'draft'" decoration-muted="state == 'waiting'" decoration-danger="state == 'cancel'" decoration-success="state == 'approve'" widget="badge"/>
+<!--                    <field name="period"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="cashback_rule_view_search" model="ir.ui.view">
+            <field name="name">cashback.rule.view.search</field>
+            <field name="model">cashback.rule</field>
+            <field name="arch" type="xml">
+                <search string="Cashback Rule">
+                    <field name="name" string="Name"/>
+                    <group expand="1" string="Group By">
+<!--                        <filter name="group_by_period" string="Period" context="{'group_by':'period'}"/>-->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="cashback_rule_action" model="ir.actions.act_window">
+            <field name="name">Cashback Rule</field>
+            <field name="res_model">cashback.rule</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+        </record>
+
+
+    </data>
+</odoo>

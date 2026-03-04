@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="multiple_validate_assett" model="ir.actions.server">
+        <field name="name">Validate</field>
+        <field name="model_id" ref="model_account_asset_asset"/>
+        <field name="state">code</field>
+        <field name="code">records.validate()</field>
+        <field name="groups_id" eval="[(4,ref('om_account_asset.group_fixed_asset_user')),(4,ref('om_account_asset.group_prepaid_expense_user')),(4,ref('om_account_asset.group_prepaid_revenue_user'))]"/>
+        <field name="binding_model_id" ref="model_account_asset_asset"/>
+    </record>
+</odoo>

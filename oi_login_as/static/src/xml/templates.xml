@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+   
+    <t t-name="LoginAs">
+        <div class="dropdown">
+            <a class="o-no-caret o-dropdown--narrow login_as" data-display="static" aria-expanded="false" title="Login as" href="#" role="button">
+                <i class="fa fa-user"/>
+            </a>
+        </div>
+    </t>    
+    
+    <t t-name="LoginBack">
+        <div class="dropdown">
+            <a class="o-no-caret o-dropdown--narrow login_back" data-display="static" aria-expanded="false" title="Login back" href="#" role="button">
+                <i class="fa fa-user-secret"/>
+            </a>
+        </div>
+    </t>    
+
+</templates>

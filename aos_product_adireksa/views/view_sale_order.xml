@@ -1,0 +1,43 @@
+<odoo>
+     <data>
+      <!-- INHERIT SALE ORDER -->
+      <record id="view_sale_order_inherit_product_related_fields" model="ir.ui.view">
+        <field name="name">Add product_related_fields_in_sale_order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                 <field name="product_brand" optional="hide" readonly="1"/>
+                 <field name="internal_category" optional="hide" readonly="1"/>
+                 <field name="part_number" optional="hide" readonly="1"/>
+                 <field name="type_motor" widget="many2many_tags" options="{'color_field': 'color'}"  optional="hide" readonly="1"/>
+                 <field name="type_merk" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide" readonly="1"/>
+            </xpath>
+             <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
+                 <field name="product_brand" optional="hide" readonly="1"/>
+                 <field name="internal_category" optional="hide" readonly="1"/>
+                 <field name="part_number" optional="hide" readonly="1"/>
+                 <field name="type_motor" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide" readonly="1"/>
+                 <field name="type_merk" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide" readonly="1"/>
+            </xpath>
+        </field>
+      </record>
+     
+
+     <!-- SALE REPORT -->
+     <record id="field_sale_view_report" model="ir.ui.view">
+        <field name="name">field.sale.view.report</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='company']" position="after">
+               <filter string="Brand" name="product_brand" context="{'group_by':'product_brand'}"/>
+                <filter string="Internal Category" name="internal_category" context="{'group_by':'internal_category'}"/>
+                 <filter string="Part Number" name="part_number" context="{'group_by':'part_number'}"/>
+                 <filter string="Merk" name="type_merk" context="{'group_by':'type_merk'}"/>
+            </xpath>
+        </field>
+    </record>
+
+     </data>
+</odoo>

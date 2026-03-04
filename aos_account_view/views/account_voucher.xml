@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="view_field_company_account_voucher_type" model="ir.ui.view">
+            <field name="name">field.company.account.voucher.type</field>
+            <field name="model">account.voucher.type</field>
+            <field name="inherit_id" ref="aos_account_voucher.view_voucher_type_tree"/>
+            <field name="arch" type="xml"> 
+               <xpath expr="//field[@name='sequence_id']" position="after">
+                    <field name="company_id"/> 
+               </xpath>
+            </field>
+     </record>
+
+     <record id="view_form_account_voucher_inherit" model="ir.ui.view">
+            <field name="name">view.form.account.inherit</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="aos_account_voucher.view_voucher_form"/>
+            <field name="arch" type="xml"> 
+               <xpath expr="//field[@name='type']" position="attributes">
+                    <attribute name="domain">[('company_id','=',company_id)]</attribute>
+               </xpath>
+            </field>
+     </record>
+	
+</odoo>

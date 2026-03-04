@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+aos_data_rekanan.access_document_vendor,access_document_vendor,aos_data_rekanan.model_document_vendor,base.group_user,1,1,1,1
+aos_data_rekanan.access_document_customer,access_document_customer,aos_data_rekanan.model_document_customer,base.group_user,1,1,1,1
+access_document_template,access_document_template,model_document_template,base.group_user,1,1,1,1
+access_document_template_line,access_document_template_line,model_document_template_line,base.group_user,1,1,1,1
+access_document_type,access_document_type,model_document_type,base.group_user,1,1,1,1

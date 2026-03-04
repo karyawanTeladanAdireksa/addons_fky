@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+aos_po_backorder.access_backorder_wizard,access_backorder_wizard,aos_po_backorder.model_backorder_wizard,base.group_user,1,1,1,1
+aos_po_backorder.access_backorder_line_wizard,access_backorder_line_wizard,aos_po_backorder.model_backorder_line_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="ShowDiscountInfo">
+        <div>
+            <table style="width:100%;">
+                <t t-foreach="lines" t-as="line">
+                    <tr>
+                        <td>
+                            <i class="oe_form_field text-right pull-right"><t t-esc="line.name"><span class="oe_form_field oe_form_field_float oe_form_field_monetary" style="margin-left: 2px;">
+                                (<t t-esc="line.amount"></t>
+                                <t t-if="line.position === 'after'">
+                                    <t t-esc="line.currency"/>
+                                </t>)
+                            </span></t></i>
+                        </td>
+                    </tr>
+                </t>
+            </table>
+        </div>
+    </t>
+</templates>

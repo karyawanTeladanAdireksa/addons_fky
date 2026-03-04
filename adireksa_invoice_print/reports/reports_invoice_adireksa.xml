@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <template id="report_invoice_adireksa_document">  
+            <t t-if="not company">       
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+            </t>
+      <!-- <p style="page-break-after: always;"/> -->
+        <!-- Header Start -->
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="o_clean_header">
+                    <div class="row">
+                        <div class="col-2">
+                        
+                            <img t-if="company.id != 2" t-att-src="image_data_uri(company.logo)" style="margin:0 auto; max-height:150px; width:150px;"/> 
+                        </div>
+                        <div class="col-8">
+                            <div t-field="company.name" style="font-size: 30px; font-weight: bold; text-align: center;"/>
+                            <div style="font-size: 16px; font-weight: bold; text-align: center;"><span t-field="company.street"/></div>
+                            <div style="font-size: 16px; font-weight: bold; text-align: center;">Telp : <span t-field="company.phone"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-inline">
+                    <div style="border-bottom: 1px solid black; margin-bottom:2px;"/>
+                </div>
+                <h4 align="center" style="margin-top:10px;">Original Invoice</h4> 
+            </div>
+        <!-- Header Finish -->
+       <!-- page start -->
+     <!-- <t t-foreach="docs" t-as="o"> -->
+            <t t-set="lines_per_page" t-value="100"/>
+            <t t-set="remain_num" t-value="len(o.invoice_line_ids) % lines_per_page"/>
+            <t t-if="remain_num != 0">
+                <t t-if="len(o.invoice_line_ids) &lt; lines_per_page">
+                    <t t-set="num_pages" t-value="1"/>
+                </t>
+                <t t-if="len(o.invoice_line_ids) &gt;= lines_per_page">
+                    <t t-set="num_pages" t-value="int((len(o.invoice_line_ids) - remain_num)/lines_per_page) + 1"/>
+                </t>
+            </t>
+            <t t-if="remain_num == 0">
+                <t t-set="num_pages" t-value="int(len(o.invoice_line_ids)/lines_per_page)"/>
+            </t>
+            <!-- <t t-set="pages_list" t-value="[lines_per_page for x in range(num_pages)]"/> -->
+            <t t-set="last_page_pages" t-value="len(o.invoice_line_ids) - (num_pages-1)*lines_per_page"/>
+                    <t t-set="curr_dp" t-value="o.currency_id.decimal_places"/> 
+                    <div class="page" style="margin-top:2px;">  
+                        <t t-foreach="range(num_pages)" t-as="pageth">
+                        <!-- <p style="page-break-after:always;" /> -->
+                            <!-- TABLE KIRI -->
+                            <table width="50%" style="border: None solid black; float:left; font-size: 14px;">
+                                <tr>
+                                    <td>
+                                        <strong>Toko</strong>
+                                    </td>
+                                    <td width="20px">:</td>
+                                    <td>
+                                       <strong><span style="font-size: 15px" t-field="o.partner_id.name"/></strong>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Kota</strong>
+                                    </td>
+                                    <td width="20px">:</td>
+                                    <td>
+                                         <strong> <span style="font-size: 15px" t-field="o.partner_id.city"/></strong> 
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                         <strong>Reference</strong>
+                                    </td>
+                                    <td width="20px">:</td>
+                                    <td>
+                                        <strong> <span style="font-size: 15px" t-esc="o.ref"/></strong> 
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- TABLE KANAN -->
+                            <table  width="50%" style="border: None solid black; float:right; text-align:right; font-size: 14px;">
+                                <tr>
+                                    <td>
+                                        <strong>Jakarta,  <span t-field="o.invoice_date" t-options='{"widget": "date", "format": "dd-MMMM-YYYY"}'/></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>No. Nota   :   </strong> 
+                                        <strong> 
+                                            <span style="font-size: 15px" t-esc="o.name"/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td>
+                                        <strong>No. DO   :   </strong>  
+                                        <strong> 
+                                            <span style="font-size: 15px" t-esc="o.picking_ref"/> 
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+                                   <td>
+                                        <t t-set="counter" t-value="0"/>
+                                            <t t-if="o.shipment_ids" t-foreach="o.shipment_ids" t-as="sh">
+                                            <t t-set="counter" t-value="counter + 1"/>
+                                            </t>
+                                        <t t-set="counter_data" t-value="0
+ *  History restored 
+"/>
+                                        <strong>No. DO   :   </strong>
+                                            <t t-if="o.shipment_ids" t-foreach="o.shipment_ids" t-as="sh"> 
+                                                <t t-set="counter_data" t-value="counter_data + 1"/>
+                                                <t t-if="counter_data &lt; counter">
+                                                    <span t-esc="sh.name"/> ,
+                                                </t>
+                                                <t t-if="counter_data == counter"> 
+                                                    <strong><span t-esc="sh.name"/></strong>
+                                                </t>
+                                            </t>
+                                    </td>
+                                </tr> -->
+                            </table>
+                            <table class="table-sm table-bordered" rules="all" width="100%" valign="top" style="border:1px solid; font-size: 14px;">
+                                <thead>
+                                    <tr align="center">
+                                        <th width="1%" style="border: 1px solid #000; text-align: center;">No</th>
+                                        <th width="5%"  style="border: 1px solid #000; text-align: center;">Qty</th>
+                                        <th width="20%"  style="border: 1px solid #000; text-align: center;">Nama Barang</th>
+                                        <th width="3%"  style="border: 1px solid #000; text-align: center;">Brand</th>
+                                        <!-- <th width="10%"  style="border: 1px solid #000; text-align: center;">Motor</th> -->
+                                        <th width="3%"  style="border: 1px solid #000; text-align: center;">Harga Satuan (+PPN)</th>
+                                        <th width="3%"  style="border: 1px solid #000; text-align: center;">Subtotal (Setelah PPN)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="k" t-value="pageth*lines_per_page+1" />
+                                    <t t-set="total" t-value="o.amount_untaxed"/>
+
+                                    <t t-if="pageth != num_pages-1">
+                                        <t t-set="for_loop_range" t-value="pages_list[pageth]"/>
+                                    </t>
+                                    <t t-if="pageth == num_pages-1">    
+                                        <t t-set="for_loop_range" t-value="last_page_pages"/>
+                                    </t>
+                                    <t t-if="for_loop_range &gt;= lines_per_page">
+                                        <t t-set="for_loop_range" t-value="lines_per_page"/>
+                                    </t>
+
+                                    <tr t-foreach="range(for_loop_range)" t-as="r" align="center">
+                                        <t t-set="l" t-value="o.invoice_line_ids[k-1]"/>
+                                        <td style="border: 1px solid black" class="text-center"><span t-esc="k"></span></td>
+                                        <t t-set="k" t-value="k+1"/>
+                                        <td  style="border: 1px solid black; padding-right:4px;" align="right"><span t-field="l.quantity"/> <span t-esc="l.product_uom_id.name"/></td>
+                                        <td  style="border: 1px solid black; padding-left:4px;" align="left"><span t-field="l.product_id.name"/></td>
+                                        <td   style="border: 1px solid black"><span t-field="l.product_brand.name"/></td>
+                                        <!-- <td   style="border: 1px solid black padding-right:4px;" align="left"><span t-field="l.type_motor"/></td> -->
+                                        <td   style="border: 1px solid black; padding-right:4px;" align="right"><span t-esc="'{:,.2f}'.format(l.price_unit)"/></td> 
+                                        <td  style="border: 1px solid black; padding-right:4px;" align="right"><span t-esc="'{:,.2f}'.format(l.after_ppn_subtotal)"/></td>  
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <t t-if="pageth==num_pages-1"> -->
+                            <br></br>
+                                <t t-set="blank_lines" t-value="0"/>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table width="90%" style="border: None solid black; float:right; font-size: 14px;">
+                                            <tr>
+                                                <td style="padding-right:-50px; text-align:right;"><strong>: </strong></td>
+                                                <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.amount_after_ppn)"/></strong></td>
+                                            </tr>
+                                            <tr>
+                                                 <td style="padding-right:-50px; text-align:right;"><strong><span t-esc="o.pricelist_id.name"/> : </strong></td>
+                                         
+                                                <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.discount_total_bef_ppn)"/></strong></td>
+                                            </tr>
+                                            <!-- <t t-set="curr_amount" t-value="o.amount_untaxed"/> 
+                                            <t t-set="disc_amount" t-value="0"/> 
+                                            <t t-foreach="diskon" t-as="disc_obj">
+                                                <t t-if="curr_amount == o.amount_untaxed">
+                                                    <t t-set="disc_amount" t-value="(disc_obj.formula_diskon/100) * o.amount_untaxed"/>
+                                                </t>
+                                                <t t-if="curr_amount &lt; o.amount_untaxed">
+                                                    <t t-set="disc_amount" t-value="(disc_obj.formula_diskon/100) * curr_amount"/>
+                                                </t>
+                                                <tr>
+                                                    <td style="padding-right:-50px; text-align:right;"><strong><span t-esc="'Diskon {a} ({b}%)'.format(a=disc_obj.name, b=str(disc_obj.formula_diskon))"/></strong></td>
+                                                    <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.discount_total)"/></strong></td>
+                                                </tr>
+                                                <t t-set="curr_amount" t-value="curr_amount - disc_amount"/>
+                                            </t> -->
+                                            <tr>
+                                                <td style="padding-right -50px; text-align:right;"><strong>PPN    :  </strong></td>  
+                                                <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.amount_tax)"/></strong></td>  
+                                            </tr>
+                                             <tr>
+                                                <td style="padding-right:-50px; text-align:right;"><strong>Cashback Value   : </strong></td> 
+                                                <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.cashback_total_ppn)"/></strong></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <br></br>
+                                <div class="row" style="font-size:14px">
+                                    <div class="col-8">
+                                       <table width="50%" style="border: None solid black; float:left; font-size: 14px;">   
+                                            <td>
+                                                <span style="font-size:12px"><strong><span t-field="o.company_id.bank_acc_invoice"/></strong></span>
+                                            </td>
+                                       </table>  
+                                    </div>
+                                   
+                                    <t t-set="t_total" t-value="o.amount_untaxed"/>
+                                    <div class="col-4">
+                                        <table width="50%" class="table table-sm table-condensed" style="border: 1px solid black; font-size:13px float:right;">
+                                            <tr class="border-black">
+                                                <td><strong>TOTAL </strong></td>
+                                                <td width="80px">:</td>
+                                                <td style="margin-right:100px; text-align:right;"><strong>
+                                                    <span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.amount_total)"/>    
+                                                </strong>
+                                                </td>
+                                            </tr>
+                                            <!-- <tr>
+                                                <td style="padding-right -50px; text-align:right;"><strong>Sudah Termasuk PPN  :  </strong></td>  
+                                                <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.amount_tax)"/></strong></td>  
+                                            </tr> -->
+                                        </table> 
+                                        <p class="ml-3" style="margin-top:-10px;"><i>Sudah Termasuk PPN  : <span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.amount_tax)"/></i></p>   
+                                    </div>
+                                </div>
+                                <!-- <div class="row">
+                                    <div class="col-xs-7">
+                                        <table width="50%" style="border: None solid black; float:right;"> 
+                                        <tr>
+                                            <td>
+                                            
+                                            <strong><span>Harga sudah termasuk PPN 
+                                                    <span t-esc="l.tax_ids.name"/> : 
+                                                    <span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.0f}'.format(round(o.amount_tax))"/>
+                                                </span>
+                                            </strong>
+                                            </td>
+                                        </tr>
+                                        </table> 
+                                    </div>
+                                </div> -->
+                            <!-- <div class="col-12">
+                                <table width="50%" style="border: None solid black;">  
+                                    <tr>
+                                        <td>
+                                            <span style="font-size:14px"><strong><span t-field="o.company_id.bank_acc_invoice"/></strong></span>
+                                        </td>
+                                    </tr>
+                                </table> 
+                            </div> -->
+        
+                            <div class="row">
+                                <div class="col-5">
+                                    <table width="100%" class="table table-sm" style="border: 1px solid black; float:left; font-size:13px;">
+                                        <tr class="border-black">
+                                            <td>
+                                                <strong>
+                                                    <span>PEMBAYARAN :  </span>
+                                                    <span t-field="o.invoice_payment_term_id.name"/> 
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-7">
+                                    <table width="60%" style="border: None solid black; float:right;"> 
+                                        <tr>   
+                                            <td align="center">
+                                                <span>Hormat Kami :</span><br/><br/><br/><br/>
+                                                <strong>
+                                                    <span t-field="o.company_id"/>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- </t> -->
+                            <p style="page-break-before:always;"/>  
+                        </t>
+                    </div>
+                <!-- </t> -->
+                <!-- Page Finish -->
+
+                    <!-- footer start -->
+                    <div class="footer">
+                        <div class="text-center" style="border-top: 1px solid black;">
+                            <ul t-if="company.id" class="list-inline">
+                                <t t-set="company" t-value="company.sudo()"/>
+                                <!-- <li t-if="company.phone">Phone: <span t-field="company.phone"/></li> -->
+                                <li t-if="company.email">Order: <span t-field="company.email"/></li>
+
+                                <!-- <li t-if="company.website and company.email or company.website or company.website and company.phone">&amp;bull;</li> -->
+                                <!-- <li t-if="company.website">Website: <span t-field="company.website"/></li> -->
+                            </ul>
+                            <ul t-if="company.id" class="list-inline" name="financial_infos">
+                                <!-- <ul class="list-inline" name="financial_infos">
+                                    <li t-if="company.vat">TIN: <span t-field="company.vat"/></li>
+                                </ul> -->
+
+                                <!-- <t t-if="company.id">
+                                    <div>Phone: <span t-field="company.phone"/></div>
+                                    <div>Order: <span t-field="company.email"/></div>
+                                    <span t-raw="company.rml_footer"/>
+                                </t> -->
+
+                                <ul class="list-inline" name="financial_infos">
+                                    <li>Page: <span class="page"/> of <span class="topage"/></li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Footer finish -->
+     </template>
+
+    <template id="report_invoice_adireksa">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <!-- <t t-set="lang" t-value="o.partner_id.lang"/> -->
+                <t t-call="adireksa_invoice_print.report_invoice_adireksa_document"/> 
+            </t>
+        </t>
+    </template>
+
+    <!-- <template id="report_invoice_adireksa">
+    <t t-foreach="docs" t-as="o">
+        <t t-call="web.html_container"> 
+            <t t-call="adireksa_invoice_print.report_invoice_adireksa_document"/>
+        </t>
+    </t>
+    </template> -->
+    
+</odoo>

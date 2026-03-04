@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_agreement_action" model="ir.actions.act_window">
+        <field name="name">Sales Agreement</field>
+        <field name="res_model">sale.agreement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="sale_agreement_line_action" model="ir.actions.act_window">
+        <field name="name">Sales Agreement Line</field>
+        <field name="res_model">sale.agreement.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

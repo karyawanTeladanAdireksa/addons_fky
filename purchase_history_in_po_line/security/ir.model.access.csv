@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_purchaseline_wizard,access_purchaseline_wizard,model_purchaseline_wizard,,1,1,1,1
+access_purchaseline_prev,access_purchaseline_prev,model_purchaseline_prev,,1,1,1,1

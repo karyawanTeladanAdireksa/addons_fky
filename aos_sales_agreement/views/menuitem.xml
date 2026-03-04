@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="sales_agreement_sub_menu"
+        name="Sales Agreement"
+        action="aos_sales_agreement.sale_agreement_action"
+        parent="sale.sale_order_menu"
+        sequence="2"/>
+
+    <menuitem
+        id="sales_agreement_line_sub_menu"
+        name="Sales Agreement Line"
+        action="aos_sales_agreement.sale_agreement_line_action"
+        parent="sale.sale_order_menu"
+        sequence="2"/>
+    
+</odoo>

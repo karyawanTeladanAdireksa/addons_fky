@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record id="sales_return_list_view" model="ir.ui.view">
+        <field name="name">sales.return.list.view</field>
+        <field name="model">sales.return</field>
+        <field name="arch" type="xml">
+            <tree default_order='create_date desc'>
+                <field name="create_date" readonly="1"/>
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="document" />
+                <field name="activity_ids" widget="list_activity" optional="show" />
+                <field name="create_uid" widget="many2one_avatar_user" readonly="1"/>
+                <field name="company_id"/>
+                <field name="state" widget="badge" decoration-info="state == 'confirm'" decoration-warning="state == 'picking_create'" decoration-success="state == 'done'" decoration-muted="state == 'waiting_approval'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="sales_return_form_view" model="ir.ui.view">
+        <field name="name">sales.return.form.view</field>
+        <field name="model">sales.return</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="create_picking" invisible="1"/>
+                <field name="is_picking_done" invisible="1"/>
+                <header>
+                    <button string="Confirm" name="action_confirm" states="draft" type="object" class="oe_highlight"/>
+                    <button string="Create Picking" name="action_create_picking" type="object" class="oe_highlight" attrs="{'invisible':['|',('create_picking','=',False),('state','not in',['confirm','picking_create'])]}"/>
+                    <button string="Done" name="action_done" type="object" attrs="{'invisible':[('is_picking_done','=', False)]}" class="oe_highlight"/> 
+                    <button string="Cancel" name="action_cancel" type="object" attrs="{'invisible':[('state','=','cancel')]}"/>
+                    <button string="Reset To Draft" name="action_draft" type="object" class="oe_highlight" states="cancel"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done,cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_picking" type="object" class="oe_stat_button" icon="fa-truck" context="{'picking_type':'incoming'}">
+                            <field name="receipt_picking_count" string="Receipt" widget="statinfo"/>
+                        </button>
+                        <button name="action_view_picking" type="object" class="oe_stat_button" icon="fa-truck" context="{'picking_type':'outgoing'}">
+                            <field name="delivery_picking_count" string="Delivery" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <label for="name" string="Sales Return" class="oe_edit_only"/>
+                    <h1><field name="name" /></h1>
+                    <group>
+                        <group>
+                            <field name="partner_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" attrs="{'readonly': [('state','=','done')]}" domain="[('is_customers','=',True),('state','=','approve')]"/> 
+                            <field name="document" attrs="{'readonly': [('state','=','done')]}"/>
+                        </group>
+                        <group>
+                            <field name="create_date" readonly="1"/>
+                            <field name="create_uid" widget="many2one_avatar_user" readonly="1"/>
+                            <field name="company_id" optional="show" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" attrs="{'readonly': [('state','=','done')]}"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Return Line" name="return_line">
+                            <field name="return_line_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                <tree editable="bottom">
+                                    <field name="return_id" invisible="1"/>
+                                    <field name="product_id" options="{'no_create':True}"/>
+                                    <field name="brand_product" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" optional="hide"/>
+                                    <field name="name" optional="hide"/>
+                                    <field name="qty"/> 
+                                    <field name="price_unit" force_save="1" readonly="1"/> 
+                                    <field name="price_subtotal" sum="Amount Total"/>
+                                    <field name="condition_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" attrs="{'required':[('state','=','draft')]}"/>
+                                    <field name="action_type_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" attrs="{'required':[('state','=','draft')]}"/>
+                                    <field name="replacement_action_type_id" optional="show" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"  attrs="{'required':[('state','=','draft')]}"/> <!--attrs="{'readonly':[('use_replacement_action','=',True)]}"-->
+                                    <field name="notes" optional="hide"/>
+                                    <field name="replacement_product_ids" widget="many2many_tags" readonly="1" force_save="1" optional="show"/>
+                                    <field name="brand_replacement_ids" widget="many2many_tags" readonly="1" force_save="1" optional="hide"/>
+                                    <field name="replacement_qty_ids" widget="many2many_tags" readonly="1" force_save="1" optional="hide"/> 
+                                    <field name="replacement_price_subtotal" sum="Replacement Amount Total"/>
+                                    <button type="action" name="%(aos_sales_return.replacement_product_wizard_action)d" icon="fa-list" width="0.1" attrs="{'invisible':[('send_back_customer','=',True)]}" context="{'default_return_line_id':id,'default_sales_return_id':return_id,'return_line_id':id,'sales_return_id':return_id}"/>
+                                    <field name="company_id" optional="show" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" invisible="1"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="send_back_customer" invisible="1"/>
+                                    <field name="use_replacement_action" invisible="1"/>
+                                    <field name="state" invisible="1"/>
+                                </tree>
+                            </field>
+                            <field name="notes" placeholder="Terms And Conditions........."/>
+                        </page>
+                        <page name="extra_info" string="Extra Information"> 
+                            <group>
+                                <group>
+                                    <field name="warehouse_id" options="{'no_create':True}" attrs="{'readonly': [('state','=','done')]}" required="1"/>
+                                    <field name="receipt_picking_type_id" domain="[('warehouse_id','=',warehouse_id)]" options="{'no_create':True}" attrs="{'readonly': [('state','=','done')]}" required="1"/>
+                                    <field name="delivery_picking_type_id" domain="[('warehouse_id','=',warehouse_id)]" options="{'no_create':True}" attrs="{'readonly': [('state','=','done')]}" required="1"/>
+                                </group>
+                                <group>
+                                    <field name="receipt_dest_location_id" options="{'no_create':True}" attrs="{'readonly': [('state','=','done')]}" required="1"/>
+                                    <field name="receipt_source_location_id" options="{'no_create':True}" attrs="{'readonly': [('state','=','done')]}" required="1"/>
+                                    <field name="delivery_dest_location_id" options="{'no_create':True}" attrs="{'readonly': [('state','=','done')]}" required="1"/>
+                                    <field name="delivery_source_location_id" options="{'no_create':True}" attrs="{'readonly': [('state','=','done')]}" required="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_window_sales_return" model="ir.actions.act_window">
+        <field name="name">Sales Return</field>
+        <field name="res_model">sales.return</field>
+        <field name="view_mode">tree,form</field> 
+    </record>
+
+    <menuitem
+        id="sales_return_order_sub_menu"
+        name="Sales Return"
+        action="action_window_sales_return"
+        parent="sale.sale_order_menu"
+        sequence="10"/>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="access_to_update_invoice_line_feature" model="ir.ui.view">
+        <field name="name">access_to_update_invoice_line_feature</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="user_can_edit" invisible="1"/>
+            </xpath>
+            <!-- Tree -->
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="attributes">
+                <attribute name="attrs">{'readonly':[('parent.user_can_edit','=',False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='discount']" position="attributes">
+                <attribute name="attrs">{'readonly':[('parent.user_can_edit','=',False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="attrs">{'readonly':[('parent.user_can_edit','=',False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

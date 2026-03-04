@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <menuitem id="menu_finance_config_assets"
+            name="Assets and Revenues"
+            parent="account.menu_finance_configuration"
+            sequence="25"/>
+    
+    <!-- fixed asset  -->
+    <menuitem id="menu_action_account_asset_asset_form"
+        parent="account.menu_finance_entries_management"
+        action="action_account_asset_asset_form"
+        groups="om_account_asset.group_fixed_asset_user"
+        sequence="101"/>
+
+    <menuitem id="menu_action_account_asset_asset_list_normal_purchase"
+        parent="account.account_management_menu"
+        action="action_account_asset_asset_list_normal_purchase"
+        groups="om_account_asset.group_fixed_asset_user"
+        sequence="6"/>
+
+    <!-- prepadi revenue  -->
+    <menuitem id="menu_action_account_asset_revenue_recognition" 
+        parent="account.menu_finance_entries_management" 
+        action="action_account_asset_revenue_form" 
+        groups="om_account_asset.group_prepaid_revenue_user"
+        sequence="103"/>
+
+    <menuitem id="menu_action_account_asset_revenue_list_normal_sale"
+        parent="account.account_management_menu"
+        action="action_account_asset_revenue_list_normal_sale"
+        groups="om_account_asset.group_prepaid_revenue_user"
+        sequence="7"/>
+
+    <!-- prepadi expense  -->
+    <menuitem  id="menu_action_account_asset_expense_recognition" 
+        parent="account.menu_finance_entries_management" 
+        action="action_account_asset_expense_form" 
+        groups="om_account_asset.group_prepaid_expense_user"
+        sequence="104"/>
+
+    <menuitem id="menu_action_account_asset_expense_list_normal_purchase"
+        parent="account.account_management_menu"
+        action="action_account_asset_expense_list_normal_purchase"
+        groups="om_account_asset.group_prepaid_expense_user"
+        sequence="7"/>
+            
+
+
+</odoo>

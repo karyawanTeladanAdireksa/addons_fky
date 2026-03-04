@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_coretax_product" model="ir.actions.act_window">
+        <field name="name">Coretax Product</field>
+        <field name="res_model">coretax.product</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_coretax_uom" model="ir.actions.act_window">
+        <field name="name">Coretax UoM</field>
+        <field name="res_model">coretax.uom</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="coretax_product_tree_view" model="ir.ui.view">
+        <field name="name">coretax.product.tree.view</field>
+        <field name="model">coretax.product</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="category"/>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+        
+    <record id="coretax_product_form_view" model="ir.ui.view">
+        <field name="name">coretax.product.form.view</field>
+        <field name="model">coretax.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="category"/>
+                        <field name="code"/>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="coretax_uom_tree_view" model="ir.ui.view">
+        <field name="name">coretax.uom.tree.view</field>
+        <field name="model">coretax.uom</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="category"/>
+                <field name="code" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="coretax_uom_form_view" model="ir.ui.view">
+        <field name="name">coretax.uom.form.view</field>
+        <field name="model">coretax.uom</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="category"/>
+                        <field name="code" />
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

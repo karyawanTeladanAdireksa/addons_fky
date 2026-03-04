@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="so_inherit_sale_request_field" model="ir.ui.view">
+        <field name="name">Sale Order Inherit Sale Request Field</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <field name="client_order_ref" position="after">
+                <field name="sale_request_id" readonly="1"/>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

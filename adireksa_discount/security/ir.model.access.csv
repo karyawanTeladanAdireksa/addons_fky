@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_adireska_discount_salesman,adireksa.discount.salesman,model_adireksa_discount,sales_team.group_sale_salesman,1,1,1,0
+access_adireksa_discount_manager,adireksa.discount.manager,model_adireksa_discount,sales_team.group_sale_manager,1,1,1,1
+access_master_discount_type_salesman,master.discount.type.salesman,model_master_discount_type,sales_team.group_sale_salesman,1,1,1,0
+access_master_discount_type_manager,master.discount.type.manager,model_master_discount_type,sales_team.group_sale_manager,1,1,1,1

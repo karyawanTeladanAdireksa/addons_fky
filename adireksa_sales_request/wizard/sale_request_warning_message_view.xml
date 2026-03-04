@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+     <!--Form view-->
+        <record id="sr_warning_message_form_view" model="ir.ui.view">
+            <field name="name">Sale Request Warning Message Form View</field>
+            <field name="model">sr.message</field>
+            <field name="arch" type="xml">
+                <form string="Warning">
+                    <field name="message" readonly="1"/>
+                    <footer>
+                        <button name="action_yes" string="Yes" type="object" class="oe_highlight"/>
+                        <button name="action_no"  string="No" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+</odoo>

@@ -1,0 +1,21 @@
+<odoo>
+    <record id="wizard_cashback_manual_form_view" model="ir.ui.view">
+        <field name="name">wizard.claim.manual.cashback.form.view</field>
+        <field name="model">cashback.manual.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Go Cashback Manual">
+                <group>
+                    <field name="memo" readonly="1"/>
+                    <field name="amount_total" readonly="1"/>
+                </group>
+                <footer>
+                    <button name="btn_cashback_manual" string="Go Cashback Manual" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
+
+
+        

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="view_customer_invoice_unpaid_report" model="ir.ui.view">
+            <field name="name">customer.invoice.unpaid.report</field>
+            <field name="model">customer.invoice.unpaid.report</field>
+            <field name="arch" type="xml">
+                <form string="Customer Invoice Report">
+                    <group> 
+                        <group col="2">
+                            <field name="cust_invoice_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="start_date" attrs="{'invisible': [('all_date','=',True)], 'required':[('all_date','=',False)]}"/>
+                            <field name="end_date" attrs="{'invisible': [('all_date','=',True)], 'required':[('all_date','=',False)]}"/>
+                            <field name="all_date" />
+                            <field name="company_id"/>
+                        </group>
+                        <group> 
+                            <field name="partner_id" options="{'no_create': True, 'no_edit': True}" domain="[('is_customers','=',True)]"/>   
+                        </group>
+                    </group>
+                    <footer>
+                    
+                        <button name="print_unpaid_invoice" string="_PDF"
+                            type="object" class="oe_highlight" />
+                        <button string="Cancel" class="oe_link"
+                            special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_customer_invoice_unpaid_report" model="ir.actions.act_window">
+            <field name="name">Customer Invoice Report</field>
+            <field name="res_model">customer.invoice.unpaid.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+         <menuitem 
+            id="menu_customer_invoice_unpaid_report"
+            name="Customer Invoice Report"
+            parent="account.menu_finance_reports"
+            sequence="10" />
+         
+
+          <menuitem
+            id="menu_customer_invoice_unpaid_report_sub_menu"
+            name="Customer Invoice Report"
+            action="action_customer_invoice_unpaid_report"
+            parent="menu_customer_invoice_unpaid_report"
+            sequence="1"/>
+    
+</data>
+    
+
+</odoo>

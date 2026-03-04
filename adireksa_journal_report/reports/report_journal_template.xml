@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <template id="report_journal_voucher_template">
+       <t t-if="not company">       
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+       </t> 
+        <!-- HEADER START -->
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="o_clean_header">
+               <div class="list-inline">
+                         <div style="border-bottom: 1px solid black;"/>
+               </div>
+                <div class="row">
+                    <div class="col-7">
+                        <div t-field="company.name" style="font-size: 30px; font-weight: bold; text-align: left;"/> 
+                         <div style="font-size: 20px; font-weight: bold; text-align: left;">Jakarta Indonesia</div> 
+                    </div>
+                </div>
+                 <!-- <div class="list-inline col-6" style="text-align:left; padding-right: -30px;">
+                              <div style="border-bottom: 1px solid black;"/>
+                 </div> -->
+                  <!-- TABLE KIRI -->
+                
+               <table width="60%" style="border: None solid black; float:left;">
+                    <tr>
+                        <td >
+                            <strong style="font-size: 20px" >Input By :    </strong> <span style="font-size: 20px" t-field="o.user_id.partner_id.name"/>
+                        </td>
+                    </tr>
+               </table>
+
+                <!-- TABLE KANAN -->
+                <table width="40%" style="border: None solid black; float:right;" >
+                    <tr>
+                        <td>
+                            <strong style="font-size: 20px" >Date :    </strong><span style="font-size: 20px" t-field="o.date" t-options='{"widget": "date", "format": "dd-MM-YYYY"}'/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong style="font-size: 20px" >Invoice Date :    </strong><span style="font-size: 20px" t-field="o.account_date" t-options='{"widget": "date", "format": "dd-MM-YYYY"}'/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong style="font-size: 20px" >Payment Reference :     </strong><span style="font-size: 20px" t-field="o.name"/>
+                        </td>
+                    </tr>
+                 </table>
+            </div>
+        </div>
+        <!-- HEADER FINISH -->
+        
+        <!-- PAGE START -->
+        <div class="page">
+            <br></br>
+            <!-- TABLE PAYMENT METHOD -->
+            <table width="60%" style="border: None solid black; float:right;">
+                <tr>
+                    <td></td>
+                    <td>
+                        <strong style="font-size: 20px" ><span style="font-size: 20px" t-field="o.payment_journal_id.type"/> Voucher</strong>
+                    </td>
+                </tr>
+            </table>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div class="row"> 
+                <div class="col-12">
+                    <table class="table table-sm table-bordered" width="100%" style="border: None solid black;" valign="top">
+                        <thead>
+                            <tr align="left" height="30px">
+                                <!-- <th width="1%" class="p-3" scope="col" style="border: 1px solid #000">No</th> -->
+                                <th width="15%" class="p-3"  scope="col" style="border-right: none; border-bottom: 1px solid black;">Expense Account</th>
+                                <th width="15%" class="p-3"  scope="col" style="border-right: none; border-bottom: 1px solid black;">Description</th>
+                                <th width="10%" class="p-3"  scope="col" style="border-right: none; border-bottom: 1px solid black;">Quantity</th>
+                                <th width="15%" class="p-3"  scope="col" style="border-right: none; border-bottom: 1px solid black;">Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.line_ids" t-as="line">
+                                <td class="p-3" style="border-bottom: 1px solid black;"><span t-esc="line.account_id.code"/> - <span t-esc="line.account_id.name"/></td>
+                                <td class="p-3" style="border-bottom: 1px solid black;"><span t-esc="line.name"/></td>
+                                <td class="p-3" style="border-bottom: 1px solid black;"><span t-esc="line.quantity"/></td>
+                                <td class="p-3" style="border-bottom: 1px solid black;"><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(round(line.price_unit))"/></td>
+                            </tr> 
+                            <tr height="30px">
+                                <td colspan="3" style="border-right: none; border-bottom: 1px solid black; text-align:right; padding-right:50px;"><strong>Total Amount</strong></td> 
+                                <td style="border-bottom: 1px solid black;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(round(o.amount))"/></strong></td> 
+                            </tr> 
+                        </tbody> 
+                    </table>
+                </div>
+            </div> 
+        </div>
+        <!-- PAGE FINISH -->
+     </template>
+
+
+     <template id="report_journal_voucher">
+          <t t-foreach="docs" t-as="o">
+               <t t-call="web.html_container"> 
+                    <t t-call="adireksa_journal_report.report_journal_voucher_template"/>
+               </t>
+          </t>
+     </template>
+</odoo>

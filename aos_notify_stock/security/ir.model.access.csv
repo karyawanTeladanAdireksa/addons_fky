@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_notification_user,stock.notification.user,model_stock_notification,purchase.group_purchase_user,1,1,1,0
+access_stock_notification_manager,stock.notification.manager,model_stock_notification,stock.group_stock_manager,1,1,1,0
+access_stock_notify_report_user,stock.notify.report.user,model_stock_notify_report,purchase.group_purchase_user,1,1,1,0
+access_stock_notify_report_manager,stock.notify.report.manager,model_stock_notify_report,stock.group_stock_manager,1,1,1,0
+access_stock_notify_user,access_stock_notify_user,model_stock_notify_report,base.group_user,1,0,0,0

@@ -1,0 +1,113 @@
+<odoo>
+     <data>
+ 
+ 
+     <!-- INHERIT STOCK PICKING OPERATIONS-->
+     <record id="view_stock_picking_inherit_product_related_fields" model="ir.ui.view">
+          <field name="name">Add product_related_fields_in_inventory</field>
+          <field name="model">stock.picking</field>
+          <field name="inherit_id" ref="stock.view_picking_form"/>
+          <field name="arch" type="xml">
+               <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="before"> 
+                    <field name="product_brand" optional="hide" readonly="1"/>
+                    <field name="internal_category" optional="hide" readonly="1"/>
+                    <field name="part_number" optional="hide" readonly="1"/>
+                    <field name="type_motor" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide" readonly="1"/>
+                    <field name="type_merk" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide" readonly="1"/>
+               </xpath>
+          </field>
+     </record>
+
+     <!-- STOCK PICKING DETAILED OPERATIONS -->
+     <record id="view_stock_picking_inherit_product_related_fields_detailed_operations" model="ir.ui.view">
+          <field name="name">Add product_related_fields_in_detailed_operations_inventory</field>
+          <field name="model">stock.move.line</field>
+          <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/> 
+          <field name="arch" type="xml">
+               <xpath expr="//field[@name='product_id']" position="after">  
+                    <field name="product_brand" optional="hide" readonly="1"/>
+                    <field name="internal_category" optional="hide" readonly="1"/>
+                    <field name="part_number" optional="hide" readonly="1"/>
+                    <field name="type_motor" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide" readonly="1"/>
+                    <field name="type_merk" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide" readonly="1"/>
+               </xpath>
+          </field>
+     </record>
+
+     <!-- INHERIT STOCK MOVE -->
+       <!-- <record id="view_stock_view_move_inherit_product_related_fields" model="ir.ui.view">
+        <field name="name">Add product_related_fields in stock move</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_tree"/>
+        <field name="arch" type="xml">
+
+            <field name="product_id" position="after">
+                 <field name="product_brand" optional="hide"/>
+                 <field name="internal_category" optional="hide"/>
+                 <field name="part_number"/>
+                 <field name="type_motor" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide"/>
+            </field>
+        </field>
+    </record> -->
+      <!-- INVENTORY REPORT -->
+
+     <!-- FIELD TAMBAHAN INVENTORY ADJUSTMENT LIST -->
+     <record id="field_inventory_view_adjustment_list" model="ir.ui.view">
+          <field name="name">field.inventory.view.adjustment.list</field>
+          <field name="model">stock.quant</field>
+          <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+          <field name="arch" type="xml">
+               
+               <xpath expr="//field[@name='inventory_date']" position="attributes">
+                    <attribute name='invisible'>1</attribute>
+               </xpath>
+
+               <xpath expr="//tree/field[@name='inventory_diff_quantity']" position="after">
+                    <field name="create_date" string="Created Date" optional="hide"/>
+               </xpath>
+
+               <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
+               </xpath>
+
+               <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="default_code" optional="hide" readonly="1"/>
+                    <field name="part_number" optional="hide" readonly="1"/>
+                    <field name="product_brand" optional="hide" readonly="1"/>
+                    <field name="type_merk" widget="many2many_tags" optional="hide" readonly="1"/>
+                    <field name="type_motor" widget="many2many_tags" optional="hide" readonly="1"/>
+                    <field name="internal_category" optional="hide" readonly="1"/>
+                     
+               </xpath>
+          </field>
+     </record>
+
+     <record id="field_inventory_view_report" model="ir.ui.view">
+          <field name="name">field.inventory.view.report</field>
+          <field name="model">stock.quant</field>
+          <field name="inherit_id" ref="stock.quant_search_view"/>
+          <field name="arch" type="xml">
+               <xpath expr="//filter[@name='company']" position="after">
+                    <filter string="Brand" name="product_brand" context="{'group_by':'product_brand'}"/>
+                    <filter string="Internal Category" name="internal_category" context="{'group_by':'internal_category'}"/>
+                    <filter string="Part Number" name="part_number" context="{'group_by':'part_number'}"/>
+                    <filter string="Tipe Motor" name="type_motor" context="{'group_by':'type_motor'}"/> 
+                    <filter string="Merk" name="type_merk" context="{'group_by':'type_merk'}"/>
+               </xpath>
+          </field>
+     </record>
+
+     <!-- search view inventory valuation -->
+     <record id="stock_account_avaluation_search_view_inherit" model="ir.ui.view">
+          <field name="name">stock.account.valuation.search.view.inherit</field>
+          <field name="model">stock.valuation.layer</field>
+          <field name="inherit_id" ref="stock_account.view_inventory_valuation_search"/>
+          <field name="arch" type="xml">
+               <xpath expr="//search/group/filter[@name='group_by_product_id']" position="after">
+                    <filter string="Internal Category" name="internal_category" context="{'group_by':'internal_category'}"/> 
+               </xpath>
+          </field>
+     </record>
+     </data>
+</odoo>

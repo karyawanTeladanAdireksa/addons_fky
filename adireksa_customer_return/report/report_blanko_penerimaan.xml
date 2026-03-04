@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      <!-- REPORT PENERIMAAN BARANG RETUR -->
+   <template id="report_blanko_penerimaan_barang_template">
+     <t t-if="not company">       
+          <!-- Multicompany -->
+          <t t-if="company_id">
+               <t t-set="company" t-value="company_id"/>
+          </t>
+          <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+               <t t-set="company" t-value="o.company_id.sudo()"/>
+          </t>
+          <t t-else="else">
+               <t t-set="company" t-value="res_company"/>
+          </t>
+     </t>
+     <!-- HEADER START -->
+     <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+          <div class="o_clean_header">
+                <div class="row">
+                    <div class="col-2">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="margin:0 auto; max-height:150px; width:150px;" alt="Logo"/>
+                    </div>
+                    <div class="col-8" style="text-align: center;">
+                        <div t-field="company.name" style="font-size: 30px; font-weight: bold;"/>
+                        <div style="font-size: 16px; font-weight: bold;"><span t-field="company.street"/></div>
+                        <div style="font-size: 16px; font-weight: bold;">Telp : <span t-field="company.phone"/></div>
+                    </div>
+               </div>
+               <div class="row zero_min_height">
+                 <div class="col-12">
+                    <div style="border-bottom: 1px solid black;"/>
+                 </div>
+               </div>
+          </div>
+            <br></br>
+            <h3 class="text-center">SURAT PENERIMAAN BARANG RETUR</h3>
+     </div> 
+     <!-- HEADER FINISH -->
+          <!-- PAGE START -->
+            <t t-set="lines_per_page" t-value="30"/>
+            <t t-set="remain_num" t-value="len(o.return_line_ids) % lines_per_page"/>
+            <t t-if="remain_num != 0">
+                <t t-if="len(o.return_line_ids) &lt; lines_per_page">
+                    <t t-set="num_pages" t-value="1"/>
+                </t>
+                <t t-if="len(o.return_line_ids) &gt;= lines_per_page">
+                    <t t-set="num_pages" t-value="int((len(o.return_line_ids) - remain_num)/lines_per_page) + 1"/>
+                </t>
+            </t> 
+            <t t-if="remain_num == 0">
+                <t t-set="num_pages" t-value="int(len(o.return_line_ids)/lines_per_page)"/>
+            </t>
+            <!-- <t t-set="pages_list" t-value="[lines_per_page for x in range(num_pages)]"/> -->
+            <t t-set="last_page_pages" t-value="len(o.return_line_ids) - (num_pages-1)*lines_per_page"/>
+                    <t t-set="curr_dp" t-value="o.currency_id.decimal_places"/> 
+                    <div class="page">
+                        <t t-foreach="range(num_pages)" t-as="pageth">
+
+                            <table class="table table-condensed" style="border: 0px; border-collapse: collapse;">
+                                <tr>
+                                    <td width="15%" class="text-left">
+                                        <strong>Toko</strong>
+                                    </td>
+                                    <td class="text-left">
+                                       <strong>: <span style="font-size: 15px" t-field="o.partner_id.name"/></strong>
+                                    </td>
+                                    <td  width="15%" class="text-left">
+                                        <strong>Responsible</strong>
+                                    </td>
+                                    <td class="text-left">
+                                       <strong>: <span style="font-size: 15px" t-field="o.create_uid.name"/></strong>
+                                    </td> 
+                                </tr>
+                                <tr>
+                                    <td  width="15%" class="text-left">
+                                        <strong>Tanggal Retur</strong>
+                                    </td>
+                                    <td class="text-left">
+                                       <strong>: <span t-field="o.date" t-field-options='{"format": "dd MMMM yyyy"}'/></strong>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+
+                            <table class="table table-sm table-bordered" width="100%" style="border: 1px solid black; border-collapse: collapse;">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid black; width: 40px;" class="text-center">No.</th>
+                                        <th style="border: 1px solid black" class="text-center">Retur Produk</th>
+                                        <th style="border: 1px solid black; width: 70px;" class="text-center">Qty</th>
+                                        <th style="border: 1px solid black; width: 70px;" class="text-center">Condition</th>
+                                        <th style="border: 1px solid black; width: 200px;" class="text-center">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="color: #D8F0DA background: transparent" class="invoice_tbody"> 
+                                    <t t-set="k" t-value="pageth*lines_per_page+1" />
+                                    <!-- <t t-set="total" t-value="o.return_line_ids.price_subtotal"/> -->
+
+                                        <tr t-foreach="range(20)" t-as="r">
+                                            <t t-set="l" t-value="20"/>
+                                            <td style="border: 1px solid black;" class="text-center"><span t-esc="k"></span></td>
+                                            <t t-set="k" t-value="k+1"/>
+                                            <td style="border: 1px solid black;" class="text-left"></td>
+                                            <td style="border: 1px solid black;" class="text-center"></td>
+                                            <td style="border: 1px solid black;" class="text-center"></td>
+                                            <td style="border: 1px solid black;" class="text-left"></td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                            <br></br>
+                            <br></br>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="text-center" style="margin-bottom:75px;">Dicek oleh,</div>
+                                        <div class="text-center">_____________________________</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="text-center" style="margin-bottom:75px;">Diketahui oleh Accounting,</div>
+                                        <div class="text-center">_____________________________</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="text-center" style="margin-bottom:75px;">Disetujui oleh Manager,</div>
+                                        <div class="text-center">_____________________________</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="page-break-after:always;" />
+                         </t>
+                    </div>
+     <!-- PAGE FINISH -->
+
+     <!-- FOOTER START -->
+     <div class="footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul class="list-inline">
+                    <li>Page: <span class="page"/> / <span class="topage"/></li>
+                </ul>
+            </div>
+     </div>
+     <!-- FOOTER FINISH -->
+   </template>
+
+
+<template id="report_blanko_penerimaan_barang">
+<t t-foreach="docs" t-as="o">
+     <t t-call="web.basic_layout"> 
+          <t t-call="adireksa_customer_return.report_blanko_penerimaan_barang_template"/>
+     </t>
+</t>
+</template>
+</odoo>

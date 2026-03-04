@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_partner_tax_coretax_form_view" model="ir.ui.view">
+            <field name="name">res.partner.tax.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_id_efaktur.res_partner_tax_form_view"/>
+            <field name="arch" type="xml">
+                <field name="l10n_id_pkp" position="after">
+                    <field name="l10n_id_need_kode_transaksi" attrs="{'invisible': [('country_id', '!=', False), ('country_code', '!=', 'ID')]}"/>
+                </field>
+                <field name="l10n_id_kode_transaksi" position="after">
+                    <field name="coretax_type" attrs="{'invisible': [('country_id', '!=', False), ('country_code', '!=', 'ID')]}"/>
+                </field>
+                <field name="l10n_id_nik" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('country_code', '!=', 'ID'), ('coretax_type', '!=', 'National ID')]}</attribute>
+                </field>
+                <field name="l10n_id_nik" position="after">
+                    <field name="l10n_id_passport" attrs="{'invisible': ['|', ('country_code', '!=', 'ID'), ('coretax_type', '!=', 'Passport')]}"/>
+                    <field name="l10n_id_other" attrs="{'invisible': ['|', ('country_code', '!=', 'ID'), ('coretax_type', '!=', 'Other ID')]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

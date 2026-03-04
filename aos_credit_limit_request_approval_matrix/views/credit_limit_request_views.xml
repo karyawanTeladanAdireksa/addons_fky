@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_credit_limit_request_form_inherit" model="ir.ui.view">
+        <field name="name">credit.limit.request.form</field>
+        <field name="model">credit.limit.request</field>
+        <field name="inherit_id" ref="aos_credit_limit_request.view_credit_limit_request_form"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//header/button[@name='button_approve']" position="attributes"> -->
+                <!-- <attribute name="attrs">{'invisible':['|',('user_can_approve','=',False),('state','!=','to approve')]}</attribute> -->
+                <!-- <attribute name="invisible">1</attribute> -->
+            <!-- </xpath> -->
+            <!-- <xpath expr="//header/button[@name='button_unlock']" position="replace">
+                <button name="button_unlock" type="object" string="Unlock" states="done" groups="purchase_request.unlock_purchase_order"/>
+            </xpath> -->
+
+            <xpath expr="//header/button[@name='request_approve']" position="before">
+				<button string="Approve" type="object" name="btn_approve" class="oe_highlight" attrs="{'invisible':['|',('user_can_approve','=',False),('state','!=','waiting_approval')]}" />
+                <button string="Reject" type="object" name="open_reject_message_wizard" attrs="{'invisible':['|',('user_can_approve','=',False),('state','!=','waiting_approval')]}" />
+                <!-- <button name="button_cancel" states="rejected" string="Cancel" type="object" data-hotkey="x"/> -->
+			</xpath>
+            <xpath expr="//notebook" position="inside">
+                <page id="page_approval" string="Approvals">
+                	<field name="user_can_approve" invisible="1" />
+                    <field name="approval_ids" readonly="1"/>
+                    <group><field name="approved"/></group>
+                    <button string="Fetch Matrix" type="object" name="checking_approval_matrix" class="oe_highlight" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_credit_limit_request_tree_inherit" model="ir.ui.view">
+        <field name="name">credit.limit.request.form</field>
+        <field name="model">credit.limit.request</field>
+        <field name="inherit_id" ref="aos_credit_limit_request.view_credit_limit_request_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="approver" string="Approver"  readonly="1"/>
+                <field name="approved_by_ids" widget="many2many_tags" string="Approved By"  readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

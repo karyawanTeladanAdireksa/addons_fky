@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<template id="label_57x35">
+	   <!-- <div class="page"> -->
+		<table class="table table-condensed" width="100%" style="border: 1px solid grey;">
+			<tr height="165px" style="border:0;margin:0;padding:0;">
+				<td style="vertical-align:middle;border:0;margin:0;padding:3px;font-size:12px" align="center">
+					<b>
+						<t t-esc="doc.get('code')" />
+					</b>
+					<br />
+					<br/>	
+					<t t-esc="doc.get('barcode_packaging')" t-options="{'widget': 'barcode','symbology':'QR', 'width': 120, 'height': 120, 'img_style': 'width:120px;height:120px;'}"/>
+					<br />
+					<br />
+					<b>
+						<t t-esc="doc.get('barcode_packaging')" />
+					</b>
+				</td>
+			</tr>
+		</table>
+	  <!-- </div> -->
+	</template>
+
+	<template id="report_product_label_57x35">
+		<t t-esc="count" t-value="0" /> 
+		<div class="page">
+			<div class="oe_structure" />
+				<t t-esc="qty" t-value="1" />
+				<t t-if="doc.get('total_barcode')">
+					<t t-set="qty" t-value="int(doc.get('total_barcode'))" />
+				</t>
+				<t t-foreach="list(range(qty))" t-as="index_qty">
+					<div t-if="count == 40" style="page-break-after:always;" />
+					<div t-if="count == 5" style="clear:both;" />
+					<div
+						style="width: 191px; float:left; height: 200px; margin-top: 20px; margin-bottom: 40px; margin-right:-5px">
+						<t t-call="dynamic_barcode_labels.label_57x35" />
+					</div>
+					<t t-set="count" t-value="1" />
+				</t>
+			
+		</div>
+	</template>
+
+
+	<template id="report_dynamic_label">
+		<t t-foreach="data" t-as="doc">
+			<t t-call="web.html_container"> 
+				<t t-call="dynamic_barcode_labels.report_product_label_57x35"/>
+			</t>
+		</t>
+	</template>
+
+</odoo>

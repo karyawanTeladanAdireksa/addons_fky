@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_other_line_user,account.other.line.user,model_account_other_line,base.group_user,1,0,0,0
+access_account_other_line_acct,account.other.line.acct,model_account_other_line,account.group_account_invoice,1,1,1,1
+access_account_other_line_manager,account.other.line.manager,model_account_other_line,account.group_account_manager,1,1,1,1
+access_account_payment_line_user,account.payment.line.user,model_account_payment_line,base.group_user,1,0,0,0
+access_account_payment_line_acct,account.payment.line.acct,model_account_payment_line,account.group_account_invoice,1,1,1,1
+access_account_payment_line_manager,account.payment.line.manager,model_account_payment_line,account.group_account_manager,1,1,1,1
+access_account_register_line_user,account.register.line.user,model_account_register_line,base.group_user,1,0,0,0
+access_account_register_line_acct,account.register.line.acct,model_account_register_line,account.group_account_invoice,1,1,1,1
+access_account_register_line_manager,account.register.line.manager,model_account_register_line,account.group_account_manager,1,1,1,1
+access_account_payment_tax_uinvoice,account.payment.tax,model_account_payment_tax,account.group_account_invoice,1,1,1,1
+access_account_payment_tax_accountant,account.payment.tax accountant,model_account_payment_tax,account.group_account_user,1,0,0,0

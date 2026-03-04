@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cortecoretax_product_user,access_coretax_product_user,model_coretax_product,account.group_account_invoice,1,1,1,0
+access_coretax_product_manager,access_coretax_product_manager,model_coretax_product,account.group_account_manager,1,1,1,1
+access_coretax_uom_user,access_coretax_uom_user,model_coretax_uom,account.group_account_invoice,1,1,1,0
+access_coretax_uom_manager,access_coretax_uom_manager,model_coretax_uom,account.group_account_manager,1,1,1,1

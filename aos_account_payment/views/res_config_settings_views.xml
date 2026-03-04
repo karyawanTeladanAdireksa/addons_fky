@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_account_payment_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.account.payment.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="95"/>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='default_taxes']" position="after">
+                <div class="col-12 col-lg-6 o_setting_box" id="default_other_payment" title="These taxes are set in any new payment reconcile created.">
+                    <div class="o_setting_left_pane"/>
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Default Other Invoices</span>
+                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                        <div class="text-muted">
+                            Default other line applied to invoice transactions
+                        </div>
+                        <div class="content-group" id="content-payment">
+                            <!-- <div class="row mt16">
+                                <label string="PPh23 Tax" for="tax_pph23_id" class="col-lg-3 o_light_label"/>
+                                <field name="tax_pph23_id" domain="[('type_tax_use', 'in', ('sale', 'all')), ('company_id', '=', company_id)]"/>
+                            </div>
+                            <div class="row mt16">
+                                <label string="PPN A3 Tax" for="tax_ppna3_id" class="col-lg-3 o_light_label"/>
+                                <field name="tax_ppna3_id" domain="[('type_tax_use', 'in', ('sale', 'all')), ('company_id', '=', company_id)]"/>
+                            </div>
+                            <div class="row mt16">
+                                <label string="PPh Final Tax" for="tax_pphfin_id" class="col-lg-3 o_light_label"/>
+                                <field name="tax_pphfin_id" domain="[('type_tax_use', 'in', ('sale', 'all')), ('company_id', '=', company_id)]"/>
+                            </div> -->
+                            <div class="row mt16">
+                                <label string="Meterai" for="product_meterai_id" class="col-lg-3 o_light_label"/>
+                                <field name="product_meterai_id" domain="[('detailed_type', '=', 'service')]"/>
+                            </div>
+                            <div class="row mt16">
+                                <label string="Condition" for="amount_condition" class="col-lg-3 o_light_label"/>
+                                <field name="amount_condition"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

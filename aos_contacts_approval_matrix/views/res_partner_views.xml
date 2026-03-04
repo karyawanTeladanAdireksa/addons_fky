@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_partner_approval_view" model="ir.ui.view">
+        <field name="name">res.partner.approval.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="draft_wating" string="Request" type="object" class="oe_highlight"  attrs="{'invisible':[('state','!=','draft')]}"/>
+                    <button string="To Approve" name="button_approve" type="object" class="oe_highlight" groups="approval_matrix.group_approval_matrix_manager" attrs="{'invisible':['|',('user_can_approve','=',False),('state','!=','waiting')]}"/>
+                    <button string="Reject" type="object" name="open_reject_message_wizard" groups="approval_matrix.group_approval_matrix_manager" attrs="{'invisible':[('state','not in',['waiting','approve'])]}" />
+                    <button string="Cancel" name="button_reject" groups="approval_matrix.group_approval_matrix_manager" type="object" states="draft"/>
+                    <button name="set_to_draft" string="Set To Draft" type="object" class="oe_highlight" states="reject"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting,approve"/>
+                </header>
+            </xpath>
+            <xpath expr="//page[last()]" position="after">
+                <page id="page_approval" name="page_approval" string="Approvals">
+                	<field name="user_can_approve" invisible="1" />
+                    <field name="approval_ids" readonly="1"/>
+                    <group><field name="approved"/></group>
+                    <button string="Fetch Matrix" type="object" name="checking_approval_matrix" class="oe_highlight" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- Last Sequence Menu Configuration -->
+    <record id="contacts.res_partner_menu_config" model="ir.ui.menu">
+        <field name="sequence">30</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_contacts_under_approval">
+        <field name="name">Waiting Approval</field>
+        <field name="res_model">res.partner</field>
+        <field name='view_mode'>tree,form</field>
+        <field name="view_id" ref="base.res_partner_kanban_view"/>
+        <field name="domain">[('state','=','waiting')]</field>
+    </record>
+
+    <menuitem id="res_partner_under_approval"
+        name="Waiting Approval"
+        action="action_contacts_under_approval"
+        parent="contacts.menu_contacts"
+        sequence="2"/>
+</odoo>

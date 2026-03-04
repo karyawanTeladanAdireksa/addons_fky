@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_voucher_download_report" model="ir.ui.view">
+        <field name="name">account.voucher.download.report</field>
+        <field name="model">account.voucher.report.xlsx</field>
+        <field name="arch" type="xml">
+            <form string="Download Reporting">
+                <field name="name" invisible="1"/>
+                <div>
+                    <h2>Download Report</h2>
+                    <p>Here is the Excel Report: <field name="file" readonly="1" filename="name"/></p>
+                </div>
+                <footer>
+                    <button string="Close" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

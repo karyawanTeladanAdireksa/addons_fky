@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="0">
+
+    <record model="ir.rule" id="master_customer_cashback_multicompany_rule">
+        <field name="name">master.customer.cashback multi-company</field>
+        <field name="model_id" ref="model_master_customer_cashback"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="adireksa_customer_target_multicompany_rule">
+        <field name="name">adireksa.customer.target multi-company</field>
+        <field name="model_id" ref="model_adireksa_customer_target"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="cashback_invoice_multicompany_rule">
+        <field name="name">cashback.invoice multi-company</field>
+        <field name="model_id" ref="model_cashback_invoice"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="cashback_manual_multicompany_rule">
+        <field name="name">cashback.manual multi-company</field>
+        <field name="model_id" ref="model_cashback_manual"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="cashback_internal_category_multicompany_rule">
+        <field name="name">cashback.internal.category multi-company</field>
+        <field name="model_id" ref="model_cashback_internal_category"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="cashback_rule_multicompany_rule">
+        <field name="name">cashback.rule multi-company</field>
+        <field name="model_id" ref="model_cashback_rule"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="customer_area_multicompany_rule">
+        <field name="name">customer.area multi-company</field>
+        <field name="model_id" ref="model_customer_area"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+
+<!--        <record model="ir.module.category" id="module_cashback_pattern_category">-->
+<!--            <field name="name">Cashback Pattern Access</field>-->
+<!--            <field name="description">Cashback pattern access level for this module</field>-->
+<!--            <field name="sequence">4</field>-->
+<!--        </record>-->
+
+<!--        <record id="group_cashback_pattern_user" model="res.groups">-->
+<!--            <field name="name">User</field>-->
+<!--            <field name="category_id" ref="adireksa_cashback_pattern.module_cashback_pattern_category" />-->
+<!--        </record>-->
+
+<!--        <record id="group_cashback_pattern_manager" model="res.groups">-->
+<!--            <field name="name">Manager</field>-->
+<!--            <field name="category_id" ref="adireksa_cashback_pattern.module_cashback_pattern_category" />-->
+<!--        </record>-->
+
+        <record id="group_customer_target_user" model="res.groups">
+            <field name="name">Create Customer Target</field>
+<!--            <field name="category_id" ref="aos_cashback.module_cashback_pattern_category" />-->
+        </record>
+
+        <record id="group_customer_target_manager" model="res.groups">
+            <field name="name">Customer Target Approve</field>
+<!--            <field name="category_id" ref="aos_cashback.module_cashback_pattern_category" />-->
+        </record>
+
+        <record id="group_customer_master_manager" model="res.groups">
+            <field name="name">Master Customer Cashback Button</field>
+<!--            <field name="category_id" ref="aos_cashback.module_cashback_pattern_category" />-->
+        </record>
+
+        <record id="group_cashback_menu" model="res.groups">
+            <field name="name">Show Menu Cashback </field>
+<!--            <field name="category_id" ref="aos_cashback.module_cashback_pattern_category" />-->
+        </record>
+
+        <record id="group_allow_button_cancel_and_reset_account_move" model="res.groups">
+            <field name="name">Allow Button Cancel And Reset Account Move</field> 
+<!--            <field name="category_id" ref="aos_cashback.module_cashback_pattern_category" />-->
+        </record>
+
+
+        <!-- Record Rule -->
+<!--        <record id="cashback_pattern_rule" model="ir.rule">-->
+<!--            <field name="name">Cashback Pattern Rule</field>-->
+<!--            <field name="model_id" ref="model_cashback_rule" />-->
+<!--            <field name="global" eval="True" />-->
+<!--            <field name="domain_force">['|',('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

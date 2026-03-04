@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+
+        <record id="customer_class_form_view" model="ir.ui.view">
+            <field name="name">customer.class.form</field>
+            <field name="model">customer.class</field>
+            <field name="arch" type="xml">
+                <form string="Customer Class">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="customer_classtree" model="ir.ui.view">
+            <field name="name">adireksa.customer.discount.tree</field>
+            <field name="model">customer.class</field>
+            <field name="arch" type="xml">
+                <tree string="Customer Class" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_customer_class" model="ir.actions.act_window">
+            <field name="name">Customer Class</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">customer.class</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Customer Class.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_customer_class" action="action_customer_class" name="Customer Class" parent="contacts.res_partner_menu_config" sequence="4"/>
+    </data>
+</odoo>

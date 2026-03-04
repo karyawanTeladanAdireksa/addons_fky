@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="inherit_view_sale_order_form_cashback"
+			model="ir.ui.view">
+			<field name="name">sale.order.form.cashback</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//group[@name='sale_total']" position="before">
+					<group>
+						<group name="cashback" string='Cashback'>
+		                    <field name="cashback_per" class="oe_inline" attrs="{'invisible': [('cashback_deduction_option', '=', 'customer_invoice')]}"/> %
+		                    <field name="max_cashback" readonly='1' class="oe_inline" attrs="{'invisible': [('cashback_deduction_option', '=', 'customer_invoice')]}"/> %
+		                    <field name="cashback_deduction_option" invisible='1'/>
+		                </group>
+		            </group>
+				</xpath>
+				<xpath expr="//notebook//page//group[@name='sale_total']//field[@name='amount_tax']" position="after">
+					<field name="cashback_value" attrs="{'invisible': [('cashback_deduction_option', '=', 'customer_invoice')]}"/>
+				</xpath>
+				<xpath expr="//field[@name='order_line'] //form //field[@name='price_unit']" position="after">
+					<field name="get_cashback" invisible="1"/>
+					<field name="edit_cashback" invisible="1"/>
+					<field name="cashback_value" attrs="{'readonly': [('edit_cashback','=', False)]}"/>
+				</xpath>
+				<xpath expr="//field[@name='order_line'] //tree //field[@name='price_subtotal']" position="after">
+					<field name="get_cashback" invisible="1"/>
+					<field name="edit_cashback" invisible="1"/>
+					<field name="cashback_value" attrs="{'readonly': [('edit_cashback','=', False)]}"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

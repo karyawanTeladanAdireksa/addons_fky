@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Leave specific activities -->
+        <record id="mail_act_approval_matrix" model="mail.activity.type">
+            <field name="name">Approval Request</field>
+            <field name="icon">fa-tasks</field>
+        </record>
+    </data>
+</odoo>

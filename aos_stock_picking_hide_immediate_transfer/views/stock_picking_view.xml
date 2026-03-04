@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        
+		<record id="stock_picking_type_kanban_general" model="ir.ui.view">
+            <field name="name">stock.picking.type.kanban</field>
+            <field name="model">stock.picking.type</field>
+			<field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
+            <field name="arch" type="xml">         
+                <xpath expr="//div[@class='col-6 o_kanban_card_manage_section o_kanban_manage_new']/div[2]/a" position="attributes">
+                	<attribute name="groups">aos_stock_picking_hide_immediate_transfer.group_stock_immediate_transfer</attribute>
+                </xpath>
+            </field>
+        </record>
+		
+</odoo>

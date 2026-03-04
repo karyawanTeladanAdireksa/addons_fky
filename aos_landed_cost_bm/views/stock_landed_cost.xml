@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_landed_cost_form_inherit" model="ir.ui.view">
+        <field name="name">stock.landed.cost_form_inherit</field>
+        <field name="model">stock.landed.cost</field>
+        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='cost_lines']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="attrs">{'readonly':[('split_method','=','by_bm')]}</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='button_validate']" position="after">
+                <button name="button_create_bm" attrs="{'invisible':['|','|',('split_bool','!=',True),('vendor_bill_id','!=',False),('state','!=','done')]}"  string="CREATE BM BILL" class="oe_highlight" type="object"/>
+            </xpath>
+            <xpath expr="//field[@name='vendor_bill_id']" position="after">
+                <field name="split_bool" invisible="1"/>
+                <field name="keterangan"/>
+            </xpath>
+            <xpath expr="//field[@name='valuation_adjustment_lines']/tree/field[@name='former_cost']" position="after">
+                <field name="bea_masuk" attrs="{'column_invisible':[('parent.split_bool','=',False)]}"/>
+            </xpath>
+             <xpath expr="//button[@name='compute_landed_cost']" position="replace">
+                <button colspan="2" name="compute_landed_cost" attrs="{'invisible':['|',('split_bool','=',True),('state','!=','draft')]}" string="Compute" type="object" class="oe_right btn-secondary" />
+            </xpath>
+            <xpath expr="//field[@name='valuation_adjustment_lines']" position="after">
+                <group class="oe_subtotal_footer oe_right">
+                    <button colspan="2" name="compute_landed_cost_bm" string="Compute" type="object" class="oe_right btn-secondary" attrs="{'invisible':['|',('split_bool','=',False),('state','!=','draft')]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="stock_landed_cost_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.landed.cost_tree_inherit</field>
+        <field name="model">stock.landed.cost</field>
+        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_tree"/>
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='company_id']" position="after">
+                <field name="keterangan"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

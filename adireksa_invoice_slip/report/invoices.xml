@@ -1,0 +1,21 @@
+ <odoo>
+    <template id="report_invoice_document_inherit_dp" inherit_id="account.report_invoice_document">
+        
+        <!-- <xpath expr="//table/tbody[@class='invoice_tbody']/tr/td[4]" position="replace">
+            <td class="text-right">
+                <t t-set="curr_dp" t-value="o.currency_id.decimal_places"/>
+                <span t-esc="l.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: curr_dp}"/>
+            </td>
+
+        </xpath> -->
+        <!-- <xpath expr="//div[@class='col-xs-4 pull-right']/table/tr[last()]" position="before">
+            <tr class="border-black">
+                <td><strong>Cashback</strong></td>
+                <td class="text-right">
+                     <span t-field="o.cashback_value" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                </td>
+            </tr>
+            
+        </xpath> -->
+    </template>
+</odoo>

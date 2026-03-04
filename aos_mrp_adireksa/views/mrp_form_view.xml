@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="mrp_production_inherits" model="ir.ui.view">
+        <field name="name">mrp.production.inherits</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="date_planned_start" position="replace">
+                <field name="date_planned_show" string="Scheduled Date"/>
+            </field>
+        </field>
+    </record>
+    
+</odoo>

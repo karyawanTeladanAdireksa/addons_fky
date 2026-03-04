@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record id="cashback_type_so_in" model="cashback.type">
+			<field name="name">Sales Order (In)</field>
+			<field name="default_posting">debit</field>
+			<field name="manual_cashback">false</field>
+		</record>
+		<record id="cashback_type_so_out" model="cashback.type">
+			<field name="name">Sales Order (Out)</field>
+			<field name="default_posting">credit</field>
+			<field name="manual_cashback">false</field>
+		</record>
+		<record id="cashback_type_ci" model="cashback.type">
+			<field name="default_posting">credit</field>
+			<field name="manual_cashback">false</field>
+			<field name="name">Customer Invoice</field>
+		</record>
+	</data>
+</odoo>
+        

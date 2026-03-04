@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="view_product_template_company_inherit" model="ir.ui.view">
+          <field name="name">view.product.template.company.inherit</field>
+          <field name="model">product.template</field>
+          <field name="inherit_id" ref="product.product_template_only_form_view"/>
+          <field name="arch" type="xml">
+               <xpath expr="//field=[@name='company_id']" position="attributes">
+                    <attribute name="groups">base.group_multi_company</attribute>
+               </xpath>
+          </field>
+     </record>
+
+     <record id="view_purchase_vendor_company_inherit" model="ir.ui.view">
+          <field name="name">view.purchase_vendor_company.inherit</field>
+          <field name="model">res.partner</field> 
+          <field name="inherit_id" ref="base.view_partner_form"/>
+          <field name="arch" type="xml">
+               <xpath expr="//page[@name='sales_purchases']/field=[@name='company_id']" position="attributes">
+                    <attribute name="groups">base.group_multi_company</attribute> 
+               </xpath>
+          </field>
+     </record>
+</odoo>

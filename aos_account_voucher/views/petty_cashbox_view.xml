@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_petty_cash_cashbox_search" model="ir.ui.view">
+        <field name="name">petty.cashbox.search</field>
+        <field name="model">petty.cashbox</field>
+        <field name="arch" type="xml">
+            <search string="Petty Cash">
+                <field name="name"/>
+                <field name="date"/>
+                <group expand="0" string="Group By">
+                     <filter string="Journal" name="journal" domain="[]" context="{'group_by':'journal_id'}"/>
+                     <filter string="Date" name="date" domain="[]" context="{'group_by':'date','visible':True}"/>
+                     <filter string="Status" name="status" domain="[]" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_petty_cash_cashbox_form" model="ir.ui.view">
+        <field name="name">petty.cashbox.form</field>
+        <field name="model">petty.cashbox</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_compute" string="Compute" states="draft" class="oe_highlight" type="object"/>
+	                <button name="action_post" string="Validate" states="draft" class="oe_highlight" type="object"/>
+	                <button name="action_cancel_draft" type="object" states="posted" string="Set to Draft"/>
+	                <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors='{"proforma":"blue"}'/>
+                </header>
+                <sheet>
+                    <!-- <field name="start_bank_stmt_ids" invisible="1"/>
+                    <field name="end_bank_stmt_ids" invisible="1"/> -->
+                    <h1><field name="name"/></h1>
+                    <group col="4">
+                        <field name="date"/>
+                        <field name="journal_id" domain="[('type','=','cash')]"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <field name="cashbox_lines_ids" nolabel="1" context="{'default_currency_id': currency_id}">
+                        <tree editable="bottom">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="number"/>
+                            <field name="type" readonly="1"/>
+                            <field name="coin_value" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                            <field name="subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </tree>
+                    </field>
+                    <div>
+                        <group>
+                            <group class="oe_subtotal_footer oe_right" cols="6">
+                                <field name="currency_id" invisible="1" />
+                                <div class="o_td_label"></div>
+                                <field name="total_coins" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_paper" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </group>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_petty_cash_cashbox_tree" model="ir.ui.view">
+        <field name="name">petty.cashbox.tree</field>
+        <field name="model">petty.cashbox</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="journal_id"/>
+                <field name="currency_id"/>
+                <field name="total_coins" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total_paper" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_account_bnk_stmt_cashbox" model="ir.actions.act_window">
+        <field name="name">Cashbox</field>
+        <field name="res_model">petty.cashbox</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_petty_cash_cashbox_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Register a cashbox
+            </p><p>
+            A bank statement is a summary of all financial transactions
+            occurring over a given period of time on a bank account. You
+            should receive this periodicaly from your bank.
+            </p><p>
+            Odoo allows you to reconcile a statement line directly with
+            the related sale or purchase invoices.
+            </p>
+        </field>
+    </record>
+
+    <record id="view_petty_cash_cashbox_line_search" model="ir.ui.view">
+        <field name="name">petty.cashbox.line.search</field>
+        <field name="model">petty.cashbox.line</field>
+        <field name="arch" type="xml">
+            <search string="Petty Cash">
+                <field name="journal_id"/>
+                <field name="date"/>
+                <group expand="0" string="Group By">
+                     <filter string="Type" name="type" domain="[]" context="{'group_by':'type'}"/>
+                     <filter string="Journal" name="journal" domain="[]" context="{'group_by':'journal_id'}"/>
+                     <filter string="Date" name="date" domain="[]" context="{'group_by':'date','visible':True}"/>
+                     <filter string="Status" name="status" domain="[]" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_petty_cashbox_line_pivot" model="ir.ui.view">
+        <field name="name">petty.cashbox.line.pivot</field>
+        <field name="model">petty.cashbox.line</field>
+        <field name="arch" type="xml">
+             <pivot string="Cashbox Analysis" sample="1">
+                 <field name="type" type="col"/>
+                 <field name="date" type="row"/>
+                 <field name="subtotal" type="measure"/>
+             </pivot>
+        </field>
+    </record>
+
+    <record id="view_petty_cashbox_line_graph" model="ir.ui.view">
+         <field name="name">petty.cashbox.line.graph</field>
+         <field name="model">petty.cashbox.line</field>
+         <field name="arch" type="xml">
+             <graph string="Cashbox Analysis" type="line" sample="1">
+                 <field name="type"/>
+                 <field name="subtotal" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="view_petty_cash_cashbox_line_tree" model="ir.ui.view">
+        <field name="name">petty.cashbox.line.tree</field>
+        <field name="model">petty.cashbox.line</field>
+        <field name="arch" type="xml">
+            <tree create="0" delete="0">
+                <field name="date"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="journal_id"/>
+                <field name="number"/>
+                <field name="type" readonly="1"/>
+                <field name="coin_value" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                <field name="subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_account_bnk_stmt_cashbox_line" model="ir.actions.act_window">
+        <field name="name">Cashbox Analysis</field>
+        <field name="res_model">petty.cashbox.line</field>
+        <field name="view_mode">tree,pivot,graph</field>
+        <field name="view_id" ref="view_petty_cash_cashbox_line_tree"/>
+        <field name="context">{'search_default_group_date': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Register a cashbox
+            </p><p>
+            A bank statement is a summary of all financial transactions
+            occurring over a given period of time on a bank account. You
+            should receive this periodicaly from your bank.
+            </p><p>
+            Odoo allows you to reconcile a statement line directly with
+            the related sale or purchase invoices.
+            </p>
+        </field>
+    </record>
+
+    
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+
+        <record id="view_picking_base_stock_form" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                <button name="action_cancel" position="attributes">
+                    <attribute name="groups">aos_button_access_inventory.group_access_cancel_picking</attribute>
+                </button>
+                <xpath expr="//button[@name='action_assign'][1]" position="attributes">
+                    <attribute name="groups">aos_button_access_inventory.group_access_to_reserve_unreserve</attribute>
+                </xpath>
+                <button name="do_unreserve" position="attributes">
+                    <attribute name="groups">aos_button_access_inventory.group_access_to_reserve_unreserve</attribute>
+                </button>
+
+                <button name="action_toggle_is_locked" position="attributes">
+                    <attribute name="groups">aos_button_access_inventory.group_access_to_lock</attribute>
+                </button>
+<!--                <button name="button_scrap" position="attributes">-->
+<!--                    <attribute name="groups">aos_button_access_inventory.group_access_to_scrap</attribute>-->
+<!--                </button>-->
+                <button name="button_validate" class="oe_highlight" position="attributes">
+                    <attribute name="groups">aos_button_access_inventory.group_access_to_validate_picking</attribute>
+                </button>
+                <button name="button_validate" class="o_btn_validate" position="attributes">
+                    <attribute name="groups">aos_button_access_inventory.group_access_to_validate_picking</attribute>
+                </button>
+                <button name="%(stock.act_stock_return_picking)d" position="attributes">
+                    <attribute name="groups">aos_button_access_inventory.group_access_to_return</attribute>
+                </button>
+                <!-- <button name="action_assign" position="after">
+                    <button name="force_assign" states="confirmed,waiting,partially_available" string="Force Availability" type="object" groups="aos_base_stock.group_access_force_availability"/>
+                </button> -->
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

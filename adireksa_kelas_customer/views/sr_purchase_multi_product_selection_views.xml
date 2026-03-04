@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="view_sr_multi_product_inherit" model="ir.ui.view">
+        <field name="name">Add product related fields in sr multi product purchase</field>
+        <field name="model">sr.multi.product.purchase</field>
+        <field name="inherit_id" ref="sr_purchase_multi_product_selection.sr_form_view_select_multi_product_wizard_purchase"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='product_ids']/tree/field[@name='name']" position="after">
+                <field name="hs_code"/>
+                <field name="attribute_value_ids"  widget="many2many_tags"/>
+            </xpath>
+
+        </field>
+     </record>
+
+     <record id="sr_form_view_select_multi_product_wizard" model="ir.ui.view">
+        <field name="name">Add product related fields in sr multi product so</field>
+        <field name="model">sr.multi.product</field>
+        <field name="inherit_id" ref="sr_sale_multi_product_selection.sr_form_view_select_multi_product_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_ids']/tree/field[@name='name']" position="after">
+                <field name="hs_code" readonly="1"/>
+                <field name="attribute_value_ids"  widget="many2many_tags" readonly="1"/>
+            </xpath>
+
+        </field>
+     </record>
+
+     <record id="view_move_tree_receipt_picking" model="ir.ui.view">
+        <field name="name">stock.move.tree2</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_uom_qty']" position="before">
+                <field name="jenis_motor" widget="many2many_tags"/>
+            </xpath>
+
+        </field>
+     </record>
+
+</odoo>

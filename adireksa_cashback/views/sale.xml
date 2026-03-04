@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+
+        <record id="view_sale_order_cashback_inherit" model="ir.ui.view">
+            <field name="name">view.sale.order.cashback.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="date_order" position="after">
+                    <field name="cashback_id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

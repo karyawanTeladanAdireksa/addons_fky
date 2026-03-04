@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cashaback_internal_category_class_matrix_form" model="ir.ui.view">
+        <field name="name">cashback.internal.category.class.form</field>
+        <field name="model">cashback.internal.category.class</field>
+        <field name="inherit_id" ref="aos_cashback.view_cashback_internal_category_class_form"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//header/button[@name='button_unlock']" position="replace">
+                <button name="button_unlock" type="object" string="Unlock" states="done" groups="purchase_request.unlock_purchase_order"/>
+            </xpath> -->
+            <!-- <xpath expr="//header/button[@name='action_rfq_send']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath> -->
+            <xpath expr="//header/button[@name='generate_cashback_internal']" position="after">
+                <button string="Submit" type="object" states="draft" name="button_confirm" class="oe_highlight" />
+            </xpath>
+            <xpath expr="//header/button[@name='button_confirm']" position="before">
+				<button string="Approve" type="object" name="btn_approve" class="oe_highlight" attrs="{'invisible':['|',('user_can_approve','=',False),('state','!=','waiting')]}" />
+                <button string="Reject" type="object" name="button_reject" attrs="{'invisible':['|',('user_can_approve','=',False),('state','!=','waiting')]}" />
+                <button name="button_reject" states="rejected" string="Cancel" type="object" data-hotkey="x"/>
+			</xpath>
+            <xpath expr="//page[last()]" position="after">
+                <page id="page_approval" name="page_approval" string="Approvals">
+                	<field name="user_can_approve" invisible="1" />
+                    <field name="approval_ids" readonly="1"/>
+                    <group><field name="approved"/></group>
+                    <button string="Fetch Matrix" type="object" name="checking_approval_matrix" class="oe_highlight" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

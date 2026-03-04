@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cashback_class_group_tree" model="ir.ui.view">
+        <field name="name">view.cashback.class.group.tree</field>
+        <field name="model">cashback.class.group</field>
+        <field name="arch" type="xml">
+            <tree string="Cashback Class Group" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

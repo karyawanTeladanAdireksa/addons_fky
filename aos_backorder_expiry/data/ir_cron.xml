@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+	<record id="cron_set_expiry_stock" model="ir.cron">
+		<field name="name">Expiry Stock BackOrder</field>
+		<field name="model_id" ref="model_stock_picking" />
+		<field name="state">code</field>
+		<field name="code">model._set_cancel_expiry_backorder()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+		<field name="numbercall">-1</field>
+		<field name="active">1</field>
+		<field name="doall" eval="False" />
+	</record>
+</odoo>

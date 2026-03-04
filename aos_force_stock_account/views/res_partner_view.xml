@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data> 
+    
+		<record id="view_partner_property_force_account_form" model="ir.ui.view">
+            <field name="name">res.partner.property.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <field name="property_account_payable_id" position="after">
+                    <field name="default_account_force_id" groups="aos_force_stock_account.group_stock_account_force"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo> 

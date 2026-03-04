@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_master_customer_cashback,access_master_customer_cashback,model_master_customer_cashback,,1,1,1,1
+access_cashback_lines,access_cashback_lines,model_cashback_lines,,1,1,1,1
+access_manual_cashback_lines,access_manual_cashback_lines,model_manual_cashback_lines,,1,1,1,1
+access_master_cashback_product,access_master_cashback_product,model_master_cashback_product,,1,1,1,1
+access_cashback_product_lines,access_cashback_product_lines,model_cashback_product_lines,,1,1,1,1
+access_cashback_type,access_cashback_type,model_cashback_type,,1,1,1,0
+access_res_partner_omset,access_res_partner_omset,model_res_partner_omset,,1,1,1,1

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="adireksa_view_sales_config" model="ir.ui.view">
+            <field name="name">sale settings adireksa</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='discount_sale_order_lines']/div/field" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@id='discount_sale_order_lines']/div[hasclass('o_setting_right_pane')]/div[last()]" position="after">
+                    <div class="text-muted">
+                        <field name="diskon_per_so_line_method"/>
+                    </div>
+                    <field name="group_discount_per_so_line" readonly="1"  invisible="1" force_save="1"/>
+                    <field name="group_diskon_per_so_line1" readonly="1" invisible="1" force_save="1"/>
+                </xpath>
+
+
+            </field>
+        </record>
+</odoo>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+    
+    <menuitem
+        id="journal_voucher_root_menu"
+        name="Journal Voucher"
+        web_icon="aos_account_voucher,static/img/icon.png"
+        groups="aos_account_voucher.group_accounting_account_voucher"
+        sequence="54"/>
+
+	<menuitem id="voucher_dashboard_menu" 
+		name="Dashboard"
+		parent="journal_voucher_root_menu"
+        action="open_account_voucher_dashboard_kanban"
+		groups="aos_account_voucher.account_voucher_dashboard_view" sequence="0"/>
+	
+    
+	<menuitem id="voucher_entries_menu" action="action_review_voucher_list_aos_voucher"
+		parent="journal_voucher_root_menu"
+		groups="aos_account_voucher.group_accounting_account_voucher" sequence="5"/>
+		
+    
+	<menuitem id="voucher_receipt_entries_menu" action="action_receipt_voucher_list_aos_voucher" 
+		parent="journal_voucher_root_menu"
+		groups="aos_account_voucher.group_accounting_account_voucher" sequence="10"/>
+	
+   
+	<menuitem id="menu_voucher_report" 
+		parent="journal_voucher_root_menu"
+		name="Reporting"
+		groups="aos_account_voucher.group_accounting_account_voucher" sequence="88"/>
+		
+	<menuitem id="menu_voucher_report_monthly" action="voucher_report_xlsx_report_wizard" 
+		parent="menu_voucher_report"
+		name="Voucher Report"
+		groups="aos_account_voucher.group_accounting_account_voucher" sequence="10"/>
+		
+	<menuitem id="menu_voucher_report_analysis" action="action_account_voucher_report_all_supp" 
+		parent="menu_voucher_report"
+		name="Voucher Analysis"
+		groups="aos_account_voucher.group_accounting_account_voucher" sequence="5"/>
+
+	<menuitem id="menu_cashbox_line_report_analysis" action="action_account_bnk_stmt_cashbox_line" 
+		parent="menu_voucher_report"
+		name="Cashbox Analysis"
+		groups="aos_account_voucher.group_accounting_account_voucher" sequence="15"/>
+
+    <menuitem id="menu_account_voucher_configuration" 
+        name="Configuration"
+        parent="journal_voucher_root_menu" 
+        sequence="99"/>
+
+	<menuitem id="menu_voucher_receipt_type" action="action_account_voucher_type_view" 
+		parent="menu_account_voucher_configuration"
+		groups="aos_account_voucher.group_accounting_account_voucher" sequence="99"/>
+	
+	<menuitem id="menu_voucher_journal_type" action="action_account_journal_type_view" 
+		parent="menu_account_voucher_configuration"
+		groups="aos_account_voucher.group_accounting_account_voucher" sequence="100"/>
+
+    
+</odoo>

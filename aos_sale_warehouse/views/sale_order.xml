@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_order_views" model="ir.ui.view">
+        <field name="name">view.sale.order.views</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <field name="partner_shipping_id" position="after">
+                <field name="warehouse_id"/>
+                <field name="is_pack" invisible="1"/>
+            </field>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_packaging_id']" position="after">
+                <field name="detailed_type" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_packaging_id']" position="attributes">
+                <attribute name="attrs">{'required':[('parent.is_pack','=',True),('detailed_type','!=','service')],'invisible':[("product_id",'=',False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='product_packaging_id']" position="attributes">
+                <attribute name="attrs">{'required':[('parent.is_pack','=',True)],'invisible':[("product_id",'=',False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','in',['done'])]}</attribute>
+            </xpath>
+        </field>
+    </record>   
+</odoo>

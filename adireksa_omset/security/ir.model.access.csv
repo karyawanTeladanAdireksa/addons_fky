@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_adireksa_omset_account_user,adireksa.omset.account.user,model_adireksa_omset,account.group_account_user,1,0,1,0
+access_adireksa_omset_manager,adireksa.omset.account.manager,model_adireksa_omset,account.group_account_manager,1,1,1,1
+access_adireksa_omset_group_user,adireksa.omset.group.user,model_adireksa_omset,base.group_user,1,0,0,0
+access_omset_lines_manager,omset.lines.managet,model_omset_lines,account.group_account_manager,1,1,1,1
+access_omset_lines_acc_user,omset.lines.group_acc_user,model_omset_lines,account.group_account_user,1,0,1,0
+access_omset_lines_group_user,omset.lines.group.user,model_omset_lines,base.group_user,1,0,0,0

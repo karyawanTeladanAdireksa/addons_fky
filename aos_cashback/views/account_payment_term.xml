@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="account_payment_term_form_cashback" model="ir.ui.view">
+            <field name="name">account.payment.term.form.cashback</field>
+            <field name="model">account.payment.term</field>
+            <field name="inherit_id" ref="account.view_payment_term_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group[1]" position="inside">
+                    <group>
+                        <field name="cash_payment" widget="boolean_toggle" string ="Cash Payment ?"/>
+                    </group>
+                </xpath>
+                <!-- <field name="line_ids" position="after">
+                    <notebook attrs="{'invisible':[('cash_payment','!=',True)]}">
+                        <page string="Cashback Rules">
+                            <field name="cashback_line_level_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="formula"/>
+                                    <field name="days_before"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </field> -->
+                <!-- <xpath expr="//page[last()]" position="after">
+                    <field name="cashback_line_level"/>
+                </xpath> -->
+            </field>
+        </record>
+</odoo>

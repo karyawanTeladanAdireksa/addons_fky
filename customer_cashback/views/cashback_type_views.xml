@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_cashback_type_form"
+		model="ir.ui.view">
+		<field name="name">Cashback Type Form View</field>
+		<field name="model">cashback.type</field>
+		<field name="arch" type="xml">
+			<form string="Cashback Type" delete="false">
+				<sheet>
+					<group col='2'>
+						<field name="name" required="1" />
+						<field name="company_id"/>
+					</group>
+					<group>
+						<group string="Manual Cashback">
+							<field name="manual_cashback" widget="radio" nolabel='1'/>
+						</group>
+						<group string="Default Posting">
+							<field name="default_posting" widget="radio" nolabel='1'/>
+						</group>
+					</group>
+				</sheet>
+			 	<div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_cashback_type_tree"
+		model="ir.ui.view">
+		<field name="name">Cashback Type Tree View</field>
+		<field name="model">cashback.type</field>
+		<field name="arch" type="xml">
+			<tree string="Cashback Type" delete="false">
+				<field name="name" />
+				<field name="manual_cashback" />
+				<field name="default_posting" />
+				<field name="company_id" />
+			</tree>
+		</field>
+	</record>
+
+	<record id="action_cashback_type"
+		model="ir.actions.act_window">
+		<field name="name">Cashback Type</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">cashback.type</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+			<p class="oe_view_nocontent_create">
+				Click to add Cashback Type
+			</p>
+		</field>
+	</record>
+
+	<menuitem id="menu_cashback_type"
+		action="action_cashback_type"
+		parent="customer_cashback.menu_customer_cashback" sequence="3" />
+
+</odoo>

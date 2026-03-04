@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_rfq_confirmation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!--<t t-call="report.external_layout">-->
+                <div class="page">
+                    <div class="oe_structure"/>
+
+                    <!-- Date and PO  fields-->
+                <div class="col-4">
+                    <table style="border: None solid black; float:left;">
+                        <tr>
+                            <td>
+                                <strong>Jakarta,</strong>
+                            </td>
+                            <td width="40px"></td>
+                            <td width="50px">
+                                <span t-field="o.date_order" t-options='{"widget": "date"}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-4">
+                    <table style="border: None solid black; float:left;">
+                        <tr>
+                            <td width="40px">
+                                <strong>To</strong>
+                            </td>
+                            <td>:</td>
+                            <td width="600px">
+                                <span t-field="o.partner_id.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Attn</strong>
+                            </td>
+                            <td>:</td>
+                            <td width="400px">
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>P.O</strong>
+                            </td>
+                            <td>:</td>
+                            <td width="400px">
+                                <span t-field="o.name"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                    <!-- Tree view-->
+                    <t t-set="no_index" t-value="0"/>
+                    <table class="table table-sm table-bordered" rules="all" width="100%" style="border:1px solid;">
+                        <thead>
+                            <tr>
+                                <th width="5%" style="border: 1px solid black; text-align: center;">
+                                    <strong>No.</strong>
+                                </th>
+                                <th width="15%" style="border: 1px solid black; text-align: center;">
+                                    <strong>Qty</strong>
+                                </th>
+                                <th width="25%" style="border: 1px solid black; text-align: center;">
+                                    <strong>Item</strong>
+                                </th>
+                                <th width="15%" style="border: 1px solid black; text-align: center;">
+                                    <strong>Motor</strong>
+                                </th>
+                                <th width="10%" style="border: 1px solid black; text-align: center;">
+                                    <strong>Brand</strong>
+                                </th>
+                                <th width="15%" style="border: 1px solid black; text-align: center;">
+                                    <strong>Part Number</strong>
+                                </th>
+                                <th width="15%" style="border: 1px solid black; text-align: center;">
+                                    <strong>Description</strong> 
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.order_line" t-as="line">
+                                <td style="border: 1px solid black; vertical-align:middle; text-align: center;">
+                                    <span t-esc="no_index+1">.</span>
+                                    <t t-set="no_index" t-value="no_index+1"/>
+                                </td>
+                                <td style="border: 1px solid black; vertical-align:middle;text-align: center;">
+                                    <span t-esc="'%.0f'% line.product_qty"/>
+                                    <span>,</span>
+                                    <span style="padding-left:3px;" t-field="line.product_uom.name"/>
+                                </td>
+                                <td  class="p-3" style="border: 1px solid black; vertical-align:middle; text-align: left;">
+                                    <span t-field="line.name"/>
+                                </td>
+                                <td class="p-3" style="border: 1px solid black; vertical-align:middle; text-align: left;">
+                                    <span t-field="line.type_motor"/>
+                                </td>
+                                <td style="border: 1px solid black; vertical-align:middle; text-align: left;">
+                                    <span t-field="line.product_brand"/> 
+                                </td>
+                                <td  class="p-3" style="border: 1px solid black; vertical-align:middle; text-align: left;">
+                                    <span t-field="line.part_number"/>
+                                </td>
+                                <td class="p-3" style="border: 1px solid black; vertical-align:middle; text-align: left;">
+                                    <!-- <span t-field="line.internal_notes"/>  -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <!--</t>-->
+            </t>
+        </t>
+    </template>
+
+    <!-- <report
+            string="Confirmation RFQ"
+            id="action_report_rfq_confirmation"
+            model="purchase.order"
+            report_type="qweb-pdf"
+            name="adireksa_po_printout.report_rfq_confirmation"
+            file="adireksa_po_printout.report_rfq_confirmation"/> -->
+
+</odoo>

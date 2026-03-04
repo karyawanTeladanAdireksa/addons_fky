@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="asset_product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='options']" position="inside">
+                <span class="d-inline-block">
+                    <field name="asset_ok"/>
+                    <label for="asset_ok"/>
+                </span>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">Product Template (form)</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="account.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="property_account_income_id" position="after">
+                <field name="deferred_revenue_category_id" string="Deferred Revenue Type" domain="[('asset_type', '=', 'sale')]" 
+                    attrs="{'invisible': ['|',('asset_ok','=',False),('property_account_income_id','=',False)]}" context="{'default_type': 'sale'}"
+                    groups="account.group_account_user"/>
+            </field>
+            <field name="property_account_expense_id" position="after">
+                <field name="asset_category_id" string="Asset/Prepaid Type" domain="[('asset_type', 'in', ('purchase','expense'))]" 
+                    attrs="{'invisible': ['|',('asset_ok','=',False),('property_account_expense_id','=',False)]}" context="{'default_type': 'purchase'}"
+                    groups="account.group_account_user"/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>

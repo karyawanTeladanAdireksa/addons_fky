@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_journal_voucher_payment" model="ir.sequence">
+            <field name="name">Journal Voucher (BKK)</field>
+            <field name="code">account.voucher.payment</field>
+            <field name="prefix">BKK/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_journal_voucher_receipt" model="ir.sequence">
+            <field name="name">Journal Voucher (BKM)</field>
+            <field name="code">account.voucher.receipt</field>
+            <field name="prefix">BKM/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_journal_voucher_cash_advance" model="ir.sequence">
+            <field name="name">Cash Advance</field>
+            <field name="code">account.voucher.advance</field>
+            <field name="prefix">CADV/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_journal_voucher_cash_settlement" model="ir.sequence">
+            <field name="name">Cash Settlement</field>
+            <field name="code">account.voucher.settlement</field>
+            <field name="prefix">CSTL/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

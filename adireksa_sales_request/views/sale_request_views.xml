@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--    Form View-->
+    <record id="view_sale_request_form" model="ir.ui.view">
+        <field name="name">Sale Request Form View</field>
+        <field name="model">sale.request</field>
+        <field name="arch" type="xml">
+            <form string="Sale Request">
+                <header>
+                    <button name="action_confirm_order" string="Confirmed Order" states="draft" type="object"/>
+                    <button name="action_reverse_order" string="Reserved Order" states="waiting,partial" type="object"/>
+                    <button name="action_material_request" string="Material Request" type="object" attrs="{'invisible': [('state', '!=', 'partial')]}"/>
+                    <button name="action_create_sale_order" string="Confirm Sale Order" type="object" states="available"/>
+                    <button name="action_create_sale_order_partial" string="Create Sales Order" type="object" states="partial"/>
+                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('state', 'in', ['cancel'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting,partial,available"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_quotation_view" icon="fa-dollar" class="oe_stat_button" attrs="{'invisible': [('quotation_view_count', '=', 0)]}">
+                            <field name="quotation_view_count" widget="statinfo" string="Quotation"/>
+                        </button>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="partner_id" domain="[('customer','=',True)]" required="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="partner_invoice_id" context="{'default_type':'invoice'}" readonly="1"/>
+                            <field name="partner_shipping_id" context="{'default_type':'delivery'}" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date_order" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="payment_term_id" options="{'no_create': True}" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="pricelist_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="warehouse_id" required="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="check_material_request_btn" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Request Lines">
+                            <field name="request_line" attrs="{'readonly': [('state', 'not in', ['draft'])]}">
+                                <tree string="Sale Request Lines" editable="bottom" decoration-info="(is_qty == False)" colors="red:is_qty == False; green:is_qty == True;">
+                                    <field name="product_id" required="1"/>
+                                    <field name="name"/>
+                                    <field name="product_uom_qty" required="1"/>
+                                    <field name="price_unit" required="1"/>
+                                    <field name="qty_delivered" readonly="1"/>
+                                    <field name="qty_invoiced" readonly="1"/>
+                                    <field name="warehouse_id" invisible="1"/>
+                                    <field name="cost"/>
+                                    <field name="discount" invisible="1"/>
+                                    <field name="date_requested"/>
+                                    <field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"/>
+                                    <field name="price_subtotal" readonly="1"/>
+                                    <field name="price_total" readonly="1" invisible="1"/>
+                                    <field name="delivery_lead_time" invisible="1"/>
+                                    <field name="last_sale_price" readonly="1" invisible="1"/>
+                                    <field name="last_sale_price_customer" readonly="1" invisible="1"/>
+                                    <field name="is_qty" invisible="1"/>
+                                    <field name="sale_qty" invisible="1"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_discount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_tax" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="amount_total"/>
+                                    <button name="button_dummy" states="draft,quotation" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                                </div>
+                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <field name="note" class="oe_inline" placeholder="Setup default terms and conditions in your company settings."/>
+                            <div class="oe_clear"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--    Tree-->
+    <record id="view_sale_request_tree" model="ir.ui.view">
+        <field name="name">Sale Request Tree View</field>
+        <field name="model">sale.request</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Request">
+                <field name="name" string="Request Number"/>
+                <field name="date_order"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="amount_total"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!--      Action-->
+    <record id="action_sale_request" model="ir.actions.act_window">
+        <field name="name">Sales Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.request</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add Sale Request
+            </p>
+        </field>
+    </record>
+
+    <menuitem action="action_sale_request" id="menu_sale_request" parent="sales_team.menu_sales" sequence="10"/>
+
+</odoo>

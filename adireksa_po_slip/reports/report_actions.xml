@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="paperformat_a4_narrow_top" model="report.paperformat">
+        <field name="name">A4 Narrow Top</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">30</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">37</field>
+        <field name="dpi">90</field>
+    </record>
+
+     <record id="action_report_adireksa_purchase_order" model="ir.actions.report">
+          <field name="name">Print Purchase Order</field>
+          <field name="model">purchase.order</field>
+          <field name="report_type">qweb-pdf</field>
+          <field name="report_name">adireksa_po_slip.report_purchase_order_adireksa</field>
+          <field name="report_file">adireksa_po_slip.report_purchase_order_adireksa</field>
+          <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+          <field name="paperformat_id" ref="adireksa_po_slip.paperformat_a4_narrow_top"/>
+          <field name="binding_type">report</field> 
+     </record>
+
+        <!-- <report
+            id="adireksa_po_slip"
+            model="purchase.order"
+            string="PO Slip"
+            report_type="qweb-pdf"
+            name="adireksa_po_slip.report_po_slip"
+            file="adireksa_po_slip.report_po_slip"/> -->
+
+    </data>
+</odoo>

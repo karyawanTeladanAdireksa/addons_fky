@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_pricelist_form_inherit" model="ir.ui.view">
+        <field name="name">view.inherit.res_partner.form</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="group_class_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" />
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="view_pricelist_inherit_tree" model="ir.ui.view">
+        <field name="name">view.pricelist.inherit.tree</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view_tree"/>
+        <field name="arch" type="xml">
+
+            <!-- position: after|before|replace|attributes|inside -->
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="group_class_id"/>
+                <!-- Add your fields or attributes here -->
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
+	

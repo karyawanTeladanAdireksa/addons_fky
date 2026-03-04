@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_cashback_internal_category_class_form" model="ir.ui.view">
+            <field name="name">view.cashback.internal.category.class.form</field>
+            <field name="model">cashback.internal.category.class</field>
+            <field name="arch" type="xml">
+                <form string="Cashback Internal Category Class">
+                    <header>
+                        <!-- <button name="action_waiting" states="draft" string="Confirm" type="object"/>
+                        <button name="action_confirm" states="waiting" string="Approve " type="object"/>
+                        <button name="action_cancel" states="draft" string="Cancel" type="object"/> -->
+                        <!-- <button name="action_confirm" string="Submit" type="object"/> -->
+                        <button name="generate_cashback_internal" states="approve" string="Generate Cashback Internal Category Class" type="object"/>
+                        <field name="state" statusbar_visible="draft,waiting,approve" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" readonly="1" placeholder="......"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+<!--                                <field name="name" readonly="1"/>-->
+                                <field name="group_class_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" />
+                                <field name="internal_category_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+                                <field name="persent_cashback" attrs="{'readonly':[('state','=','approve')]}"/>
+                            </group>
+                            <group>
+
+                                <field name="start_date" widget="daterange" options="{'related_end_date': 'end_date'}"/>
+                                <field name="end_date" widget="daterange" options="{'related_start_date': 'start_date'}"/>
+                                <field name="create_date"/>
+                                <field name="create_uid" widget="many2one_avatar_user"/>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Invoice Line Ids By Group">
+                                <field name="invoice_line_ids" readonly="1">
+                                    <tree create="false" delete="false" edit='false'>
+                                        <field name="product_id"/>
+                                        <field name="internal_category"/>
+                                        <field name="account_id"/>
+                                        <field name="customer_group_id"/>
+                                        <field name="quantity"/>
+                                        <field name="price_unit"/>
+                                        <field name="subtotal_internal" sum="price"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_cashback_internal_category_class_tree" model="ir.ui.view">
+            <field name="name">view.cashback.internal.category.class.tree</field>
+            <field name="model">cashback.internal.category.class</field>
+            <field name="arch" type="xml">
+                <tree string="" default_order='create_date desc'>
+                    <field name="name"/>
+                    <field name="create_date"/>
+                    <field name="create_uid" widget="many2one_avatar_user"/>
+                    <field name="group_id"/>
+                    <field name="internal_category_id"/>
+                    <field name="company_id"/>
+                    <field name="state" decoration-info="state == 'draft'" decoration-muted="state == 'waiting'" decoration-danger="state == 'cancel'" decoration-success="state == 'approve'" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

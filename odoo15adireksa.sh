@@ -1,0 +1,1 @@
+python3 -m ptvsd --host localhost --port 5678 /opt/odoo15/odoo-bin -c /mnt/g/Source/config/adireksa.conf --dev=xml ${@:1:100}

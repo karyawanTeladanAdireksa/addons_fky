@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <template id="report_surat_pengembalian_barang_template">
+         <t t-if="not company">       
+          <!-- Multicompany -->
+               <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+               </t>
+               <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+               </t>
+               <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+               </t>
+          </t>
+     <!-- HEADER START -->
+     <!-- <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+          <div class="o_clean_header">
+          </div>
+     </div> -->
+     <!-- HEADER FINISH -->
+
+     <!-- PAGE START -->
+           <div class="page">
+                 <div class="row">
+                    <div class="col-2">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="margin:0 auto; max-height:150px; width:150px;" alt="Logo"/>
+                    </div>
+                    <div class="col-8" style="text-align: center;">
+                        <div t-field="company.name" style="font-size: 30px; font-weight: bold;"/>
+                        <div style="font-size: 18px; font-weight: bold;"><span t-field="company.street"/></div>
+                        <div style="font-size: 18px; font-weight: bold;">Telp : <span t-field="company.phone"/></div> 
+                    </div>
+               </div>
+               <div class="row zero_min_height">
+                    <div class="col-12">
+                         <div style="border-bottom: 1px solid black;"/>
+                    </div>
+               </div>
+                <br></br>
+                <h3 class="text-center">SURAT JALAN RESPON RETUR</h3>
+                <center style="margin-bottom: 10px;">No. <span t-field="o.name"/></center>
+
+                <br></br>
+                    <table class="table table-condensed" style="border: 0px; border-collapse: collapse; margin-top: -20px;">  
+                        <tr>
+                            <td width="15%" class="text-left">
+                                <strong>Toko</strong>
+                            </td>
+                            <td class="text-left">
+                               <strong>: <span style="font-size: 15px" t-field="o.partner_id.name"/></strong>
+                            </td>
+                            <td  width="15%"  class="text-left">
+                                <strong>Responsible</strong>
+                            </td>
+                            <td class="text-left">
+                               <strong>: <span style="font-size: 15px" t-field="o.create_uid.name"/></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="15%" class="text-left">
+                                <strong>Tanggal Retur</strong>
+                            </td>
+                            <td class="text-left">
+                               <strong>: <span t-field="o.date" t-field-options='{"format": "dd MMMM yyyy"}'/></strong>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-sm table-bordered" style="font-size:12px; border: 1px solid black; border-collapse: collapse;">
+                        <thead>
+                            <tr valign="top">
+                                <th style="border: 1px solid black" class="text-center">No.</th>
+                                <th style="border: 1px solid black" class="text-center">Retur Produk</th>
+                                <th style="border: 1px solid black" class="text-center">Brand</th>
+                                <th style="border: 1px solid black" class="text-center">Qty</th>
+                                <th style="border: 1px solid black" class="text-center">Produk Pengganti</th>
+                                <th style="border: 1px solid black" class="text-center">Brand</th>
+                                <th style="border: 1px solid black" class="text-center">Qty</th>
+                                <th style="border: 1px solid black" class="text-center">Doos</th>
+                            </tr>
+                        </thead>
+                        <tbody style="color: #D8F0DA background: transparent" class="invoice_tbody">
+                            <t t-set="k" t-value="0"/>
+                            <!-- <t t-set="total" t-value="o.amount_untaxed"/> --> 
+
+                            <t t-if="len(o.return_line_ids) &gt; 0"> 
+                                <tr t-foreach="o.return_line_ids" t-as="l">
+        
+                                     <t t-if="l.replacement_action_type_id.name == 'Penggantian' "> 
+                                        <t t-set="k" t-value="k+1"/>
+                                        <td style="border: 1px solid black;" class="text-center"><span t-esc="k"/></td>
+                                        <td style="border: 1px solid black;" class="text-left"><span t-esc="l.product_id.name"/></td>
+                                        <td style="border: 1px solid black;" class="text-center"><span t-esc="l.brand_product.name"/></td>
+                                        <td style="border: 1px solid black;" class="text-center"><span t-esc="int(l.qty)"/></td>
+                                        <td style="border: 1px solid black; padding:0;" class="text-left">
+                                            <table width="100%" class="table-sm table-borderless">
+                                                <t t-foreach="l.replacement_product_ids" t-as="produk">
+                                                    <tr>
+                                                         <t t-if="len(l.replacement_product_ids) &gt;= 2"> 
+                                                            <td style="border-bottom: 1px solid black;"><span t-esc="produk.name"/></td> 
+                                                        </t>
+                                                        <t t-else="">
+                                                            <td><span t-esc="produk.name"/></td> 
+                                                        </t>
+                                                        <!-- <td t-attf-style="border-top: 1px solid black; border-bottom: 1px solid black; if len(produk) &gt;= 2 else ' '"><span t-esc="produk.name"/></td> -->
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                            
+                                        </td> 
+
+                                        <td style="border: 1px solid black; padding:0;" class="text-left">
+                                           <table width="100%" class="table-sm table-borderless">
+                                                <t t-foreach="l.brand_replacement_ids" t-as="brand">
+                                                    <tr>
+                                                         <t t-if="len(l.brand_replacement_ids) &gt;= 2"> 
+                                                            <td style="border-bottom: 1px solid black;"><span t-esc="brand.name"/></td> 
+                                                        </t>
+                                                        <t t-else="">
+                                                            <td><span t-esc="brand.name"/></td> 
+                                                        </t>
+                                                        <!-- <td t-attf-style="border-top: 1px solid black; border-bottom: 1px solid black; if len(produk) &gt;= 2 else ' '"><span t-esc="produk.name"/></td> -->
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                            
+                                        </td> 
+            
+                                        <td style="border: 1px solid black; padding:0;" class="text-center">
+                                           <table width="100%" class="table-sm table-borderless">
+                                                <t t-foreach="l.replacement_qty_ids" t-as="qty">
+                                                    <tr>
+                                                         <t t-if="len(l.replacement_qty_ids) &gt;= 2"> 
+                                                            <td style="border-bottom: 1px solid black;"><span t-esc="int(float(qty.name))"/></td> 
+                                                        </t>
+                                                        <t t-else="">
+                                                            <td><span t-esc="int(float(qty.name))"/></td> 
+                                                        </t>
+                                                        <!-- <td t-attf-style="border-top: 1px solid black; border-bottom: 1px solid black; if len(produk) &gt;= 2 else ' '"><span t-esc="produk.name"/></td> -->
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                            
+                                            
+                                        </td> 
+                                      
+                                        <td style="border: 1px solid black;" class="text-center"></td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <t t-if="len(o.return_line_ids) == 0">
+                                <t t-set="for_loop_range" t-value="20"/>
+                                <tr t-foreach="range(for_loop_range)" t-as="r">
+                                    <td style="border: 1px solid black;" class="text-center"><span t-esc="k"></span></td>
+                                    <t t-set="k" t-value="k+1"/>
+                                    <td style="border: 1px solid black;" class="text-left"></td>
+                                    <td style="border: 1px solid black;" class="text-left"></td>
+                                    <td style="border: 1px solid black; font-color: #e10000;" class="text-center"></td>
+                                    <td style="border: 1px solid black;" class="text-left"></td>
+                                    <td style="border: 1px solid black;" class="text-center"></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <br></br>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="text-center" style="margin-bottom:75px;">Dicek oleh,</div>
+                            <div class="text-center">_____________________________</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-center" style="margin-bottom:75px;">Diketahui oleh Accounting,</div>
+                            <div class="text-center">_____________________________</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-center" style="margin-bottom:75px;">Disetujui oleh Manager,</div>
+                            <div class="text-center">_____________________________</div>
+                        </div>
+                    </div>
+                </div>
+        <!-- PAGE FINISH -->
+
+        <!-- FOOTER START -->
+          <div class="footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul class="list-inline">
+                    <li>Halaman: <span class="page"/> / <span class="topage"/></li>
+                </ul>
+            </div>
+        </div>
+          <!-- FOOTER FINISH -->
+     </template>
+
+
+    <template id="report_surat_pengembalian_barang">
+    <t t-foreach="docs" t-as="o">
+        <t t-call="web.basic_layout"> 
+            <t t-call="adireksa_customer_return.report_surat_pengembalian_barang_template"/>
+        </t>
+    </t>
+    </template>
+</odoo>

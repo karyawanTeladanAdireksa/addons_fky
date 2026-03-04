@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<template id="label_57x35mini">
+		<table  class="table table-condensed" width="100%" style="border: 1px solid grey;">
+			<tr height="90px" style="border:0;margin:0;padding:0;">
+				<td width="100%" class="text-center"
+					style="vertical-align:middle;border:0;margin:0;padding:0;font-size:7pt" align="center">
+					<br/>
+					<t t-esc="doc.get('barcode_packaging')" t-options="{'widget': 'barcode','symbology':'QR', 'width': 60, 'height': 60, 'img_style': 'width:60px;height:60px;'}"/>
+					<br />
+					<b>
+						<t t-esc="doc.get('barcode_packaging')" />  
+					</b>
+				</td>
+			</tr>
+		</table>
+	</template>
+
+	<template id="report_product_label_57x35mini">
+		<t t-set="count" t-value="0" />
+		<div class="page">
+			<div class="oe_structure" />
+				<t t-set="qty" t-value="1" />
+				<t t-if="doc.get('total_barcode')">
+					<t t-set="qty" t-value="int(doc.get('total_barcode'))" />
+				</t>
+				<t t-foreach="list(range(qty))" t-as="index_qty">
+					<div t-if="count == 150" style="page-break-after:always;" />
+					<div t-if="count == 0" style="clear:both;" />
+					<div
+						style="width: 90px; float: left; height: 90px; margin-top: 30px; margin-right:-5px;">
+						<t t-call="dynamic_barcode_labels.label_57x35mini" />
+					</div>
+					<t t-set="count" t-value="1" />
+				</t>
+		</div>
+	   
+	</template>
+
+
+	<template id="report_dynamic_label_mini">
+		<t t-foreach="data" t-as="doc">
+			<t t-call="web.html_container"> 
+				<t t-call="dynamic_barcode_labels.report_product_label_57x35mini"/>
+			</t>
+		</t>
+	</template>
+
+</odoo>

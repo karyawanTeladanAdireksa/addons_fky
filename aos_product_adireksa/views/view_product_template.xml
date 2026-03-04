@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+
+        <!-- PENEMPATAN FIELD INHERIT PADA FORM PRODUCT-->
+        <record id="field_product_view_inherit" model="ir.ui.view">
+            <field name="name">field.product.view.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='detailed_type']" position="after">
+                    <field name="part_number"/>
+                    <field name="product_brand" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True}"/>
+                    <field name="type_merk" widget="many2many_tags"
+                           options="{'color_field': 'color', 'no_quick_create':True,'no_create_edit':True,'no_open': True}"/>
+                    <field name="type_motor" widget="many2many_tags"
+                           options="{'color_field': 'color', 'no_quick_create':True,'no_create_edit':True,'no_open': True}"/>
+                    <field name="internal_category" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+                    <field name="is_discount" widget="boolean_toggle"/>
+                </xpath> 
+            </field>
+        </record>
+
+        <record id="view_product_view_inherit_tree" model="ir.ui.view">
+            <field name="name">view.product.view.inherit.tree</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+
+                <!-- position: after|before|replace|attributes|inside -->
+                <xpath expr="//field[@name='default_code']" position="after">
+                    <field name="part_number" optional="hide"/>
+                    <field name="product_brand" optional="hide"/>
+                    <field name="type_merk" widget="many2many_tags" optional="hide"/>
+                    <field name="type_motor" widget="many2many_tags" optional="hide"/>
+                    <field name="internal_category" optional="hide"/>
+
+                </xpath>
+
+                <xpath expr="//field[@name='uom_id']" position="after">
+                    <field name="isi_perdus"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- INHERIT TREE PRODUCT VARIANT -->
+         <record id="add_field_product_variant" model="ir.ui.view">
+          <field name="name">add_field_product_variant</field>
+          <field name="model">product.product</field>
+          <field name="inherit_id" ref="product.product_product_tree_view"/>
+          <field name="arch" type="xml">
+               <xpath expr="//field[@name='active']" position="after">
+                    <field name="product_brand" optional="hide" readonly="1"/>
+                    <field name="internal_category" optional="hide" readonly="1"/>
+                    <field name="part_number" optional="hide" readonly="1"/>
+                    <field name="type_motor" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide" readonly="1"/>
+                    <field name="type_merk" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide" readonly="1"/>
+               </xpath>
+          </field>
+        </record>
+
+
+        <!-- SEARCH VIEW PRODUCT INHERIT -->
+        <record id="product_template_search_view_inherit" model="ir.ui.view">
+          <field name="name">product.template.search.view.inherit</field>
+          <field name="model">product.template</field>
+          <field name="inherit_id" ref="product.product_template_search_view"/>
+          <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='categ_id']" position="after">
+                <field name="type_motor"/> 
+            </xpath>
+          </field>
+        </record>
+
+         <!-- inherit view stock location route (page inventory in product) -->
+        <record id="inventory_page_product_template_form_inherit" model="ir.ui.view">
+            <field name="name">inventory.page.product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.view_template_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='stock_property']/field[@name='property_stock_inventory']" position="after">
+                    <field name="isi_perdus"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sales_return_stock_force_account" model="ir.ui.view">
+        <field name="name">sales_return_stock_force_account</field>
+        <field name="model">sales.return</field>
+        <field name="inherit_id" ref="aos_sales_return.sales_return_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='extra_info']/group/group" position="inside">
+                <field name="force_account_id" options="{'no_create':True}" attrs="{'readonly':[('state','=','done')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

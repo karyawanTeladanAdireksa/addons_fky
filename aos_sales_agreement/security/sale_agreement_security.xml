@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- multicompany sale agreement -->
+    <record model="ir.rule" id="sale_agreement_multicompany_rule">
+        <field name="name">sales_agreement_multi_company</field>
+        <field name="model_id" ref="model_sale_agreement"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- multicompany sale agreement line -->
+     <record model="ir.rule" id="sale_agreement_line_multicompany_rule">
+        <field name="name">sales_agreement_line_multi-company</field>
+        <field name="model_id" ref="model_sale_agreement_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

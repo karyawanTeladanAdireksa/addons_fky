@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_brand,access_product_brand,model_product_brand,base.group_user,1,1,1,1
+access_internal_category,access_internal_category,model_internal_category,base.group_user,1,1,1,1
+access_type_motor,access_type_motor,model_type_motor,base.group_user,1,1,1,1
+access_type_merk,access_type_merk,model_type_merk,base.group_user,1,1,1,1

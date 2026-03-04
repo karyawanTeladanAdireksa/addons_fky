@@ -1,0 +1,22 @@
+<odoo>
+    <record id="wizard_claim_cashback_form_view" model="ir.ui.view">
+        <field name="name">wizard.claim.cashback.form.view</field>
+        <field name="model">claim.cashback.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Claim Cashback">
+                <group>
+                    <field name="amount_total" force_save="1"/>
+                    <field name="max_cashback" force_save="1"/>
+                    <field name="saldo_cashback" force_save="1"/>
+                    <field name="persent_cashback"/>
+                    <field name="nilai_claim" force_save="1"/>
+                    <field name="sisa_cashback" force_save="1"/>
+                </group>
+                <footer>
+                    <button name="btn_claim_cashback" context="{'check_move_validity':False}" string="Claim Cashback" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_adireksa_document" inherit_id="adireksa_invoice_print.report_invoice_adireksa_document">
+        <xpath expr="//div[@class='col-12']" position="replace">
+            <div class="col-12">
+                <table width="90%" style="border: None solid black; float:right; font-size: 14px;">
+                    <tr>
+                        <td style="padding-right:-50px; text-align:right;"><strong>Subtotal setelah PPN : </strong></td>
+                        <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.amount_after_ppn)"/></strong></td>
+                    </tr>
+                    <tr>
+                            <td style="padding-right:-50px; text-align:right;"><strong><span t-esc="o.pricelist_id.name"/> : </strong></td>
+                    
+                        <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.discount_total)"/></strong></td>
+                    </tr>
+                    <tr t-foreach="o.invoice_line_ids.filtered(lambda x:x.is_reward_line == True)" t-as="reward" align="center">
+                        <td style="padding-right:-50px; text-align:right;"><strong><span t-esc="reward.product_id.name"/>  : </strong></td> 
+                        <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(abs(reward.price_unit))"/></strong></td>
+                    </tr>
+                    <!-- <t t-set="curr_amount" t-value="o.amount_untaxed"/> 
+                    <t t-set="disc_amount" t-value="0"/> 
+                    <t t-foreach="diskon" t-as="disc_obj">
+                        <t t-if="curr_amount == o.amount_untaxed">
+                            <t t-set="disc_amount" t-value="(disc_obj.formula_diskon/100) * o.amount_untaxed"/>
+                        </t>
+                        <t t-if="curr_amount &lt; o.amount_untaxed">
+                            <t t-set="disc_amount" t-value="(disc_obj.formula_diskon/100) * curr_amount"/>
+                        </t>
+                        <tr>
+                            <td style="padding-right:-50px; text-align:right;"><strong><span t-esc="'Diskon {a} ({b}%)'.format(a=disc_obj.name, b=str(disc_obj.formula_diskon))"/></strong></td>
+                            <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>.<span t-esc="'{:,.2f}'.format(o.discount_total)"/></strong></td>
+                        </tr>
+                        <t t-set="curr_amount" t-value="curr_amount - disc_amount"/>
+                    </t> -->
+                    <tr>
+                        <td style="padding-right:-50px; text-align:right;"><strong>Cashback Value  : </strong></td> 
+                        <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.cashback_total_ppn)"/></strong></td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+
+        <xpath expr="//table[hasclass('table-bordered')]" position="replace">
+            <table class="table-sm table-bordered" rules="all" width="100%" valign="top" style="border:1px solid; font-size: 14px;">
+                <thead>
+                    <tr align="center">
+                        <th width="1%" style="border: 1px solid #000; text-align: center;">No</th>
+                        <th width="5%"  style="border: 1px solid #000; text-align: center;">Qty</th>
+                        <th width="20%"  style="border: 1px solid #000; text-align: center;">Nama Barang</th>
+                        <th width="3%"  style="border: 1px solid #000; text-align: center;">Brand</th>
+                        <!-- <th width="10%"  style="border: 1px solid #000; text-align: center;">Motor</th> -->
+                        <th width="3%"  style="border: 1px solid #000; text-align: center;">Harga Satuan (+PPN)</th>
+                        <th width="3%"  style="border: 1px solid #000; text-align: center;">Subtotal (setelah PPN)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="k" t-value="pageth*lines_per_page+1" />
+                    <t t-set="total" t-value="o.amount_untaxed"/>
+
+                    <t t-if="pageth != num_pages-1">
+                        <t t-set="for_loop_range" t-value="pages_list[pageth]"/>
+                    </t>
+                    <t t-if="pageth == num_pages-1">    
+                        <t t-set="for_loop_range" t-value="last_page_pages"/>
+                    </t>
+                    <t t-if="for_loop_range &gt;= lines_per_page">
+                        <t t-set="for_loop_range" t-value="lines_per_page"/>
+                    </t>
+
+                    <tr t-foreach="o.invoice_line_ids.filtered(lambda x:x.is_reward_line != True)" t-as="l" align="center">
+                        <!-- <t t-set="l" t-value="[k-1]"/> -->
+                        <td style="border: 1px solid black" class="text-center"><span t-esc="k"></span></td>
+                        <t t-set="k" t-value="k+1"/>
+                        <td  style="border: 1px solid black; padding-right:4px;" align="right"><span t-field="l.quantity"/> <span t-esc="l.product_uom_id.name"/></td>
+                        <td  style="border: 1px solid black; padding-left:4px;" align="left"><span t-field="l.product_id.name"/></td>
+                        <td   style="border: 1px solid black"><span t-field="l.product_brand.name"/></td>
+                        <!-- <td   style="border: 1px solid black padding-right:4px;" align="left"><span t-field="l.type_motor"/></td> -->
+                        <td   style="border: 1px solid black; padding-right:4px;" align="right"><span t-esc="'{:,.2f}'.format(l.price_unit)"/></td> 
+                        <td  style="border: 1px solid black; padding-right:4px;" align="right"><span t-esc="'{:,.2f}'.format(l.after_ppn_subtotal)"/></td>  
+                    </tr>
+                </tbody>
+            </table>
+        </xpath>
+    </template>
+
+
+    <!-- COPY REPORT ADIREKSA FOR EMAIL -->
+    <template id="report_invoice_adireksa_document_copy" inherit_id="adireksa_invoice_print.report_invoice_adireksa_document_copy">
+        <xpath expr="//div[@class='col-12']" position="replace">
+            <div class="col-12">
+                <table width="90%" style="border: None solid black; float:right; font-size: 14px;">
+                    <tr>
+                        <td style="padding-right:-50px; text-align:right;"><strong>Subtotal setelah PPN : </strong></td>
+                        <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.amount_after_ppn)"/></strong></td>
+                    </tr>
+                    <tr>
+                            <td style="padding-right:-50px; text-align:right;"><strong><span t-esc="o.pricelist_id.name"/> : </strong></td>
+                    
+                        <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.discount_total)"/></strong></td>
+                    </tr>
+                    <tr t-foreach="o.invoice_line_ids.filtered(lambda x:x.is_reward_line == True)" t-as="reward" align="center">
+                        <td style="padding-right:-50px; text-align:right;"><strong><span t-esc="reward.product_id.name"/>  : </strong></td> 
+                        <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(abs(reward.price_unit))"/></strong></td>
+                    </tr>
+                    <!-- <t t-set="curr_amount" t-value="o.amount_untaxed"/> 
+                    <t t-set="disc_amount" t-value="0"/> 
+                    <t t-foreach="diskon" t-as="disc_obj">
+                        <t t-if="curr_amount == o.amount_untaxed">
+                            <t t-set="disc_amount" t-value="(disc_obj.formula_diskon/100) * o.amount_untaxed"/>
+                        </t>
+                        <t t-if="curr_amount &lt; o.amount_untaxed">
+                            <t t-set="disc_amount" t-value="(disc_obj.formula_diskon/100) * curr_amount"/>
+                        </t>
+                        <tr>
+                            <td style="padding-right:-50px; text-align:right;"><strong><span t-esc="'Diskon {a} ({b}%)'.format(a=disc_obj.name, b=str(disc_obj.formula_diskon))"/></strong></td>
+                            <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>.<span t-esc="'{:,.2f}'.format(o.discount_total)"/></strong></td>
+                        </tr>
+                        <t t-set="curr_amount" t-value="curr_amount - disc_amount"/>
+                    </t> -->
+                    <tr>
+                        <td style="padding-right:-50px; text-align:right;"><strong>Cashback Value  : </strong></td> 
+                        <td style="padding-right:-20px; text-align:right;"><strong><span t-esc="o.currency_id.symbol"/>. <span t-esc="'{:,.2f}'.format(o.cashback_total_ppn)"/></strong></td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+
+        <xpath expr="//table[hasclass('table-bordered')]" position="replace">
+            <table class="table-sm table-bordered" rules="all" width="100%" valign="top" style="border:1px solid; font-size: 14px;">
+                <thead>
+                    <tr align="center">
+                        <th width="1%" style="border: 1px solid #000; text-align: center;">No</th>
+                        <th width="5%"  style="border: 1px solid #000; text-align: center;">Qty</th>
+                        <th width="20%"  style="border: 1px solid #000; text-align: center;">Nama Barang</th>
+                        <th width="3%"  style="border: 1px solid #000; text-align: center;">Brand</th>
+                        <!-- <th width="10%"  style="border: 1px solid #000; text-align: center;">Motor</th> -->
+                        <th width="3%"  style="border: 1px solid #000; text-align: center;">Harga Satuan (+PPN)</th>
+                        <th width="3%"  style="border: 1px solid #000; text-align: center;">Subtotal (setelah PPN)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="k" t-value="pageth*lines_per_page+1" />
+                    <t t-set="total" t-value="o.amount_untaxed"/>
+
+                    <t t-if="pageth != num_pages-1">
+                        <t t-set="for_loop_range" t-value="pages_list[pageth]"/>
+                    </t>
+                    <t t-if="pageth == num_pages-1">    
+                        <t t-set="for_loop_range" t-value="last_page_pages"/>
+                    </t>
+                    <t t-if="for_loop_range &gt;= lines_per_page">
+                        <t t-set="for_loop_range" t-value="lines_per_page"/>
+                    </t>
+
+                    <tr t-foreach="o.invoice_line_ids.filtered(lambda x:x.is_reward_line != True)" t-as="l" align="center">
+                        <!-- <t t-set="l" t-value="[k-1]"/> -->
+                        <td style="border: 1px solid black" class="text-center"><span t-esc="k"></span></td>
+                        <t t-set="k" t-value="k+1"/>
+                        <td  style="border: 1px solid black; padding-right:4px;" align="right"><span t-field="l.quantity"/> <span t-esc="l.product_uom_id.name"/></td>
+                        <td  style="border: 1px solid black; padding-left:4px;" align="left"><span t-field="l.product_id.name"/></td>
+                        <td   style="border: 1px solid black"><span t-field="l.product_brand.name"/></td>
+                        <!-- <td   style="border: 1px solid black padding-right:4px;" align="left"><span t-field="l.type_motor"/></td> -->
+                        <td   style="border: 1px solid black; padding-right:4px;" align="right"><span t-esc="'{:,.2f}'.format(l.price_unit)"/></td> 
+                        <td  style="border: 1px solid black; padding-right:4px;" align="right"><span t-esc="'{:,.2f}'.format(l.after_ppn_subtotal)"/></td>  
+                    </tr>
+                </tbody>
+            </table>
+        </xpath>
+    </template>
+</odoo>

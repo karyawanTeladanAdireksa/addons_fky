@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+    
+        <record id="coretax_lxml_server_action" model="ir.actions.server">
+            <field name="name">Coretax XML</field>
+            <field name="state">code</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="code">
+               action = records.download_coretax_lxml()
+            </field>
+        </record>
+
+        <record id="coretax_xlsx_server_action" model="ir.actions.server">
+            <field name="name">Coretax XLSX</field>
+            <field name="state">code</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="code">
+               action = records.download_coretax_xlsx()
+            </field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

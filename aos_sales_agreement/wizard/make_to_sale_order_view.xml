@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_agreement_to_sales_order_form_view" model="ir.ui.view">
+        <field name="name">sale_agreement_to_sales_order_form_view</field>
+        <field name="model">sales.agreement.to.sales.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="agreement_id" invisible="1"/>
+                    <field name="agreement_line_ids" invisible="1" widget="many2many_tags"/>
+                    <group>
+                        <group>
+                            <field name="customer_group_id" readonly="1" options="{'no_open':True}"/>
+                            <field name="partner_id" options="{'no_create':True,'no_open':True}"/>
+                        </group>
+                        <field name="line_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="product_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="category_id" options="{'no_create':True,'no_open':True}" force_save="1"/>
+                                <field name="qty_to_order"/>
+                                <field name="agreement_id" options="{'no_open':True}" optional="hide"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button string="Confirm" name="action_confirm" type="object" class="oe_highlight"/>
+                        <button string="Discard" special="cancel" type="object"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_agreement_to_sales_order" model="ir.actions.act_window">
+        <field name="name">Create Quotation</field>
+        <field name="res_model">sales.agreement.to.sales.order</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <record id="create_quotation_sales_agreement_form_view" model="ir.ui.view">
+        <field name="name">create_quotation_sales_agreement_form_view</field>
+        <field name="model">sale.agreement</field>
+        <field name="inherit_id" ref="sale_agreement_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_done']" position="after">
+                <button string="Create Quotation" name="%(action_sale_agreement_to_sales_order)d" type="action" attrs="{'invisible':[('current_date','=',False)]}" class="oe_highlight"
+                        context="{'default_customer_group_id':customer_group_id,'default_agreement_id':id,'agreement_line_ids':sales_agreement_line_ids}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

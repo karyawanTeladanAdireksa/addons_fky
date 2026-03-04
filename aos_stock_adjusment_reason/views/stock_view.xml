@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_quant_reason_tree_view" model="ir.ui.view">
+        <field name="name">stock_quant_reason_tree_view</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='inventory_quantity']" position="after">
+                <field name="reason" required="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_stock_quant_tree_inventory_readonly">
+        <field name="name">stock.quant.inventory.tree.editable</field>
+        <field name="model">stock.quant</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <tree default_order="location_id, inventory_date, product_id, package_id, lot_id, owner_id" decoration-warning='is_outdated' editable="bottom" create="0" edit="0" import="0" js_class="singleton_list" sample="1">
+                <header>
+                    <button name="stock.action_stock_inventory_adjustement_name" groups="stock.group_stock_manager" type="action" string="Apply"/>
+                    <button name="action_reset" type="object" string="Clear"/>
+                    <button name="stock.action_stock_request_count" groups="stock.group_stock_manager" type="action" string="Request a Count"/>
+                </header>
+                <field name="id" invisible="1"/>
+                <field name="is_outdated" invisible="1"/>
+                <field name="tracking" invisible="1"/>
+                <field name="inventory_quantity_set" invisible="1"/>
+                <field name="location_id" domain="[('usage', 'in', ['internal', 'transit'])]" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('hide_location', False)" options="{'no_create': True}" readonly="1" force_save="1"/>
+                <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
+                <field name="product_categ_id" optional="hide" readonly="1" force_save="1"/>
+                <field name="lot_id" groups="stock.group_production_lot"
+                    attrs="{'readonly': ['|', ('id', '!=', False), ('tracking', 'not in', ['serial', 'lot'])]}"
+                    invisible="context.get('hide_lot', False)"
+                    context="{'default_product_id': product_id, 'default_company_id': company_id}"/>
+                <field name="package_id" groups="stock.group_tracking_lot" attrs="{'readonly': [('id', '!=', False)]}" readonly="1" force_save="1"/>
+                <field name="owner_id" groups="stock.group_tracking_owner" attrs="{'readonly': [('id', '!=', False)]}" options="{'no_create': True}"/>
+                <field name="available_quantity" string="Available Quantity" decoration-danger="available_quantity &lt; 0" optional="hidden"/>
+                <field name="quantity" optional="show" string="On Hand Quantity"/>
+                <field name="product_uom_id" groups="uom.group_uom" string="UoM"/>
+                <field name="inventory_quantity" widget="counted_quantity_widget" readonly="1" force_save="1"/>
+                <field name="inventory_diff_quantity" string="Difference"  attrs="{'invisible': [('inventory_quantity_set', '=', False)]}" decoration-muted="inventory_diff_quantity == 0" decoration-danger="inventory_diff_quantity &lt; 0" decoration-success="inventory_diff_quantity &gt; 0" decoration-bf="inventory_diff_quantity != 0"/>
+                <field name="inventory_date" optional="show" readonly="1" force_save="1"/>
+                <field name="user_id" string="User" optional="show" readonly="1" force_save="1"/>
+                <field name='company_id' groups="base.group_multi_company" optional="hide"/>
+                <button name="action_inventory_history" type="object" class="btn btn-link text-info" icon="fa-history" string="History"/>
+                <button name="action_apply_inventory" groups="stock.group_stock_manager" type="object" string="Apply" class="btn btn-link" icon="fa-save" attrs="{'invisible': [('inventory_quantity_set', '=', False)]}"/>
+                <button name="action_set_inventory_quantity" type="object" string="Set" class="btn btn-link" icon="fa-bullseye" attrs="{'invisible': [('inventory_quantity_set', '=', True)]}"/>
+                <button name="action_set_inventory_quantity_to_zero" type="object" string="Clear" class="btn text-warning" icon="fa-times" attrs="{'invisible': [('inventory_quantity_set', '=', False)]}"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+      <!-- Sequences for office.expense -->
+        <record id="seq_sale_request" model="ir.sequence">
+            <field name="name">Sale Request</field>
+            <field name="code">sale.request</field>
+            <field name="prefix">SR</field>
+            <field name="padding">3</field>
+        </record>
+
+</odoo>

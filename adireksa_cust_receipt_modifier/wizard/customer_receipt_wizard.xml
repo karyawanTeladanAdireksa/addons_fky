@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <data>
+
+    <record id="receipt_payment_view_unpaid_form" model="ir.ui.view">
+      <field name="name">receipt.payment.view.unpaid.form</field>
+      <field name="model">receipt.payment</field>
+      <field name="inherit_id" ref="sg_partner_payment.view_customer_receipt_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//button[@name='action_cancel']" position="after">
+          <button name="action_print_cust_receipt" string="Print Unpaid Cust. Receipt" type="object"/>
+        </xpath>
+        <xpath expr="//field[@name='amount']" position="after">
+          <field name="total_unpaid" />
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+
+
+</odoo>

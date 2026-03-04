@@ -1,0 +1,110 @@
+<odoo>
+
+     <record id="view_purchase_request_inherit_product_related_fields" model="ir.ui.view">
+        <field name="name">Add product_related_fields in purchase request</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='name']" position="after">
+                <field name="kode_barang" readonly="1"/>
+                <field name="sparepart" readonly="1"/>
+                <field name="jenis_motor" readonly="1"  widget="many2many_tags"/>
+            </xpath>
+            <!-- <xpath expr="//field[@name='line_ids']/form//field[@name='name']" position="after">
+                <field name="kode_barang" readonly="1"/>
+                <field name="sparepart" readonly="1"/>
+                <field name="jenis_motor" readonly="1"  widget="many2many_tags"/>
+            </xpath> -->
+        </field>
+    </record>
+
+     <record id="view_purchase_order_inherit_product_related_fields" model="ir.ui.view">
+        <field name="name">Add product_related_fields in purchase order</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                <field name="kode_barang" readonly="1" invisible="1"/>
+                <field name="sparepart" readonly="1"/>
+                <field name="jenis_motor" readonly="1"  widget="many2many_tags"/>
+            </xpath>
+
+            <!-- <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="replace"/>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                <field name="product_id" attrs="{'readonly': [('state', 'in', ('purchase', 'to approve','done', 'cancel'))]}"
+                       context="{'partner_id':parent.partner_id, 'quantity':product_qty,'uom':product_uom, 'company_id': parent.company_id}"/>
+            </xpath> -->
+
+        </field>
+    </record>
+
+    <record id="view_sale_order_inherit_product_related_fields" model="ir.ui.view">
+        <field name="name">Add product_related_fields in sale order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                <field name="kode_barang" readonly="1" invisible="1"/>
+                <field name="sparepart" readonly="1"/>
+                <field name="jenis_motor" readonly="1"  widget="many2many_tags"/>
+            </xpath>
+            <!-- <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="replace"/>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                <field name="product_id"
+                       attrs="{'readonly': ['|', ('qty_invoiced', '&gt;', 0), ('procurement_ids', '!=', [])]}"
+                       context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
+                /> 
+            </xpath>-->
+            <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
+                <field name="kode_barang" readonly="1" invisible="1"/>
+                <field name="sparepart" readonly="1"/>
+                <field name="jenis_motor" readonly="1"  widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_stock_picking_inherit_product_related_fields" model="ir.ui.view">
+        <field name="name">Add product_related_fields in inventory</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
+                <field name="kode_barang" readonly="1"/>
+                <field name="sparepart" readonly="1"/>
+                <field name="jenis_motor" readonly="1"  widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_stock_view_move_inherit_product_related_fields" model="ir.ui.view">
+        <field name="name">Add product_related_fields in stock move</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_tree"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="kode_barang" readonly="1"/>
+                <field name="sparepart" readonly="1"/>
+                <field name="jenis_motor" readonly="1"  widget="many2many_tags"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- <record id="view_std_material_request_inherit_product_related_fields" model="ir.ui.view">
+        <field name="name">Add product_related_fields in material request</field>
+        <field name="model">std.material.request</field>
+        <field name="inherit_id" ref="std_material_request.material_request_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_line']/tree/field[@name='descript']" position="after">
+                <field name="kode_barang" readonly="1"/>
+                <field name="sparepart" readonly="1"/>
+                <field name="jenis_motor" readonly="1"  widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//field[@name='product_line']/form/sheet/group/group/field[@name='descript']" position="after">
+                <field name="kode_barang" readonly="1"/>
+                <field name="sparepart" readonly="1"/>
+                <field name="jenis_motor" readonly="1"  widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record> -->
+
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="view_form_approval_document_inherit" model="ir.ui.view">
+            <field name="name">view.form.approval.document.inherit</field>
+            <field name="model">approval.matrix.document.approval</field>
+            <field name="inherit_id" ref="approval_matrix.approval_matrix_document_approval_form_view"/>
+            <field name="arch" type="xml">
+               <xpath expr="//field[@name='approved']" position="after">
+                    <field name="company_id"/>  
+               </xpath>
+            </field>
+     </record>
+
+
+     <record id="view_tree_approval_document_inherit" model="ir.ui.view">
+            <field name="name">view.tree.approval.matrix.document.approval.inherit</field>
+            <field name="model">approval.matrix.document.approval</field>
+            <field name="inherit_id" ref="approval_matrix.approval_matrix_document_approval_tree_view"/>
+            <field name="arch" type="xml">
+               <xpath expr="//field[@name='approved']" position="after">
+                    <field name="company_id"/>
+               </xpath> 
+            </field>
+     </record>
+
+<!-- 
+     <record id="view_search_approval_document_inherit" model="ir.ui.view">
+            <field name="name">view.search.approval.document.inherit</field>
+            <field name="model">approval.matrix.document.approval</field>
+            <field name="inherit_id" ref="approval_matrix.approval_matrix_document_approval_search_view"/>
+            <field name="arch" type="xml">
+               <xpath expr="//search/filter[@name='rejected']" position="after">
+                    <filter string="Company" name="company_id" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+               </xpath>
+            </field> 
+     </record> -->
+</odoo>

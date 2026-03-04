@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="voucher_report_view_form" model="ir.ui.view">
+        <field name="name">voucher.report.view.form</field>
+        <field name="model">voucher.report.xlsx.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Monthly Report">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_from" />
+                            <field name="date_to"/>
+                            <field name="state_ok"/>
+                        </group>
+                        <group>
+                            <field name="journal_id" domain="[('is_voucher','=',True)]"/>
+                            <field name="detail_ok"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group attrs="{'invisible': [('state_ok','=',False)]}">
+                        <field name="state_confirm" attrs="{'required': [('state_ok','=',True)]}"/>
+                        <field name="state_posted" attrs="{'required': [('state_ok','=',True)]}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Print" name="print_report" type="object" class="btn btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="voucher_report_xlsx_report_wizard">
+        <field name="name">Voucher Report</field>
+        <field name="res_model">voucher.report.xlsx.wizard</field>
+        <field name='view_mode'>form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    
+    <record id="invoice_form_amount_other" model="ir.ui.view">
+        <field name="name">account.move.form.other.amount</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//field[@name='tax_totals_json']" position="before">
+                <label for="amount_others" class="text-left w-100" attrs="{'invisible': [('move_type','not in',('out_invoice','out_refund'))]}"/>
+            	<field name="amount_others" nolabel="1" style="width:77%;" attrs="{'invisible': [('move_type','not in',('out_invoice','out_refund'))]}"/>
+            </xpath> -->
+            <button id="account_invoice_payment_btn" position="attributes">
+                <attribute name="context">{'dont_redirect_to_payments': True, 'default_group_payment': False}</attribute>
+            </button>
+            <!-- <field name="narration" class="oe_inline" position="before">
+                <div class="oe_inline" colspan="6" attrs="{'invisible': [('move_type','not in',('out_invoice','in_invoice'))]}">
+                    <field name="other_line_ids">
+                        <tree string="Others Items" create="1" delete="1" editable="bottom">
+                            <field name="product_id" options="{'no_create': True}" />
+                            <field name="name" invisible="1"/>
+                            <field name="move_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="account_id" options="{'no_create': True}" />
+                            <field name="amount"/>
+                        </tree>
+                        <form>
+                            <group col="4" colspan="4">
+                                <field name="product_id" options="{'no_create': True}" />
+                                <field name="name" invisible="1"/>
+                                <field name="move_id" invisible="1"/>
+                                <field name="account_id" options="{'no_create': True}" />
+                                <field name="company_id" invisible="1"/>
+                                <field name="amount"/>
+                            </group>
+                        </form>
+                    </field>
+                </div>
+            </field> -->
+        </field>
+    </record>
+    
+    
+</odoo>

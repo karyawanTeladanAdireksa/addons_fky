@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu Items -->
+    <menuitem
+        id="menu_coupon_type_config"
+        action="coupon.coupon_program_action_coupon_program"
+        parent="account.menu_finance_receivables"
+        name="Coupon Programs"
+        sequence="90"
+    />
+
+    <menuitem
+        id="menu_promotion_type_config"
+        action="coupon.coupon_program_action_promo_program"
+        parent="account.menu_finance_receivables"
+        name="Promotion Programs"
+        sequence="89"
+    />
+
+    <!-- Form Views -->
+    <record id="sale_coupon_program_view_coupon_program_form" model="ir.ui.view">
+        <field name="name">coupon.program.form</field>
+        <field name="model">coupon.program</field>
+        <field name="inherit_id" ref="coupon.coupon_program_view_coupon_program_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='coupon_count']/.." position="before">
+                <button class="oe_stat_button" type="object" icon="fa-usd" name="action_view_account_move">
+                    <field name="invoice_count" string="Invoice" widget="statinfo"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_coupon_program_view_promo_program_form" model="ir.ui.view">
+        <field name="name">coupon.program.form</field>
+        <field name="model">coupon.program</field>
+        <field name="inherit_id" ref="coupon.coupon_program_view_promo_program_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='coupon_count']/.." position="before">
+                <button class="oe_stat_button" type="object" icon="fa-usd" name="action_view_account_move">
+                    <field name="invoice_count" string="Invoice" widget="statinfo"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kanban Views -->
+    <record id="sale_coupon_view_coupon_program_kanban" model="ir.ui.view">
+        <field name="name">coupon.program.kanban</field>
+        <field name="model">coupon.program</field>
+        <field name="inherit_id" ref="coupon.view_coupon_program_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('coupon-count-label')]" position="after">
+                <div class="col-4 text-center">
+                    <strong>Invoice</strong>
+                </div>
+            </xpath>
+            <xpath expr="//div[hasclass('coupon-count-value')]" position="after">
+                <div class="col-4 text-center">
+                    <field name="invoice_count"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

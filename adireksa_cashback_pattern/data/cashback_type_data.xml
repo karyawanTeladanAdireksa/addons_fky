@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cashback_value_auto" model="cashback.type">
+            <field name="default_posting">debit</field>
+            <field name="manual_cashback">false</field>
+            <field name="name">Automatic Cashback</field>
+        </record>
+
+        <record id="cashback_pelunasan" model="cashback.type">
+            <field name="default_posting">debit</field>
+            <field name="manual_cashback">false</field>
+            <field name="name">Pelunasan Invoice dan Promo</field>
+        </record>
+
+    </data>
+</odoo>

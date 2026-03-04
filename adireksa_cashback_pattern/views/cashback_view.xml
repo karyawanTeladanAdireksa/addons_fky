@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   
+    <!-- <record id="account_payment_cashback_rule_inherit" model="ir.ui.view">
+        <field name="name">account.payment.cashback.rule.inherit</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_method_code" position="after">
+                <field name="add_cashback_day"/>
+            </field>
+        </field>
+    </record>-->
+
+<!--    <record id="customer_group_cashback_rule_inherit" model="ir.ui.view">-->
+<!--        <field name="name">customer.group.cashback.rule.inherit</field>-->
+<!--        <field name="model">res.partner.category</field>-->
+<!--        <field name="inherit_id" ref="base.view_partner_category_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="parent_id" position="after">-->
+<!--                <field name="wilayah"/>-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_inherit_res_partner_form" model="ir.ui.view">
+        <field name="name">view.inherit.res_partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <!-- position: after|before|replace|attributes|inside -->
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="group_id"/>
+                <!-- Add your fields or attributes here -->
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="view_customer_group_form" model="ir.ui.view">
+        <field name="name">view.customer.group.form</field>
+        <field name="model">customer.group</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="wilayah"/>
+                    </group>
+                    <field name="customer_ids"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="customer_cashback_product_inherit" model="ir.ui.view">
+        <field name="name">customer.cashback.product.inherit</field>
+        <field name="model">master.cashback.product</field>
+        <field name="inherit_id" ref="customer_cashback.view_master_cashback_product_form"/>
+        <field name="arch" type="xml">
+            <field name="cashback_type" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="master_customer_cashback_tree_inherit" model="ir.ui.view">
+        <field name="name">master.customer.cashback.tree.inherit</field>
+        <field name="model">master.customer.cashback</field>
+        <field name="inherit_id" ref="customer_cashback.view_master_customer_cashback_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="group_id"/>
+            </field>
+        </field>
+    </record>
+    
+    <!-- <record id="customer_cashback_print_new" model="ir.ui.view">
+        <field name="name">customer.cashback.print.new</field>
+        <field name="model">master.customer.cashback</field>
+        <field name="inherit_id" ref="adireksa_master_customer_cshbck.master_customer_cashback_view_report_form"/>
+        <field name="arch" type="xml">
+            <button name="action_printout" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+        </field>
+    </record> -->
+
+    <record id="customer_cashback_line_inherit" model="ir.ui.view">
+        <field name="name">customer.cashback.line.inherit</field>
+        <field name="model">master.customer.cashback</field>
+        <field name="inherit_id" ref="customer_cashback.view_master_customer_cashback_form"/>
+        <field name="arch" type="xml">
+            <!-- <button name="action_cancel" position="after">
+                <button name="print_cashback_report" string="Print Report" type="object"/>
+            </button> -->
+            <field name="cashback_type" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+            <page name="manual_lines" position="after">
+                <page name="automatic_cashback" string="Automatic Cashback">
+                    <group name="cashback">
+                        <field name="automatic_line_ids" nolabel="1" options="{'reload_on_button': True}">
+                            <tree create="false" edit='false'>
+                                <field name="date"/>
+                                <field name="type_id"/>
+                                <field name="default_posting"/>
+                                <field name="value"/>
+                                <field name="reference"/>
+                                <field name="state"/>
+                                <field name="user_id"/>
+                            </tree>
+                            <form string="Autogenerated Cashback" create="false" edit="false">
+                                <header>
+                                    <button class="btn-primary" name="action_approve" states="waiting_for_approval" string="Approve" type="object" groups="customer_cashback.group_customer_cashback_manager"/>
+                                    <button class="btn-primary" name="action_waiting_for_approval" states="draft" string="Request Approval" type="object"/>
+                                    <field name="state" statusbar_visible="draft,waiting_for_approval,approve" widget="statusbar"/>
+                                </header>
+                                <sheet string="Cashback">
+                                    <group>
+                                        <group>
+                                            <field name="date" required="1"/>
+                                            <field name="type_id" required="1"/>
+                                            <field name="default_posting"/>
+                                        </group>
+                                        <group>
+                                            <field name="user_id" readonly="1"/>
+                                            <field name="reference" required="1"/>
+                                        </group>
+                                    </group>
+                                    <group col="2">
+                                        <field name="value" required="1"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </group>
+                </page>
+                <page name="payment_cashback" string="Pelunasan/Product Cashback">
+                    <group name="cashback">
+                        <field name="paid_line_ids" nolabel="1" options="{'reload_on_button': True}">
+                            <tree create="false" edit='false'>
+                                <field name="date"/>
+                                <field name="type_id"/>
+                                <field name="default_posting"/>
+                                <field name="value"/>
+                                <field name="reference"/>
+                                <field name="amount_total"/>
+                                <field name="total_day"/>
+                                <field name="state"/>
+                                <field name="user_id"/>
+                            </tree>
+                            <form string="Autogenerated Cashback" create="false" edit="false">
+                                <header>
+                                    <button class="btn-primary" name="action_approve" states="waiting_for_approval" string="Approve" type="object" groups="customer_cashback.group_customer_cashback_manager"/>
+                                    <button class="btn-primary" name="action_waiting_for_approval" states="draft" string="Request Approval" type="object"/>
+                                    <field name="state" statusbar_visible="draft,waiting_for_approval,approve" widget="statusbar"/>
+                                </header>
+                                <sheet string="Cashback">
+                                    <group>
+                                        <group>
+                                            <field name="reference" required="1"/>
+                                            <field name="date" required="1"/>
+                                            <field name="type_id" required="1"/>
+                                            <field name="default_posting"/>
+                                        </group>
+                                        <group>
+                                            <field name="user_id" readonly="1"/>
+                                            <field name="invoice_id" required="1"/>
+                                            <field name="payment_id" required="1"/>
+                                            <field name="amount_total" required="1"/>
+                                            <field name="total_day" required="1"/>
+                                        </group>
+                                    </group>
+                                    <group col="2">
+                                        <field name="value" required="1"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="cashback_rule_form" model="ir.ui.view">
+        <field name="name">cashback.rule.form</field>
+        <field name="model">cashback.rule</field>
+        <field name="arch" type="xml">
+            <form string="Cashback Rule">
+                <header>
+                    <button string="Approve" name="action_approve" states="draft" type="object" class="btn-primary" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>
+                    <button string="Cancel" name="action_cancel" states="approve" type="object" class="btn-primary" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>
+                    <button string="Set to Draft" name="action_draft" states="cancel" type="object" class="btn-primary" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approve,cancel"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                            <field name="period" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                            <field name="company_id" required="1" attrs="{'readonly': [('state','!=', 'draft')]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                        </group>
+                        <group>
+                            <field name="notes"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Cashback Formula">
+                            <div style="margin-top: 10px;" attrs="{'invisible': [('state','=', 'draft')]}" >
+                                <strong groups="adireksa_cashback_pattern.group_cashback_pattern_manager">Generate Cashback:</strong>
+                                <!--<button class="oe_highlight" name="compute_annual_cashback" string="Annually" type="object" style="margin-left: 5px;" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>-->
+                                <button class="oe_highlight" name="compute_6month_cashback" string="6 Month" type="object" style="margin-left: 5px;" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>
+                                <button class="oe_highlight" name="compute_quarter_cashback" string="Quarterly" type="object" style="margin-left: 5px;" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>
+                                <button class="oe_highlight" name="compute_month_cashback" string="Monthly" type="object" style="margin-left: 5px;" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>
+                            </div>
+                            <field name="line_ids" context="{'default_rule_id': id}" attrs="{'readonly': [('state','!=', 'draft')]}">
+                                <tree>
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="trigger"/>
+                                    <field name="frequency"/>
+                                    <field name="sub_type"/>
+                                    <field name="formula"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="sequence"/>
+                                            <field name="name" required="1"/>
+                                            <field name="trigger" required="1"/>
+                                            <field name="frequency" required="1"/>
+                                            <field name="sub_type" required="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="formula" required="1" attrs="{'invisible': [('trigger','=','promo')]}"/>
+                                            <field name="target_modifier" attrs="{'invisible': [('trigger','!=','revenue')]}"/>
+                                            <field name="sales_target" attrs="{'invisible': [('trigger','!=','sales')]}"/>
+                                            <label for="day1" string="Day Range" attrs="{'invisible': [('sub_type','!=','lunas')]}"/>
+                                            <div class="o_row" attrs="{'invisible': [('sub_type','!=','lunas')]}"><field name="day1" class="oe_inline"/> - <field name="day2" class="oe_inline"/></div>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="cashback_rule_tree" model="ir.ui.view">
+        <field name="name">cashback.rule.tree</field>
+        <field name="model">cashback.rule</field>
+        <field name="arch" type="xml">
+            <tree string="Cashback Rule"> 
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="period"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="cashback_rule_view_search" model="ir.ui.view">
+        <field name="name">cashback.rule.view.search</field>
+        <field name="model">cashback.rule</field>
+        <field name="arch" type="xml">
+            <search string="Cashback Rule">
+                <field name="name" string="Name"/>
+                <group expand="1" string="Group By">
+                    <filter name="group_by_period" string="Period" context="{'group_by':'period'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="cashback_rule_action" model="ir.actions.act_window">
+        <field name="name">Cashback Rule</field>
+        <field name="res_model">cashback.rule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+<!--    <menuitem id="cashback_rule_menu" -->
+<!--        name="Cashback Rule" -->
+<!--        parent="customer_cashback.menu_customer_cashback"-->
+<!--        action="cashback_rule_action" sequence="3"/>-->
+
+    <record id="customer_target_line_form" model="ir.ui.view">
+        <field name="name">Customer Target Form View</field>
+        <field name="model">adireksa.customer.target.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Customer Target">
+                <header>
+                    <button name="action_request_approval" string="Submit" states="draft" type="object" groups="adireksa_cashback_pattern.group_cashback_pattern_user"/>
+                    <button name="action_approve" string="Approve" states="submit" type="object" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>
+                    <button name="action_cancel" string="Cancel" states="approve" type="object" groups="adireksa_cashback_pattern.group_cashback_pattern_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="subtype" required="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="frequency" required="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="amount" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                        </group>
+                        <group>
+                            <field name="month1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="month2" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="approve_by" readonly="1"/>
+                        <field name="date_approve" readonly="1"/>
+                        <field name="cancel_by" readonly="1"/>
+                        <field name="date_cancel" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="create_customer_target_form" model="ir.ui.view">
+        <field name="name">Customer Target Form View</field>
+        <field name="model">adireksa.customer.target.line</field>
+        <field name="arch" type="xml">
+            <form string="Customer Target">
+                <header>
+                    <!-- <button name="action_submit" string="Submit" states="draft" type="object" groups="adireksa_cashback_pattern.group_customer_target_user"/> -->
+                    <button name="action_approve" string="Approve" states="submit" type="object" groups="adireksa_cashback_pattern.group_customer_target_manager"/>
+                    <button name="action_cancel" string="Cancel" states="approve" type="object" groups="adireksa_cashback_pattern.group_customer_target_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="subtype" required="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="frequency" required="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="amount" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                        </group>
+                        <group>
+                            <field name="month1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="month2" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="approve_by" readonly="1"/>
+                        <field name="date_approve" readonly="1"/>
+                        <field name="cancel_by" readonly="1"/>
+                        <field name="date_cancel" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="create_customer_target" model="ir.actions.act_window">
+        <field name="name">Create Target</field>
+        <field name="res_model">adireksa.customer.target.line</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'form_view_ref': 'adireksa_cashback_pattern.create_customer_target_form'}</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="adireksa_customer_target_form" model="ir.ui.view">
+        <field name="name">adireksa.customer.target.form</field>
+        <field name="model">adireksa.customer.target</field>
+        <field name="arch" type="xml">
+            <form string="Cashback Rule">
+                <header>
+                    <button string="Set to Draft" name="action_draft" states="submit,cancel" type="object" class="btn-primary" groups="adireksa_cashback_pattern.group_customer_target_user"/>
+                    <button string="Submit" name="action_submit" states="draft" type="object" class="btn-primary" groups="adireksa_cashback_pattern.group_customer_target_user"/>
+                    <button string="Approve" name="action_approve" states="submit" type="object" class="btn-primary" groups="adireksa_cashback_pattern.group_customer_target_manager"/>
+                    <button string="Cancel" name="action_cancel" states="approve" type="object" class="btn-primary" groups="adireksa_cashback_pattern.group_customer_target_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve,cancel"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                            <field name="group_id" required="1" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            <field name="company_id" required="1" attrs="{'readonly': [('state','!=', 'draft')]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                        </group>
+                        <group>
+                            <field name="period" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                            <field name="amount" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <!-- <field name="date_from" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/> -->
+                            <!-- <field name="date_to" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/> -->
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Target Lines">
+                            <!-- <button class="oe_highlight" name="%(adireksa_cashback_pattern.create_customer_target)d" string="Create Target" type="action" context="{'default_target_id': id}" groups="adireksa_cashback_pattern.group_customer_target_user"/>
+                            <newline/> -->
+                            <field name="line_ids">
+                                <tree>
+                                    <field name="subtype"/>
+                                    <field name="frequency"/>
+                                    <field name="month1"/>
+                                    <field name="month2"/>
+                                    <field name="amount"/>
+                                    <!-- <field name="state"/> -->
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Other Info">
+                            <group>
+                                <group string="Submit">
+                                    <field name="submit_by" readonly="1"/>
+                                    <field name="date_submit" readonly="1"/>
+                                </group>
+                                <group string="Approval">
+                                    <field name="approve_by" readonly="1"/>
+                                    <field name="date_approve" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="adireksa_customer_target_tree" model="ir.ui.view">
+        <field name="name">adireksa.customer.target.tree</field>
+        <field name="model">adireksa.customer.target</field>
+        <field name="arch" type="xml">
+            <tree string="Cashback Rule"> 
+                <field name="name"/>
+                <field name="group_id"/>
+                <field name="company_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="period"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="adireksa_customer_target_view_search" model="ir.ui.view">
+        <field name="name">adireksa.customer.target.view.search</field>
+        <field name="model">adireksa.customer.target</field>
+        <field name="arch" type="xml">
+            <search string="Customer Omzet Target">
+                <field name="name" string="Name"/>
+                <group expand="1" string="Group By">
+                    <filter name="group_by_group" string="Customer Group" context="{'group_by':'group_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="adireksa_customer_target_action" model="ir.actions.act_window">
+        <field name="name">Customer Omzet Target</field>
+        <field name="res_model">adireksa.customer.target</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+<!--    <menuitem id="adireksa_customer_target_menu" -->
+<!--        name="Customer Omzet Target" -->
+<!--        parent="sale.menu_sale_config"-->
+<!--        action="adireksa_customer_target_action" sequence="4"/>-->
+
+
+
+
+
+    <record id="action_customer_group_view" model="ir.actions.act_window">
+        <field name="name">Customer Group</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">customer.group</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+
+            </p>
+            <p>
+
+            </p>
+        </field>
+    </record>
+
+    <record id="action_res_partner_view" model="ir.actions.act_window">
+        <field name="name">Customer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+
+          </p><p>
+
+          </p>
+        </field>
+    </record>
+
+<!--    <record id="view_res.partner_inherit_tree" model="ir.ui.view">-->
+<!--        <field name="name">view.res.partner.inherit.tree</field>-->
+<!--        <field name="model">res.partner</field>-->
+<!--        <field name="inherit_id" ref="base.view_partner_tree"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="phone" position="after">-->
+<!--                <field name="group_id"/>-->
+<!--            </field>-->
+<!--            -->
+
+<!--        </field>-->
+<!--    </record>-->
+
+
+    <menuitem id="menu_cashback_grand_parent" name="Cashback" sequence="10"/>
+    <menuitem id="menu_customer_parent" name="Customer" parent="menu_cashback_grand_parent" action="action_customer_group_view" sequence="20"/>
+    <menuitem id="menu_customer_group" name="Customer Group" parent="menu_customer_parent" action="action_customer_group_view" sequence="30"/>
+    <menuitem id="adireksa_customer_target_menu" name="Customer Omzet Target" parent="menu_customer_parent" action="adireksa_customer_target_action" sequence="40"/>
+    <menuitem id="menu_customer" name="Customer" parent="menu_customer_parent" action="action_res_partner_view" sequence="50"/>
+    <menuitem id="cashback_rule_menu" name="Cashback Rule" parent="menu_cashback_grand_parent" action="cashback_rule_action" sequence="60"/>
+
+
+</odoo>

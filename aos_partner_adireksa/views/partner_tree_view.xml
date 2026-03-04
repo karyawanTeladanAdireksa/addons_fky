@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="view_res_partner_credit_limit_tree" model="ir.ui.view">
+        <field name="name">view.res.partner.credit.limit.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="phone" position="after">
+                <field name="credit_limit" optional="hide"/>
+                <field name="total_invoice_due" optional="hide"/>
+            </field>
+        </field>
+    </record>
+</odoo>

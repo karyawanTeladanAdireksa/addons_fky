@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.rule" id="sale_return_comp_rule">
+        <field name="name">Sales Return multi-company</field>
+        <field name="model_id" ref="model_sales_return"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record model="ir.rule" id="sale_return_line_comp_rule">
+        <field name="name">Sales Return Link multi-company</field>
+        <field name="model_id" ref="model_sales_return_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+
+</odoo>

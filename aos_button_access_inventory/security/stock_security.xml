@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+	    <record model="ir.module.category" id="module_category_inventory_access">
+            <field name="name">Inventory Access</field>
+            <field name="sequence">3</field>
+            <field name="visible" eval="1" />
+        </record>
+
+	    <record id="group_access_to_lock" model="res.groups">
+	        <field name="name">Allow to Lock/Unlock</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+	        <field name="category_id" ref="module_category_inventory_access"/>
+	    </record>
+
+<!--	    <record id="group_access_force_availability" model="res.groups">-->
+<!--	        <field name="name">Allow to Force Availability</field>-->
+<!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
+<!--	        <field name="category_id" ref="module_category_inventory_access"/>-->
+<!--	    </record>-->
+
+	    <record id="group_access_cancel_picking" model="res.groups">
+	        <field name="name">Allow to Cancel Picking</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+	        <field name="category_id" ref="module_category_inventory_access"/>
+	    </record>
+
+	    <record id="group_access_to_reserve_unreserve" model="res.groups">
+	        <field name="name">Allow to Reserve &amp; Unreserve</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+	        <field name="category_id" ref="module_category_inventory_access"/>
+	    </record>
+<!--	    <record id="group_access_to_scrap" model="res.groups">-->
+<!--	        <field name="name">Allow to Scrap</field>-->
+<!--            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+<!--	        <field name="category_id" ref="module_category_inventory_access"/>-->
+<!--	    </record>-->
+<!--	    <record id="group_access_to_opname" model="res.groups">-->
+<!--	        <field name="name">Allow to Stock Count</field>-->
+<!--            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+<!--	        <field name="category_id" ref="module_category_inventory_access"/>-->
+<!--	    </record>-->
+<!--	    <record id="group_access_to_adjustment" model="res.groups">-->
+<!--	        <field name="name">Allow to Stock Adjustment</field>-->
+<!--            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+<!--	        <field name="category_id" ref="module_category_inventory_access"/>-->
+<!--	    </record>-->
+<!--	    <record id="group_access_to_update_qty" model="res.groups">-->
+<!--	        <field name="name">Allow to Update Qty</field>-->
+<!--            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+<!--	        <field name="category_id" ref="module_category_inventory_access"/>-->
+<!--	    </record>-->
+	    <record id="group_access_to_return" model="res.groups">
+	        <field name="name">Allow to Return</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+	        <field name="category_id" ref="module_category_inventory_access"/>
+	    </record>
+	    <record id="group_access_to_validate_picking" model="res.groups">
+	        <field name="name">Allow to Validate Picking</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+	        <field name="category_id" ref="module_category_inventory_access"/>
+	    </record>
+
+</data>
+</odoo>

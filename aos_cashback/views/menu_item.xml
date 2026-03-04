@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="action_customer_view" model="ir.actions.act_window">
+            <field name="name">Customer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_customers','=',True)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+        <record id="action_adireksa_customer_target_view" model="ir.actions.act_window">
+            <field name="name">Customer Group Target</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">adireksa.customer.target</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+        <!-- <record id="action_customer_group_view" model="ir.actions.act_window">
+            <field name="name">Customer Group</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">customer.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record> -->
+        <record id="action_cashback_internal_category" model="ir.actions.act_window">
+            <field name="name">Cashback Internal Category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cashback.internal.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+              </p><p>
+              </p>
+            </field>
+        </record>
+
+        <record id="action_cashback_internal_category_class" model="ir.actions.act_window">
+            <field name="name">Cashback Internal Category Class</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cashback.internal.category.class</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+              </p><p>
+              </p>
+            </field>
+        </record>
+
+        <record id="action_cashback_product" model="ir.actions.act_window">
+            <field name="name">Cashback Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cashback.product</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+              </p><p>
+              </p>
+            </field>
+        </record>
+
+        <record id="action_cashback_manual_view" model="ir.actions.act_window">
+            <field name="name">Cashback Manual</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cashback.manual</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+              </p><p>
+              </p>
+            </field>
+        </record>
+
+        <record id="action_cashback_invoice_view" model="ir.actions.act_window">
+            <field name="name">Cashback Invoice</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cashback.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+              </p><p>
+              </p>
+            </field>
+        </record>
+
+        <record id="action_customer_area_view" model="ir.actions.act_window">
+            <field name="name">Group Area</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">customer.area</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+        <record id="action_cashback_rule_view" model="ir.actions.act_window">
+            <field name="name">Cashback Rule</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cashback.rule</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+        <record id="action_cashback_class_group" model="ir.actions.act_window">
+            <field name="name">Cashback Class Group</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cashback.class.group</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+        <record id="action_master_customer_cashback" model="ir.actions.act_window">
+            <field name="name">Master Group Cashback</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">master.customer.cashback</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+        
+        <menuitem id="menu_customer_group_root" groups="aos_cashback.group_cashback_menu" name="Cashback" sequence="10" web_icon="aos_cashback,static/image/odoo_icon.png"/>
+        <menuitem id="menu_customer_group_parent" name="Customer Group Target" sequence="12" parent="menu_customer_group_root"/>
+        <menuitem id="menu_input_manual_cashback" name="Input Manual Cashback" sequence="13" parent="menu_customer_group_root"/>
+        <menuitem id="menu_master_customer_cashback" name="Master Group Cashback" sequence="11" parent="menu_customer_group_root" action="action_master_customer_cashback"/>
+
+
+        <menuitem id="menu_cashback_manual" name="Cashback Manual" parent="menu_input_manual_cashback" action="action_cashback_manual_view" sequence="60"/>
+        <!-- <menuitem id="menu_cashback_internal_category" name="Cashback Internal Category" parent="menu_input_manual_cashback" action="action_cashback_internal_category" sequence="70"/> -->
+        <menuitem id="menu_cashback_internal_category_class" name="Cashback Internal Category Class" parent="menu_input_manual_cashback" action="action_cashback_internal_category_class" sequence="80"/>
+        <menuitem id="menu_cashback_product" name="Cashback Product Class" parent="menu_input_manual_cashback" action="action_cashback_product" sequence="90"/>
+
+        <menuitem id="menu_customer_target" name="Customer Group Target" parent="menu_customer_group_parent" action="action_adireksa_customer_target_view" sequence="30"/>
+        <!-- <menuitem id="menu_customer_group" name="Customer Group" parent="menu_customer_group_parent" action="action_customer_group_view" sequence="20"/> -->
+        <menuitem id="menu_cashback_invoice" name="Cashback Invoice" parent="menu_customer_group_parent" action="action_cashback_invoice_view" sequence="50"/>
+        <menuitem id="menu_customer" name="Customer" parent="menu_customer_group_parent" action="action_customer_view" sequence="40"/>
+
+        <menuitem id="menu_configuration_root" name="Configuration" parent="menu_customer_group_root" sequence="21"/>
+        <menuitem id="menu_customer_area" name="Group Area" parent="menu_configuration_root" action="action_customer_area_view" sequence="41"/>
+        <menuitem id="menu_cashback_rule" name="Cashback Rule" parent="menu_configuration_root" action="action_cashback_rule_view" sequence="51"/>
+        <menuitem id="menu_cashback_class_group" name="Cashback Class Group" parent="menu_configuration_root" action="action_cashback_class_group" sequence="61"/>
+
+    </data>
+</odoo>

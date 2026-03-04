@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<odoo>
+		<record id="view_partner_contacts_inherit_form" model="ir.ui.view">
+      <field name="name">res.partner.inherit.form</field>
+      <field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+        <xpath expr="//page[@name='sales_purchases']" position="inside">
+            <group name="expiry" string="Delivery Order Expiry">
+              <field name="expiry_bool"/>
+              <label for="expiry_count" string="Expiry Day"/>
+                <div>
+                    <field name="expiry_count" class="oe_inline" style="vertical-align:baseline"/> Days
+                </div>
+            </group>
+        </xpath>   
+			</field>
+		</record> 
+</odoo>

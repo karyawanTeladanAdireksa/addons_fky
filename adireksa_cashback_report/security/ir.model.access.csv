@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cashback_print,access_cashback_print,model_cashback_print,base.group_user,1,1,1,1

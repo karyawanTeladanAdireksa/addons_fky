@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="payment_register_spot_rate_wizard_view" model="ir.ui.view">
+        <field name="name">payment.register.spot.rate.wizard.view</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//field[@name='can_edit_wizard']" position="after">
+            <field name="use_spot_rate" invisible="1" readonly="1"/>
+        </xpath>
+            <xpath expr="//group[@name='group1']" position="inside">
+                <field name="spot_rate" groups="base.group_multi_currency" attrs="{'invisible':[('use_spot_rate','=',False)], 'required':[('use_spot_rate','=',True)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

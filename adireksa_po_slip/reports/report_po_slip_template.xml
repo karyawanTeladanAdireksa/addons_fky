@@ -1,0 +1,160 @@
+<odoo>
+
+     <template id="report_po_slip">
+
+     <t t-if="not company">       
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+     </t>
+        <!-- HEADER START -->
+            <div class="header">
+                <div class="row">
+                    <div class="col-12">
+                        <div t-field="company.name" style="font-size: 35px; font-weight: bold; text-align: center;"/>
+                        <div style="font-size: 12px; text-align: center;">    
+                        <t t-esc="company.street"/><t t-if="company.street">,</t><t t-esc="company.street2"/><t t-if="company.street2">,</t><t t-esc="company.city"/><t t-if="company.city">,</t><t t-esc="o.company_id.state_id.name"/><t t-if="o.company_id.state_id">,</t><t t-esc="company.zip"/><t t-if="company.zip">,</t><t t-esc="o.company_id.country_id.name"/><br/>
+                            <t t-if="company.phone">TEL : <t t-esc="company.phone"/></t> <t t-if="company.vat">FAX : <t t-esc="company.vat"/></t>
+                        </div>
+                         <div class="list-inline">
+                            <div style="border-bottom: 1px solid black; text-align: center;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- HEADER FINISH -->
+            
+            <!-- PAGE START -->
+            <div class="page">
+                <h2 class="text-center">Purchase Order</h2>
+
+                <table class="table table-condensed" style="border: 0px; border-collapse: collapse;">
+                    <tr>
+                        <td class="text-left">
+                            <strong>Purchase Order No.</strong>
+                        </td>
+                        <td class="text-center">:</td>
+                        <td class="text-left">
+                            <span t-field="o.name"/>
+                        </td>
+                        <td class="text-right">
+                        </td>
+                        <td class="text-right"></td>
+                        <td class="text-left">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left"><strong>Supplier</strong></td>
+                        <td class="text-center">:</td>
+                        <td class="text-left"><span t-esc="o.partner_id.name"/>,<br/>
+                                              <span t-esc="o.partner_id.street"/><span t-if="o.partner_id.street">,<br/></span>
+                                              <span t-esc="o.partner_id.street2"/><span t-if="o.partner_id.street2">,<br/></span>
+                                              <span t-esc="o.partner_id.city"/><span t-if="o.partner_id.city">,<br/></span>
+                                              <span t-esc="o.partner_id.state_id.name"/><span t-if="o.partner_id.state_id">,</span><span t-esc="o.partner_id.zip"/><span t-if="o.partner_id.zip">,<br/></span>
+                                              <span t-esc="o.partner_id.country_id.name"/><span t-if="o.partner_id.country_id.name"><br/></span>
+                        </td>
+                        <td class="text-left">
+                            <strong>Date</strong>
+                        </td>
+                        <td class="text-center">:</td>
+                        <td class="text-left">
+                            <span t-field="o.date_order" t-options='{"widget": "date", "format": "dd-MMMM-YYYY"}'/>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="text-left">
+                            <strong>Terms of Payment</strong>
+                        </td>
+                        <td class="text-center">:</td>
+                        <td class="text-left">
+                            <span t-esc="o.payment_term_id.name"/>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table table-sm table-bordered" style="border: 1px solid black; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid black" class="text-center">No</th>
+                            <th style="border: 1px solid black" class="text-center">Item</th>
+                            <th style="border: 1px solid black" class="text-center">Motor</th>
+                            <!-- <th style="border: 1px solid black" class="text-center">Description</th> -->
+                            <th style="border: 1px solid black" class="text-center">Merk</th>
+                            <th style="border: 1px solid black" class="text-center">Part Number</th>
+                            <th style="border: 1px solid black" class="text-center">Quantity</th>
+                            <th style="border: 1px solid black" class="text-center">Unit Price</th>
+                            <th style="border: 1px solid black" class="text-center">Amount</th>
+                            <th style="border: 1px solid black" class="text-center">Keterangan</th>
+                        </tr>
+                        <!-- <tr>
+                            <td style="border: 1px solid black" class="text-center">MOTORCYCLE PARTS</td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black" class="text-center"><span t-esc="o.currency_id and o.currency_id.name or ''"/></td>
+                            <td style="border: 1px solid black"></td>
+                        </tr> -->
+                    </thead>
+                    <tbody style="color: #D8F0DA background: transparent" class="invoice_tbody">
+                        <t t-set="k" t-value="1"/>
+                        <tr t-foreach="o.order_line" t-as="l">
+                            <td style="border: 1px solid black" class="text-center"><span t-esc="k"></span></td>
+                            <t t-set="k" t-value="k+1"/>
+                            <td style="border: 1px solid black" class="text-left"><span t-field="l.name"/></td>
+                            <td style="border: 1px solid black" class="text-left"><span t-esc="' , '.join(l.type_motor.mapped('name'))"/> </td>
+                            <td style="border: 1px solid black" class="text-left"><span t-esc="' , '.join(l.type_merk.mapped('name'))"/></td>
+                            <td style="border: 1px solid black" class="text-left"><span t-field="l.product_id.part_number"/></td>
+                            <td style="border: 1px solid black" class="text-center"><span t-field="l.product_qty"/> <span t-field="l.product_uom.name"/></td>
+                            <td style="border: 1px solid black" class="text-right"><span t-field="l.price_unit"/></td>
+                            <td style="border: 1px solid black" class="text-right"><span t-esc="'{0:,.2f}'.format(l.price_subtotal)" t-field-options="{&quot;widget&quot;: &quot;False&quot;}"/></td>
+                            <td style="border: 1px solid black" class="text-right"><span t-field="l.internal_notes"/></td> 
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black" class="text-right"><strong>Total</strong></td>
+                            <td style="border: 1px solid black" class="text-right"><strong><span t-esc="'{0:,.2f}'.format(o.amount_total)"/></strong></td>
+                            <td style="border: 1px solid black"></td>
+                            <td style="border: 1px solid black"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- PAGE FINISH -->
+
+            <!-- FOOTER START -->
+             <div class="footer">
+                <div class="text-center" style="border-top: 1px solid black;">
+                    <ul class="list-inline">
+                        <li>Page:</li>
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- FOOTER FINISH -->
+    </template>
+
+<template id="report_purchase_order_adireksa">
+<t t-foreach="docs" t-as="o">
+     <t t-call="web.basic_layout"> 
+          <t t-call="adireksa_po_slip.report_po_slip"/>
+     </t>
+</t>
+</template>
+
+</odoo>

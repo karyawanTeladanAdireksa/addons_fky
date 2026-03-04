@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- wizard dynamic label -->
+    <record id="view_dynamic_label" model="ir.ui.view">
+        <field name="name">Dynamic Label</field>
+        <field name="model">dynamic.label.wizard</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form string="Dynamic Label">
+                <group>
+                    <group>
+                    	<field name="total_barcode"/>
+                    </group>
+                     <group>
+                         <field name="product_packaging_ids" invisible="1"/>
+                    	<field name="barcode_packaging_id" domain="[('product_id','in', product_packaging_ids)]"/>   
+                    </group>
+                    <group>
+                    	<field name="type" invisible="0"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="print_report" string="Print Label" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- wizard dynamic label Mini-->
+    <record id="view_dynamic_label" model="ir.ui.view">
+        <field name="name">Dynamic Label Mini</field>
+        <field name="model">dynamic.label.wizard</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form string="Dynamic Label Mini">
+                <group>
+                    <group>
+                    	<field name="total_barcode"/>
+                    </group>
+                     <group>
+                    	<field name="product_packaging_ids" invisible="1"/>
+                    	<field name="barcode_packaging_id" domain="[('product_id','in', product_packaging_ids)]"/>  
+                    </group>
+                    <group>
+                    	<field name="type" invisible="0"/> 
+                    </group>
+                </group>
+                <footer>
+                    <button name="print_report" string="Print Label" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action Dynamic Label -->
+    <record id="action_dynamic_label" model="ir.actions.act_window">
+            <field name="name">Dynamic Label</field>
+            <field name="res_model">dynamic.label.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+    </record>
+
+    <!-- Action Dynamic Label Mini -->
+    <record id="action_dynamic_label_mini" model="ir.actions.act_window">
+            <field name="name">Dynamic Label Mini</field>
+            <field name="res_model">dynamic.label.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+    </record>
+
+
+     <!-- button dynamic label -->
+    <record id="form_button_dynamic_label" model="ir.ui.view">
+        <field name="name">form_button_dynamic_label</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Print Dynamic Label" name="%(dynamic_barcode_labels.action_dynamic_label)d" type="action" class="oe_highlight"/>
+                <button string="Print Dynamic Label Mini" name="%(dynamic_barcode_labels.action_dynamic_label_mini)d" type="action" class="oe_highlight"  context="{'is_mini': True}"/>
+            </xpath>
+        </field>
+    
+    </record>
+
+        
+      <!-- <menuitem 
+            id="menu_dynamic_label_mini"
+            name="Dynamic Label Mini"
+            parent="stock.menu_warehouse_report"
+            sequence="100" />  -->
+
+            
+    <!-- <act_window name="Dynamic Label Mini" id="dynamic_label_mini"
+                res_model="dynamic.label.wizard" src_model="product.product"
+                view_mode="form" target="new"
+                view_id="product_barcode_templates.view_dynamic_label_mini"
+                context="{'is_mini': True}"/> -->
+
+</odoo>
+

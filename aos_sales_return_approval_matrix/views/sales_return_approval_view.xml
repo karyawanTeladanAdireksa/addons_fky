@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sales_return_approval_matrix" model="ir.ui.view">
+        <field name="name">sales.return.approval.matrix</field>
+        <field name="model">sales.return</field>
+        <field name="inherit_id" ref="aos_sales_return.sales_return_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+                <button string="Confirm" name="action_approval" type="object" class="oe_highlight" states="draft"/>
+            </xpath>
+            <xpath expr="//button[@name='action_create_picking']" position="before">
+                <button string="To Approve" name="action_approve" type="object" class="oe_highlight" groups="approval_matrix.group_approval_matrix_manager" attrs="{'invisible':['|',('user_can_approve','=',False),('state','!=','waiting_approval')]}"/>
+                <button string="Reject" type="object" name="open_reject_message_wizard" groups="approval_matrix.group_approval_matrix_manager" attrs="{'invisible':[('state','not in',['waiting_approval','approve'])]}" />
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="attrs">{'invisible':[('state','in',['cancel','done','waiting_approval','reject'])]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_draft']" position="attributes">
+                <attribute name="states"></attribute>
+                <attribute name="attrs">{'invisible':[('state','not in', ['cancel','reject'])]}</attribute>
+            </xpath>
+            <xpath expr="//page[last()]" position="after">
+                <page id="page_approval" name="page_approval" string="Approvals">
+                	<field name="user_can_approve" invisible="1" />
+                    <field name="approval_ids" readonly="1"/>
+                    <group><field name="approved"/></group>
+                    <button string="Fetch Matrix" type="object" name="checking_approval_matrix" class="oe_highlight" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

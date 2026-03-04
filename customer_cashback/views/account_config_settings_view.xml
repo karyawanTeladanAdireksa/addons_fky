@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="view_account_config_settings_cashback_inherit"
+			model="ir.ui.view">
+			<field name="name">View Account Config Settings Cashback</field>
+			<field name="model">account.config.settings</field>
+			<field name="inherit_id"
+				ref="account.view_account_config_settings" />
+			<field name="arch" type="xml">
+				<xpath expr="//form/group[last()]" position="after">
+					<group string="Cashback Setting" name="cashcack">
+						<label for="max_cashback" />
+						<div>
+							<field name="max_cashback" class="oe_inline" />
+							<span>%</span>
+						</div>
+						<label for="cashback_deduction_option" />
+						<div>
+							<field name="cashback_deduction_option" class="oe_inline"/>
+						</div>
+						<label for="cashback_role" />
+						<div>
+							<field name="cashback_role" class="oe_inline"/>
+						</div>
+					</group>
+					<group string="Active Date Cashback SO" name="active_date">
+						<div>
+							<field name="active_today_cashback_so" class="oe_inline"/>
+							<span>Today</span>
+						</div>
+						<div>
+							<field name="active_month_cashback_so" class="oe_inline" />
+							<span>Month</span>
+						</div>
+						<div>
+							<field name="active_day_cashback_so" class="oe_inline" />
+							<span>Day</span>
+						</div>
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+	</data>
+</odoo>

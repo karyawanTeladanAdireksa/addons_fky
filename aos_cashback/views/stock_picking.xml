@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!-- Inherit Form View to Modify it -->
+        <record id="stock_picking_form_cashback" model="ir.ui.view">
+            <field name="name">stock.picking.form.cashback</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="picking_type_name" />
+                    <field name="customer_group_id" attrs="{'invisible':[('picking_type_name','!=','Delivery Orders')]}" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" />
+                    <field name="area_id" attrs="{'invisible':[('picking_type_name','!=','Delivery Orders')]}" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}" />
+                </xpath>
+            </field>
+        </record>
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+adireksa_cashback_user,adireksa_cashback_user,model_adireksa_cashback,base.group_user,1,1,,1

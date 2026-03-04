@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+          <record id="view_mail_template_inherit" model="ir.ui.view">
+               <field name="name">view.mail.template.inherit</field>
+               <field name="model">mail.template</field>
+               <field name="inherit_id" ref="mail.email_template_form"/>
+               <field name="arch" type="xml">
+                    <xpath expr="//field[@name='report_template']" position="replace"> 
+                            <field name="report_template" domain="[('model','=',model)]" eval="[(4, ref('adireksa_invoice_print.action_report_adireksa_original_invoice_copy'))]"/>  
+                    </xpath>
+               </field>
+          </record>
+     </data>
+</odoo>

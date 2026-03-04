@@ -1,0 +1,109 @@
+<odoo>
+    <data>
+
+        <record id="customer_discount_form_view" model="ir.ui.view">
+            <field name="name">adireksa.cusotmer.discount.form</field>
+            <field name="model">adireksa.discount</field>
+            <field name="arch" type="xml">
+                <form string="Customer Discount">
+                <header>
+                    <button name="action_request_to_approve" states="draft" string="Request for Approvel" type="object" class="oe_highlight"/>
+                    <button name="action_approve" states="request_to_approval" string="Approve" type="object"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object" states="approved" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,request_to_approval,approved" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="jenis_diskon" widget="radio"/>
+                            <field name="kelas_customer"/>
+                            <field name="formula_diskon"/>
+                        </group>
+                        <group>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
+                            <field name="aktifkan_diskon"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="cusotmer_discount_tree" model="ir.ui.view">
+            <field name="name">adireksa.customer.discount.tree</field>
+            <field name="model">adireksa.discount</field>
+            <field name="arch" type="xml">
+                <tree string="Customer Discount">
+                    <field name="name"/>
+                    <field name="jenis_diskon"/>
+                    <field name="kelas_customer"/>
+                    <field name="period_start"/>
+                    <field name="period_end"/>
+                    <field name="aktifkan_diskon"/>
+                    <field name="formula_diskon"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_customer_discount" model="ir.actions.act_window">
+            <field name="name">Customer Discount</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">adireksa.discount</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Customer Discount.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_customer_discount" action="action_customer_discount" name="Customer Discount" parent="sale.menu_sale_config" sequence="2"/>
+
+        <record id="master_discount_type_form_view" model="ir.ui.view">
+            <field name="name">master.discount.type.form</field>
+            <field name="model">master.discount.type</field>
+            <field name="arch" type="xml">
+                <form string="Master Discount Type">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="master_discount_type_tree" model="ir.ui.view">
+            <field name="name">adireksa.customer.discount.tree</field>
+            <field name="model">master.discount.type</field>
+            <field name="arch" type="xml">
+                <tree string="Master Discount Type" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_master_discount_type" model="ir.actions.act_window">
+            <field name="name">Master Discount Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">master.discount.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Customer Discount.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_master_discount_type" action="action_master_discount_type" name="Master Discount Type" parent="sale.menu_sale_config" sequence="3"/>
+
+    </data>
+</odoo>

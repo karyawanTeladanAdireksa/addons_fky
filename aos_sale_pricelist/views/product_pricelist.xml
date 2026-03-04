@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_pricelist_form_inherit" model="ir.ui.view">
+        <field name="name">product_pricelist_form_inherit</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='pricelist_settings']" position="after">
+                <group name="max_discount">
+                    <label for="max_discount"/>
+                    <span>
+                        <field name="max_discount"/> %
+                    </span>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

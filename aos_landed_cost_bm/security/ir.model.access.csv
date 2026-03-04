@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+aos_landed_cost_bm.access_vendor_bill_wizard,access_vendor_bill_wizard,aos_landed_cost_bm.model_vendor_bill_wizard,base.group_user,1,1,1,1

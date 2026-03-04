@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- <report
+            id="adireksa_invoice_slip"
+            model="account.invoice"
+            string="Original Invoice"
+            report_type="qweb-pdf"
+            name="adireksa_invoice_slip.report_invoice_slip"
+            file="adireksa_invoice_slip.report_invoice_slip" />
+
+        <report
+            id="copy_adireksa_invoice_slip"
+            model="account.invoice"
+            string="Duplicates Original"
+            report_type="qweb-pdf"
+            name="adireksa_invoice_slip.copy_report_invoice_slip"
+            file="adireksa_invoice_slip.copy_report_invoice_slip" /> -->
+
+        <record id="company_account_invoice_footer" model="ir.ui.view">
+            <field name="name">company_account_invoice_footer</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="bank_acc_invoice"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

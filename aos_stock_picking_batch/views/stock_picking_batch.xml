@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_picking_batch_form_inherit" model="ir.ui.view">
+        <field name="name">view_stock_picking_batch_form_inherit</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
+        <field name="arch" type="xml">
+            <field name="scheduled_date" position="after">
+                <field name="partner_id" string="Customer" domain="[('is_customers','=',True),('state','=','approve')]" attrs="{'readonly':[('customer_group_id','!=',False)]}"  options="{'no_create_edit': True,'no_create': True, 'no_quick_create': True}"/>
+                <field name="customer_group_id" string="Customer Group"  attrs="{'readonly':[('partner_id','!=',False)]}"  options="{'no_create_edit': True,'no_create': True, 'no_quick_create': True}"/>
+                <field name="keterangan"/>
+            </field>
+        </field>
+    </record>   
+    <record id="view_stock_picking_batch_tree_inherit" model="ir.ui.view">
+        <field name="name">view_stock_picking_tree_form_inherit</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_tree"/>
+        <field name="arch" type="xml">
+            <field name="picking_type_id" position="after">
+                <field name="keterangan"/>
+            </field>
+        </field>
+    </record>   
+</odoo>

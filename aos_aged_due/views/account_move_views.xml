@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="view_invoice_tree_inherits">
+        <field name="name">account.move.tree.view.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <field name="aged_due"/>
+                <field name="aged_payment_due"/>
+            </field>
+        </field>
+    </record>
+</odoo>

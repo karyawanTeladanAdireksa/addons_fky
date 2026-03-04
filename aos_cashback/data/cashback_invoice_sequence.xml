@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo >
+    <record id="seq_cashback_invoice" model="ir.sequence">
+        <field name="name">Cashback Invoice</field>
+        <field name="code">cashback.invoice</field>
+        <field name="prefix">CI/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="master_cashback_group" model="ir.sequence">
+        <field name="name">Master Cashback Group</field>
+        <field name="code">master.customer.cashback</field>
+        <field name="prefix">MSC/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_cashback_product" model="ir.sequence">
+        <field name="name">Cashback Product</field>
+        <field name="code">cashback.product</field>
+        <field name="prefix">CP/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="cashback_manual_sequence" model="ir.sequence">
+        <field name="name">Cashback Manual Sequence</field>
+        <field name="code">cashback.manual</field>
+        <field name="prefix">CBM/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="cashback_internal_sequence" model="ir.sequence">
+        <field name="name">Cashback Internal Category</field>
+        <field name="code">cashback.internal.category</field>
+        <field name="prefix">CIC/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="cashback_internal_class_sequence" model="ir.sequence">
+        <field name="name">Cashback Internal Category Class</field>
+        <field name="code">cashback.internal.category.class</field>
+        <field name="prefix">CICC/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="cashback_used_sequence" model="ir.sequence">
+        <field name="name">Cashback Used Lines</field>
+        <field name="code">cashback.used.lines</field>
+        <field name="prefix">CDL/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- <record id="cashback_product" model="ir.sequence">
+        <field name="name">Cashback Product</field>
+        <field name="code">cashback.product</field>
+        <field name="prefix">CP/</field>
+        <field name="padding">4</field>
+    </record> -->
+    <record id="cron_set_target_for_data_import" model="ir.cron">
+		<field name="name">Set Data Target Group For Data Import</field>
+		<field name="model_id" ref="model_res_partner"/>
+		<field name="state">code</field>
+		<field name="code">model._action_set_group_target()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+		<field name="numbercall">-1</field>
+		<field name="active">0</field>
+		<field name="doall" eval="False" />
+	</record>
+
+    <record id="cron_set_customer_target_accounting" model="ir.cron">
+		<field name="name">Set Data Target Group For Accounting</field>
+		<field name="model_id" ref="model_account_move"/>
+		<field name="state">code</field>
+		<field name="code">model._action_set_group_target()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+		<field name="numbercall">-1</field>
+		<field name="active">0</field>
+		<field name="doall" eval="False" />
+	</record>
+
+    <record id="cron_approve_for_cashback" model="ir.cron">
+		<field name="name">Cashback Approve</field>
+		<field name="model_id" ref="model_cashback_lines"/>
+		<field name="state">code</field>
+		<field name="code">model._action_approve_cashback()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+		<field name="numbercall">-1</field>
+		<field name="active">0</field>
+		<field name="doall" eval="False" />
+	</record>
+
+    <record id="cron_fetch_data_cashback" model="ir.cron">
+		<field name="name">Fetch Data Cashback</field>
+		<field name="model_id" ref="model_adireksa_customer_target"/>
+		<field name="state">code</field>
+		<field name="code">model.fetch_customer_target()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+		<field name="numbercall">-1</field>
+		<field name="active">0</field>
+		<field name="doall" eval="False" />
+	</record>
+</odoo>

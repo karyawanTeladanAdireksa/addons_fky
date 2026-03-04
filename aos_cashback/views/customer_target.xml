@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_adireksa_customer_target_form" model="ir.ui.view">
+            <field name="name">view.adireksa.customer.target.form</field>
+            <field name="model">adireksa.customer.target</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button string="Set to Draft" name="action_draft" states="submit,cancel" type="object"
+                                class="btn-primary"/>
+                        <button string="Submit" name="action_submit" states="draft" type="object" class="btn-primary"/>
+                        <button string="Approve" name="action_approve" states="submit" type="object"
+                                class="btn-primary"/>
+                        <button string="Cancel" name="action_cancel" states="approve" type="object"
+                                class="btn-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve,cancel"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="......" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+<!--                                <field name="name" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/>-->
+<!--                                <field name="name" required="1"-->
+<!--                                       attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>-->
+                                <field name="group_class_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+                                <field name="area_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+                                <field name="company_id" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"
+                                       options="{'no_create': True, 'no_create_edit':True}"/>
+                            </group>
+                            <group>
+                                <field name="period" widget="year" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                                <field name="amount" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="wilayah_target" />
+                                <!-- <field name="date_from" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/> -->
+                                <!-- <field name="date_to" required="1" attrs="{'readonly': [('state','!=', 'draft')]}"/> -->
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Group Info">
+                                <field name="partner_line_ids" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="partner_id" required="1"  domain="['|',('group_id','=','target_id.id'),('group_id','=',False)]"  options="{'no_create_edit': True,'no_create': True, 'no_quick_create': True}"/>
+                                        <field name="area_id"/>
+                                        <field name="phone"/>
+                                        <field name="email"/>
+                                        <field name="user_id"/>
+                                        <field name="activity_ids"/>
+                                        <field name="city"/>
+                                        <field name="country_id"/>
+                                        <field name="ref"/>
+                                        <field name="state"/>
+                                        <field name="company_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Target Lines">
+                                <field name="line_ids" attrs="{'readonly':[('state','=','approve')]}">
+                                    <tree editable="bottom">
+                                        <field name="subtype"/>
+                                        <field name="frequency"/>
+                                        <field name="month1"/>
+                                        <field name="month2"/>
+                                        <field name="amount"/>
+                                        <!-- <field name="state"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Other Info">
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="adireksa_customer_target_tree" model="ir.ui.view">
+            <field name="name">adireksa.customer.target.tree</field>
+            <field name="model">adireksa.customer.target</field>
+            <field name="arch" type="xml">
+                <tree string="Cashback Rule">
+<!--                    <field name="name"/>-->
+                    <field name="name"/>
+                    <field name="area_id"/>
+                    <field name="group_class_id"/>
+                    <field name="company_id"/>
+<!--                    <field name="date_from"/>-->
+<!--                    <field name="date_to"/>-->
+                    <field name="period"/>
+                    <field name="amount"/>
+                    <field name="wilayah_target"/>
+<!--                    <field name="partner_line_ids"/>-->
+                    <field name="state" decoration-info="state == 'draft'" decoration-muted="state == 'waiting'" decoration-danger="state == 'cancel'" decoration-success="state == 'approve'" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,30 @@
+<odoo>
+ <data>
+     <!-- HIDE ACTION DUPLICATE PRODUCT TEMPLATE -->
+     <record id="hide_action_duplicate_product" model="ir.ui.view">
+        <field name="name">field.product.view.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+          <xpath expr="//form" position="attributes">
+              <attribute name="duplicate">0</attribute>
+          </xpath>
+
+        </field>
+     </record>
+
+    <!-- HIDE ACTION DUPLICATE PURCHASE ORDER-->
+     <record id="hide_action_duplicate_purchase" model="ir.ui.view">
+        <field name="name">field.purchase.view.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//form" position="attributes">
+              <attribute name="duplicate">0</attribute>
+          </xpath>
+
+        </field>
+
+     </record>
+ </data>
+</odoo>

@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="view_report_stock_picking_type_form_inherit_force" model="ir.ui.view">
+            <field name="name">stock.picking.type.form.inherit.force</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group[2]/group[3]" position="after">  
+                    <group string="Force Account Configuration" groups="aos_force_stock_account.group_stock_account_force">           
+                        <field name="required_force_account"/>
+                        <field name="default_force_account" />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

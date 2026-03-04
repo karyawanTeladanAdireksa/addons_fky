@@ -1,0 +1,233 @@
+<odoo>
+    <data>
+        <!-- FORM FIELD BRAND ONE2MANY -->
+        <record id="view_product_brand_form" model="ir.ui.view">
+            <field name="name">product.brand.form</field>
+            <field name="model">product.brand</field>
+            <field name="type">form</field>
+            <!-- <field name="priority" eval="8"/> -->
+            <field name="arch" type="xml">
+                <form string="Brand">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" placeholder="e.g. &quot;Product Brand&quot;"/>
+                             <field name="company_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- TREE FIELD BRAND ONE2MANY -->
+        <record id="view_product_brand_tree" model="ir.ui.view">
+            <field name="name">product.brand.tree</field>
+            <field name="model">product.brand</field>
+            <field name="type">tree</field>
+            <!-- <field name="priority" eval="8" /> -->
+            <field name="arch" type="xml">
+                <tree string="Brand">
+                    <field name="name" modifiers="{&quot;required&quot;: true}"/>
+                     <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ACTION MENU FIELD BRAND -->
+        <record id="action_product_brand" model="ir.actions.act_window">
+            <field name="name">Brand</field>
+            <field name="res_model">product.brand</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- FORM FIELD INTERNAL CATEGORY ONE2MANY -->
+        <record id="view_internal_category_form" model="ir.ui.view">
+            <field name="name">internal.category.form</field>
+            <field name="model">internal.category</field>
+            <field name="type">form</field>
+            <!-- <field name="priority" eval="1"/> -->
+            <field name="arch" type="xml">
+                <form string="Internal Category">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" placeholder="e.g. &quot;Internal Category&quot;"/>
+                            <!-- <field name="parent_id"/>
+                            <field name="active" widget="boolean_toggle"/> -->
+                            <field name="company_id"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- TREE FIELD INTERNAL CATEGORY ONE2MANY -->
+        <record id="view_internal_category_tree" model="ir.ui.view">
+            <field name="name">internal.category.tree</field>
+            <field name="model">internal.category</field>
+            <field name="type">tree</field>
+            <!-- <field name="priority" eval="1"/> -->
+            <field name="arch" type="xml">
+                <tree string="Internal Category">
+                    <field name="name" modifiers="{&quot;required&quot;: true}"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ACTION MENU FIELD INTERNAL CATEGORY -->
+        <record id="action_internal_category" model="ir.actions.act_window">
+            <field name="name">Internal Category</field>
+            <field name="res_model">internal.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- TREE FIELD Tipe Motor MANY2MANY -->
+        <record id="view_type_motor_tree" model="ir.ui.view">
+            <field name="name">type.motor.tree</field>
+            <field name="model">type.motor</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Tipe Motor">
+                    <field name="name" modifiers="{&quot;required&quot;: true}"/>
+                    <field name="color" widget="color_picker"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- FORM FIELD TIPE MOTOR MANY2MANY -->
+        <record id="view_type_motor_form" model="ir.ui.view">
+            <field name="name">type.motor.form</field>
+            <field name="model">type.motor</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Tipe Motor">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" placeholder="e.g. &quot;Tipe Motor&quot;"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="company_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ACTION MENU TIPE MOTOR  -->
+        <record id="action_type_motor" model="ir.actions.act_window">
+            <field name="name">Tipe Motor</field>
+            <field name="res_model">type.motor</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- TREE FIELD MERK MANY2MANY -->
+        <record id="view_type_merk_tree" model="ir.ui.view">
+            <field name="name">type.merk.tree</field>
+            <field name="model">type.merk</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Merk">
+                    <field name="name" modifiers="{&quot;required&quot;: true}"/>
+                    <field name="color" widget="color_picker"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- FORM FIELD MERK MANY2MANY -->
+        <record id="view_type_merk_form" model="ir.ui.view">
+            <field name="name">type.merk.form</field>
+            <field name="model">type.merk</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Merk">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" placeholder="e.g. &quot;Merk&quot;"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="company_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ACTION MENU MERK  -->
+        <record id="action_type_merk" model="ir.actions.act_window">
+            <field name="name">Merk</field>
+            <field name="res_model">type.merk</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- menu item di inventory BRAND-->
+        <menuitem id="menu_product_brand_form_inventory"
+                  action="action_product_brand"
+                  name="Brand"
+                  sequence="100"
+                  parent="stock.menu_product_in_config_stock"/>
+
+
+        <!-- menu item di inventory INTERNAL CATEGORY-->
+        <menuitem id="menu_internal_category_form_inventory"
+                  action="action_internal_category"
+                  name="Internal Category"
+                  sequence="100"
+                  parent="stock.menu_product_in_config_stock"/>
+
+
+        <!-- menu item di inventory TYPE MOTOR-->
+        <menuitem id="menu_type_motor_form_inventory"
+                  action="action_type_motor"
+                  name="Tipe Motor"
+                  sequence="100"
+                  parent="stock.menu_product_in_config_stock"/>
+
+        <!-- menu item di inventory MERK-->
+        <menuitem id="menu_type_merk_form_inventory"
+                  action="action_type_merk"
+                  name="Merk"
+                  sequence="100"
+                  parent="stock.menu_product_in_config_stock"/>
+
+
+        <!-- menu item di purchase BRAND-->
+        <menuitem id="menu_product_brand_form_purchase"
+                  action="action_product_brand"
+                  name="Brand"
+                  sequence="100"
+                  parent="purchase.menu_product_in_config_purchase"/>
+
+        <!-- menu item di purchase INTERNAL CATEGORY-->
+        <menuitem id="menu_internal_category_form_purchase"
+                  action="action_internal_category"
+                  name="Internal Category"
+                  sequence="100"
+                  parent="purchase.menu_product_in_config_purchase"/>
+
+        <!-- menu item di purchase TYPE MOTOR-->
+        <menuitem id="menu_type_motor_form_purchase"
+                  action="action_type_motor"
+                  name="Tipe Motor"
+                  sequence="100"
+                  parent="purchase.menu_product_in_config_purchase"/>
+
+        <!-- menu item di purchase MERK-->
+        <menuitem id="menu_type_merk_form_purchase"
+                  action="action_type_merk"
+                  name="Merk"
+                  sequence="100"
+                  parent="purchase.menu_product_in_config_purchase"/>
+
+    </data>
+</odoo>

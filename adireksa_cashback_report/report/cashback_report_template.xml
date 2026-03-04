@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="cashback_report_template">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <h1 align="center"><b>Mutasi Cashback Customer</b></h1>
+                    <br></br>
+                    <br></br>
+                    <div class="row">
+                        <div class="col-6">
+                            <!-- TABLE KIRI -->
+                            <table width="100%" style="border: None solid black; font-size: 17px; margin-center:20px; height:100px;" align="center">
+                                <!-- <tr>
+                                    <td width="40%"><b>Kode Customer</b></td> 
+                                    <td width="5%"><b>:</b></td> 
+                                    <td width="55%"><b><span t-esc="records['code']"/></b></td>
+                                </tr> -->
+                                <!-- <tr>
+                                    <td><b>Date</b></td>
+                                    <td><b>:</b></td>
+                                    <td><span t-esc="records['date']"/></td>
+                                </tr> -->
+                                <tr>
+                                    <td><b>Customer Group</b></td>
+                                    <td width="5%"><b>:</b></td>
+                                    <td width="55%"><b><span t-esc="o.cashback_name"/></b></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Company</b></td>
+                                    <td><b>:</b></td>
+                                    <td><b><span t-esc="o.company_id.name"/></b></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <!-- TABLE KANAN -->
+                            <table width="100%" style="border: None solid black; font-size: 17px; height:150px;" align="center"> 
+                                <tr>
+                                    <td width="40%"><b>Periode</b></td>
+                                    <td width="5%"><b>:</b></td>
+                                    <td width="55%"><b><span t-esc="records['period']"/></b></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Cashback In</b></td>
+                                    <td><b>:</b></td>
+                                    <td><b><span t-esc="records['cashback_in']"/></b></td> 
+                                </tr>
+                                <tr>
+                                    <td><b>Cashback Used</b></td>
+                                    <td><b>:</b></td>
+                                    <td><b><span t-esc="records['cashback_used']"/></b></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Previous Balance</b></td>
+                                    <td><b>:</b></td>
+                                    <td><b><span t-esc="records['previous_balance']"/></b></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Balance</b></td>
+                                    <td><b>:</b></td>
+                                    <td><b><span t-esc="records['balance']"/></b></td> 
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- TABLE BAWAH-->
+                    <br></br>
+                    <br></br>
+                  <div class="row"> 
+                    <div class="col-12">
+                        <strong><i>*Cashback sudah termasuk PPN</i></strong> 
+                        <table class="table table-sm table-bordered" style="text-align:center;" width="90%">
+                            <thead>
+                                <tr>
+                                    <th style="border:1px solid black;">No Bukti / Type</th>
+                                    <th width="10%" style="border:1px solid black;">Tanggal</th>
+                                    <th style="border:1px solid black;">Keterangan</th> 
+                                    <th style="border:1px solid black;">Debet</th>
+                                    <th style="border:1px solid black;">Kredit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="records['lines']" t-as="line">
+                                    <td style="border:1px solid black;"><span t-esc="line['name']"/></td>
+                                    <td align="center" style="border:1px solid black;"><span t-esc="line['date']"/></td>
+                                    <td style="border:1px solid black;">
+                                        <span t-esc="'Cashback Used in '+line['account'] if line['cashback_rule'] == 'Cashback Used' else line['ref']"/> <span t-esc="str('(' + line['days'] + ')' if line['cashback_rule'] != 'Cashback Used' and line['days'] else '')"/> 
+                                    </td> 
+                                    <td align="right" style="border:1px solid black;"><span t-esc="line['debit'] if line['debit'] != '0' else ' ' "/></td>  
+                                    <!-- JIKA LINE[DEBIT] TERISI BUKAN 0 MAKA HASILNYA TRUE SELAIN ITU MAKA MENAMPILKAN STRING KOSONG -->
+                                    <td align="right" style="border:1px solid black;"><span t-esc="line['credit'] if line['credit'] != '0' else ' ' "/></td>    
+                                </tr>
+                                <tr>
+                                    <td align="right" colspan="3" style="border:1px solid black;"><strong>TOTAL</strong></td>
+                                    <td align="right" style="border:1px solid black;"><strong><span t-att-style="style" t-esc="records['cashback_in']"/></strong></td>
+                                    <td align="right" style="border:1px solid black;"><strong><span t-att-style="style" t-esc="records['cashback_used']"/></strong></td>    
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>                    
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>

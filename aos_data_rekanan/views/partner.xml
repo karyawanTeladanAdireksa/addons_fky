@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_partner_view_search" model="ir.ui.view">
+            <field name="name">res.partner.search.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='customer']" position="replace">
+                   <filter string="Is Customers" name="customer" domain="[('is_customers','=', True)]"/>
+                   <separator/>
+                </xpath>
+                <xpath expr="//filter[@name='supplier']" position="replace">
+                   <filter string="Is Supplier" name="supplier" domain="[('is_suppliers','=', True)]"/>
+                   <separator/>
+                </xpath>
+                <xpath expr="//group[@name='group_by']" position="before">
+                    <filter name="under_approval" string="Waiting Approval" domain="[('state', '=', 'waiting')]" />
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_partner_form_inherit_customers" model="ir.ui.view">
+            <field name="name">view_partner_form_inherit_customers</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="aos_contacts_approval_matrix.res_partner_approval_view"/>
+            <field name="arch" type="xml">
+                <field name="company_type" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="parent_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')],'invisible':[('company_type','!=','person')]}</attribute>
+                </field>
+                <xpath expr="//sheet/div[hasclass('oe_title')]/h1/field[1]" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')],'required' : [('type', '=', 'contact'),('is_company', '=', True)], 'invisible': [('is_company','=', False)]}</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[hasclass('oe_title')]/h1/field[2]" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')],'required' : [('type', '=', 'contact'), ('is_company', '=', False)], 'invisible': [('is_company','=', True)]}</attribute>
+                </xpath>
+                <field name="street" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="street2" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="city" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="state_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="zip" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="country_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="vat" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="phone" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="mobile" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="email" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="website" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="category_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="child_ids" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <field name="team_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </field>
+                <xpath expr="//group[@name='sale']/field[@name='user_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/group/field[@name='name']" position="after">
+                    <p style="font-weight:bold;color:#181a1b;">Partner Type</p>
+                    <div class="o_row">
+                            <field name="is_suppliers" widget="boolean_toggle" attrs="{'readonly': [('parent.state','=','approve')]}"/>
+                        <label for="is_suppliers" />
+                            <field name="is_customers" widget="boolean_toggle" attrs="{'readonly': [('parent.state','=','approve')]}"/>
+                        <label for="is_customers" />
+                    </div>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_title')]"
+                       position="after">
+                        <div class="o_row">
+                                <field name="bool" invisible="1"/>
+                                <field name="is_suppliers" widget="boolean_toggle" attrs="{'readonly': [('state','=','approve')]}"/>
+                            <label for="is_suppliers"/>
+                                <field name="is_customers" widget="boolean_toggle" attrs="{'readonly': [('state','=','approve')]}"/>
+                            <label for="is_customers" attrs="{'readonly': [('state','=','approve')]}"/>
+                        </div>
+                </xpath>
+                <xpath expr="//group[@name='misc']/field[@name='ref']" position="attributes">
+                    <attribute name="string">CID/VID</attribute>
+                    <attribute name="attrs">{'readonly': [('state','=','approve')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="string">NPWP</attribute>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                <!-- Document Customer -->
+                    <page string="Document Customer" attrs="{'invisible': [('is_customers','=',False)]}">
+                        <group>
+                            <group>
+                                <field name="customer_progress" widget="percentpie" attrs="{'readonly' : [('state','=','approve')]}"/>
+                            </group>
+                            <group>
+                                <field name="customer_template" attrs="{'readonly' : [('state','=','approve')]}" options="{'no_create':True,'no_open':True}" domain="[('tenant_type','=','customer')]"/>
+                            </group>
+                        </group>
+                        <field name="customer_attach_ids" attrs="{'readonly' : [('state','=','approve')]}" context="{'default_is_customers':True}" force_save="1" options="{'always_reload':True}">
+                            <tree editable="bottom">
+                                <field name="name" force_save="1"/>
+                                <field name="file_name" readonly="1" force_save="1"/>
+                                <field name="file" string="File size" filename="file_name"/>
+                                <field name="expiry_date" />
+                                <field name="notify_before" />
+                                <field name="state" force_save="1"/>
+                                <field name="is_required" optional="hide" force_save="1"/>
+                                <field name="is_customers" optional="hide" invisible="1" force_save="1"/>
+                                <button name="preview_file" type="object" string="Preview" class="oe-highlight" attrs="{'invisible':[('file','=',False)]}"/>
+                                <button name="download_file" type="object" string="Download" class="oe-highlight" attrs="{'invisible':[('file','=',False)]}"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <!-- Document Supplier -->
+                    <page string="Document Supplier" attrs="{'invisible': [('is_suppliers','=',False)]}">
+                        <group>
+                            <group>
+                                <field name="supplier_progress" widget="percentpie" attrs="{'readonly' : [('state','=','approve')]}"/>
+                            </group>
+                            <group>
+                                <field name="supplier_template" attrs="{'readonly' : [('state','=','approve')]}" options="{'no_create':True,'no_open':True}" domain="[('tenant_type','=','supplier')]"/>
+                            </group>
+                        </group>
+                        <field name="supplier_attach_ids" attrs="{'readonly' : [('state','=','approve')]}" context="{'default_is_suppliers':True}" force_save="1" options="{'always_reload':True}">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="file_name" readonly="1" force_save="1"/>
+                                <field name="file" string="File size" filename="file_name"/>
+                                <field name="state"/>
+                                <field name="is_required" optional="hide" force_save="1"/>
+                                <field name="is_suppliers" optional="hide" invisible="1"/>
+                                <button name="preview_file" type="object" string="Preview" class="oe-highlight" attrs="{'invisible':[('file','=',False)]}"/>
+                                <button name="download_file" type="object" string="Download" class="oe-highlight" attrs="{'invisible':[('file','=',False)]}"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_partner_inherit_tree" model="ir.ui.view">
+            <field name="name">view.res.partner.inherit.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <field name="category_id" position="after">
+                    <field name="ref"/>
+                    <field name="state" widget="badge"
+                           decoration-success="state == 'approve'"
+                           decoration-danger="state == 'reject'"
+                           decoration-warning="state == 'waiting'"/>
+        	    </field>
+
+            </field>
+        </record>
+        <record id="view_account_move_inherit" model="ir.ui.view">
+            <field name="name">view_account_move_inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="partner_id" nolabel="1" context="{'res_partner_search_mode': (context.get('default_move_type', 'entry') in ('out_invoice', 'out_refund', 'out_receipt') and 'customer') or (context.get('default_move_type', 'entry') in ('in_invoice', 'in_refund', 'in_receipt') and 'supplier') or False,'show_address': 1, 'default_is_company': True, 'show_vat': True}" options="{&quot;always_reload&quot;: True, &quot;no_quick_create&quot;: True,'no_create':True,'no_create_edit':True}" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))], 'required':[('move_type','!=','entry')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="is_suppliers" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- <record id="view_purchase_order_inherit" model="ir.ui.view">
+            <field name="name">view_purchase_order_inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="options">{'always_reload':False,'no_open':True,'no_create':True,'no_create_edit':True,}</attribute>
+                    <attribute name="widget"></attribute>
+                </xpath>
+            </field>
+        </record> -->
+        
+    </data>
+<!--    <record model="ir.actions.act_window" id="base.action_partner_supplier_form">-->
+<!--        <field name="domain">[('is_suppliers','=',True)]</field>-->
+<!--    </record>-->
+<!--    <record model="ir.actions.act_window" id="aos_property_sale.action_partner">-->
+<!--        <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>-->
+<!--    </record>-->
+    
+</odoo>

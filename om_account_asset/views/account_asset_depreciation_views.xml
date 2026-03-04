@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_account_asset_asset_depreciation_line_tree" model="ir.ui.view">
+        <field name="name">account.asset.depreciation.line.purchase.tree</field>
+        <field name="model">account.asset.depreciation.line</field>
+        <field name="arch" type="xml">
+            <tree string="Depreciation Lines" decoration-info="(move_check == False)"
+                    create="false">
+                <field name="name"/>
+                <field name="depreciation_date"/>
+                <field name="amount" widget="monetary" string="Depreciation"/>
+                <field name="depreciated_value" readonly="1"/>
+                <field name="remaining_value" readonly="1" widget="monetary" string="Residual"/>
+                <field name="move_check" widget="deprec_lines_toggler"
+                        attrs="{'invisible': ['|',('parent_state', '!=', 'open'),('closed', '=', True)]}"/>
+                <field name="move_posted_check" invisible="1"/>
+                <field name="parent_state"/>
+                <field name="closed" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_account_asset_depreciation_line_search" model="ir.ui.view">
+        <field name="name">account.asset.depreciation.line.search</field>
+        <field name="model">account.asset.depreciation.line</field>
+        <field name="arch" type="xml">
+            <search string="Asset Account">
+                <field name="asset_id" string="Asset"/>
+                <field name="depreciation_date"/>
+                <group expand="0" string="Group By...">
+                    <filter string="Date" name="depreciation_date" domain="[]" context="{'group_by':'depreciation_date'}"/>
+                    <filter string="Asset" name="asset" domain="[]" context="{'group_by':'asset_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_account_asset_asset_depreciation_line_form">
+        <field name="name">Depreciation Boards</field>
+        <field name="res_model">account.asset.depreciation.line</field>
+        <field name="view_mode">tree</field> 
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_account_asset_asset_depreciation_line_tree')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                View new depreciation lines
+            </p>
+        </field>
+    </record>
+
+
+</odoo>

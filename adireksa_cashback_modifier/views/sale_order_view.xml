@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="inherit_view_sale_order_form_cashback_mod" model="ir.ui.view">
+			<field name="name">sale.order.form.cashback.modi</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="customer_cashback.inherit_view_sale_order_form_cashback"/>
+			<field name="arch" type="xml">
+				<xpath expr="//group[@name='cashback']" position="attributes">
+					<attribute name="invisible">0</attribute>
+				</xpath>
+				<xpath expr="//field[@name='cashback_value']" position="attributes">
+					<attribute name="invisible">0</attribute>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

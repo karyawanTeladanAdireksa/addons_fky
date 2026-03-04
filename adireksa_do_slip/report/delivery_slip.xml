@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_surat_jalan">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!--<t t-call="report.external_layout">-->
+                    <div class="page">
+                        <div class="oe_structure"/>
+
+                        <h2 style="text-align:center;">Surat Jalan</h2>
+
+                        <!--Toko field-->
+                        <div style="height:40px;"/>
+                        <div class="row">
+                            <div class="col-4">
+                                <table class="table table-sm table-borderless" style="text-align:left;">
+                                    <tr>
+                                        <td>
+                                            <strong>Toko :</strong>
+                                        </td>
+                                        <td style="padding-left:5px;">
+                                            <span t-esc="o.partner_id.name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-4 text-center"></div>
+                            <div class="col-4">
+                                <table style="border: None solid black; text-align:right;">
+                                    <tr>
+                                        <td>
+                                            <strong>Jakarta,</strong>
+                                        </td>
+                                        <td style="padding-left:5px;">
+                                           <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!--Kota field-->
+                        <div style="height: 15px;"/>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <table style="border: None solid black; text-align:left;">
+                                    <tr>
+                                        <td>
+                                            <strong>Kota :</strong>
+                                        </td>
+                                        <td style="padding-left:5px;">
+                                            <span t-esc="o.partner_id.state_id.name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-xs-4 text-center"></div>
+                            <div class="col-xs-4">
+                                <table style="border: None solid black; text-align:left;">
+                                    <tr>
+                                        <td>
+                                            <strong>No. Surat Jalan :</strong>
+                                        </td>
+                                        <td style="padding-left:5px;">
+                                            <strong><span t-esc="o.name"/></strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!--Tree view-->
+                        <div style="height: 15px;"/>
+                        <t t-set="no_index" t-value="0"/>
+                        <table class="table table-sm table-bordered" width="100%" style="border: None solid black;">
+                            <thead>
+                                <tr>
+                                    <th width="3%" class="p-3" scope="col" style="border:1px solid #000;">
+                                        <strong>No.</strong>
+                                    </th>
+                                    <th width="10%" class="p-3" scope="col" style="border:1px solid #000;">
+                                        <strong>Qty</strong>
+                                    </th>
+                                    <th width="22%" class="p-3" scope="col" style="border:1px solid #000;">
+                                        <strong>Nama Barang</strong>
+                                    </th>
+                                    <th width="10%" class="p-3" scope="col" style="border:1px solid #000;">
+                                        <strong>Part No</strong>
+                                    </th>
+                                     <th width="10%" class="p-3" scope="col" style="border:1px solid #000;">
+                                        <strong>Type</strong>
+                                    </th>
+                                    <th width="10%" class="p-3" scope="col" style="border:1px solid #000;">
+                                        <strong>Brand</strong>
+                                    </th>
+                                    <th width="15%" class="text-center" style="border: 1px solid black;">
+                                        <strong >Packing</strong>
+                                         <table width="100%" style="border-top: 1px solid black;">
+                                            <tr>
+                                                <td width="50%" style=" border-right:1px solid black; text-align: center;">
+                                                    <span>M Qty</span>
+                                                </td>
+                                                <td width="50%"  style="text-align: center;">
+                                                    <span>P Dus</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </th>
+                                     <th width="10%" class="text-center" style="border: 1px solid black; ">
+                                        <strong>Doos</strong>
+                                    </th>
+                                     <th width="10%" class="text-center" style="border: 1px solid black; ">
+                                        <strong>Kg</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.move_lines" t-as="l">
+                                    <td class="text-center" style="border: 1px solid black;  Padding:5px;">
+                                        <span t-esc="no_index+1">.</span>
+                                        <t t-set="no_index" t-value="no_index+1"/>
+                                    </td>
+                                    <td class="text-center" style="border: 1px solid black;  Padding:5px;">
+                                        <span t-esc="'%.0f'% l.product_uom_qty"/>
+                                         <span>,</span>
+                                         <span style="padding-left:3px;" t-field="l.product_uom.name"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;  Padding:5px;">
+                                        <span t-field="l.product_id"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;  Padding:5px;">
+                                        <span t-field="l.product_id.hs_code"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid black;  Padding:5px;">
+                                        <!-- <span t-field="l.jenis_motor.name"/> -->
+										<!-- <span t-field="l.product_id.product_brand_id.name"/> -->
+                                    </td>
+                                     <td class="text-center" style="border: 1px solid black;  Padding:5px;">
+                                         <span t-field="l.product_id.categ_id.parent_id.name"/>
+                                    </td>
+                                    <td width="50%" style=" border-right:1px solid black; text-align: center;">
+                                    
+                                    </td>
+                                    <td width="50%" style=" border-right:1px solid black; text-align: center;">
+                                    
+                                    </td>
+                                    <td  style="border: 1px solid black; height:10px; ">
+                                        <table width="  100%" height="100%" style="border: None solid black;">
+                                            <tr>
+                                                <td  width="50%" class="text-left" style="border-right:1px solid black; Padding:5px;">
+                                                    <span></span>
+                                                </td>
+                                                <td width="50%" class="text-right" style="Padding:5px;">
+                                                    <span></span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                     <td class="text-center" style="border: 1px solid black; Padding:5px;">
+                                         <span></span>
+                                    </td>
+                                     <td class="text-center" style="border: 1px solid black; Padding:5px;">
+                                         <span></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="height: 10 px;"/>
+                        <div class="row">
+                            <div class="col-xs-4 text-center">
+                                <strong>Tanda terima :</strong>
+                            </div>
+                            <div class="col-xs-5"></div>
+                            <div class="col-xs-3">
+                                <strong>Hormat Kami :</strong>
+                            </div>
+                        </div>
+
+                    </div>
+                <!--</t>-->
+                <p style="page-break-before:always;"/>
+            </t>
+        </t>
+    </template>
+
+
+    <!-- <report
+            string="Surat Jalan"
+            id="action_order_surat_jalan_report"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="adireksa_do_slip.report_surat_jalan"
+            file="adireksa_do_slip.report_surat_jalan"/> -->
+
+    <!-- <record id="action_order_surat_jalan_report" model="ir.actions.report.xml">
+        <field name="paperformat_id" ref="adireksa_do_slip.paperformat_a4_narrow_top"/>
+    </record> -->
+
+<!-- <template id="report_invoice_subean">
+<t t-foreach="docs" t-as="o">
+          <t t-call="web.basic_layout"> 
+               <t t-call="printout_invoice_subean.report_invoice_subean_document"/>
+          </t>
+     </t>
+     <t t-foreach="docs" t-as="o">
+          <t t-call="web.basic_layout"> 
+               <t t-call="printout_invoice_subean.report_invoice_subean_document_2"/>
+     </t>
+</t>
+</template> -->
+
+<!-- <record id="action_report_invoice" model="ir.actions.report">
+       <field name="name">Print Invoice Subean 2</field>
+       <field name="model">account.move</field>
+       <field name="report_type">qweb-pdf</field>
+       <field name="report_name">printout_invoice_subean.report_invoice_subean</field>
+       <field name="report_file">printout_invoice_subean.report_invoice_subean</field>
+       <field name="binding_model_id" ref="account.model_account_move"/>
+       <field name="paperformat_id" ref="printout_invoice_subean.paperformat_invoice"/>
+       <field name="binding_type">report</field> 
+</record> -->
+
+
+</odoo>

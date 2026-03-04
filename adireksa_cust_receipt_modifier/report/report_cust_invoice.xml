@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+       <!-- <report
+            id="new_customers_receipt_unpaid"
+            model="receipt.payment"
+            string="Customer Receipt Unpaid"
+            report_type="qweb-pdf"
+            name="adireksa_cust_receipt_modifier.cust_receipt_unpaid_report_custom"
+            file="adireksa_cust_receipt_modifier.cust_receipt_unpaid_report_custom"
+            menu="True"
+        />
+        <report
+            id="new_cust_invoice_unpaid_report"
+            model="customer.invoice.unpaid.report"
+            string="Customer Invoice Report"
+            report_type="qweb-pdf"
+            name="adireksa_cust_receipt_modifier.cust_invoice_unpaid_report"
+            file="adireksa_cust_receipt_modifier.cust_invoice_unpaid_report"
+            menu="True" 
+        /> -->
+        
+
+        <template id="cust_receipt_unpaid_report_custom">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div>
+                            <center>
+                                <h1><t t-esc="o.name"/></h1>
+                            </center>
+                            <center>
+                                <p><t t-esc="time.strftime('%d %B %Y', time.strptime(o.date,'%Y-%m-%d'))"/></p>
+                            </center>
+                        </div>
+                        <div>
+                            <strong>CUSTOMER : </strong><strong><t t-esc="o.partner_id.name"/></strong>
+                        </div>
+                        <div>
+                            <table class="table table-sm" style="border:1px solid black;width: 100%; margin-top: 1px;">
+                                <tbody>
+                                    <tr style="border:1px solid black">
+                                        <td style="border-right:1px solid black;text-align: center;font-size:14px;"><b style="font-size:20px;">No</b>
+                                        </td>
+                                        <td style="border-right:1px solid black;text-align: center;font-size:14px;"><b style="font-size:20px;">Tanggal</b>
+                                        </td>
+                                        <td style="border-right:1px solid black;text-align: center;font-size:14px;"><b style="font-size:20px;">No. Invoice</b>
+                                        </td>
+                                        <td style="border-right:1px solid black;text-align: center;font-size:14px;"><b style="font-size:20px;">Jumlah</b>
+                                        </td>
+                                    </tr>
+                                    <t t-set="counter" t-value="1"/>
+                                    <tr t-foreach="o.line_dr_ids" t-as="ol" style="border:1px solid black">
+                                        <td style="border-right:1px solid black;text-align: center;font-size:14px;" t-if="ol.reconcile == False"><t t-esc="counter"/><t  t-set="counter" t-value="counter + 1"/>
+                                        </td>
+
+                                        <td style="border-right:1px solid black;text-align: center;font-size:14px;" t-if="ol.reconcile == False"><t t-esc="time.strftime('%d-%b-%Y', time.strptime(ol.date,'%Y-%m-%d'))"/>
+                                        </td>
+                                        <td style="border-right:1px solid black;text-align: center;font-size:14px;" t-if="ol.reconcile == False"><t t-esc="ol.invoice_id.number"/>
+                                        </td>
+                                        <td style="border-right:1px solid black;text-align: right;font-size:14px;" t-if="ol.reconcile == False"><t t-esc="ol.amount_unreconciled" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="border:1px solid black">
+                                        <td style="border-right:1px solid black;text-align: center;font-size:14px;" colspan="3"><b style="font-size:20px;">Total</b>
+                                        </td>
+                                        <td style="border-right:1px solid black;text-align: right;font-size:14px;"><t t-esc="o.total_unpaid" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table><br/>
+                        </div>
+                        <div style="width:100%;">
+                            <table style="width:100%;">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:50%;text-align: center;font-size:14px;"><b>Diterima oleh :</b></td>
+                                        <td style="width:50%;text-align: center;font-size:14px;"><b>Diserahkan :</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:50%;text-align: center;font-size:14px;"><br/><br/><br/><br/><br/><b>( <t t-esc="o.partner_id.name"/> )</b></td>
+                                        <td style="width:50%;text-align: center;font-size:14px;"><br/><br/><br/><br/><br/><b>( <t t-esc="o.company_id.name"/> )</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="cust_invoice_unpaid_report">
+            <t t-call="web.basic_layout">
+                <t t-set="data_report_margin_top" t-value="12" />
+                <t t-set="data_report_header_spacing" t-value="9" />
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <h2 align="center" style="font-size: 30px;">Customer Invoice</h2> 
+                        <p t-if="o.start_date" align="center" style="font-size: 13px;"><t t-esc="o.start_date"/> - <t t-esc="o.end_date"/></p>
+                        <p style="font-size: 13px;"><strong>Customer : <t t-esc="o.partner_id.name"/></strong></p>
+                        <t t-set="total" t-value="0.0"/>
+                        
+                        <!-- SORTED INVOICE NAME -->
+                        <div class="row">
+                            <t t-set="sorted_lines" t-value="sorted(o.cust_invoice_ids, key=lambda x: x.name)"/>
+                            <table style="border:1px solid black; width:100%; font-size: 14px;">
+                                <thead>
+                                    <tr style="border:1px solid black;">
+                                        <th style="border-right:1px solid black;text-align: center;"><strong>Date</strong></th>
+                                        <th style="border-right:1px solid black;text-align: center;"><strong>No. Invoice</strong></th>
+                                        <th style="border-right:1px solid black;text-align: center;"><strong>Total</strong></th> 
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <t t-foreach="sorted_lines" t-as="oc">
+                                        <tr style="border:1px solid black;">
+                                            <td style="border-right:1px solid black; text-align: center;">
+                                                <t t-esc="oc.invoice_date"/>
+                                            </td>
+                                            <td style="border-right:1px solid black; text-align: center;">
+                                                <t t-esc="oc.name"/>
+                                            </td>
+                                            <!-- <td style="border-right:1px solid black;text-align: right;">
+                                                <t t-esc="'Rp{:,.2f}'.format(oc.residual)"/>
+                                                <t t-set="total" t-value="total + oc.residual"/>
+                                            </td> -->
+                                            <td class="p-1" style="border-right:1px solid black;text-align: right;">
+                                                <t t-esc="'Rp  {:,.2f}  '.format(oc.amount_residual) "/>
+                                                <t t-set="total" t-value="total + oc.amount_residual"/> 
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+
+                                <tr>
+                                    <td style="border-right:1px solid black;text-align: center; font-weight:bold;" colspan="2"><strong>Total</strong></td>
+                                    <td style="border-right:1px solid black;text-align: right; font-weight:bold;"><strong class="p-2"><t t-esc="'Rp  {:,.2f}  '.format(total)"/></strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="width:100%; margin-top:20px">
+                            <table style="width:100%;">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:30%;text-align: center;font-size:13px;"><b>Diterima oleh :</b></td>
+                                        <td style="width:30%;text-align: center;font-size:13px;"><b>Diserahkan :</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:30%;text-align: center;font-size:13px;"><br/><br/><br/><br/><br/><b>( <t t-esc="o.partner_id.name"/> )</b></td>
+                                        <td style="width:30%;text-align: center;font-size:13px;"><br/><br/><br/><br/><br/><b>( <t t-esc="o.company_id.name"/> )</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row" style="font-size:14px; margin-top:50px">
+                             <div class="col-12"> 
+                                <table width="100%" style="border: None solid black;">   
+                                    <td>
+                                        <span style="font-size:18px; font-weight: bold;"><span t-field="o.company_id.bank_acc_invoice"/></span>
+                                    </td>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+
+
+</odoo>

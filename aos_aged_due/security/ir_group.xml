@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="res.groups" id="group_product_creation">
+        <field name="name">Product Creation</field>
+        <field name="comment">Access Right for Product</field>
+    </record>
+</odoo>
